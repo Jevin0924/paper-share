@@ -1,0 +1,40 @@
+{
+  "processed_arxiv_ids": [
+    "2605.29092",
+    "2605.29402",
+    "2605.29325",
+    "2605.29230"
+  ],
+  "generated_reports": {
+    "2605.29092": {
+      "path": "papers/2605.29092.md",
+      "url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2605.29092.md",
+      "format": "markdown",
+      "generated_at": "2026-05-29T12:15:08+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2605.29402": {
+      "path": "papers/2605.29402.md",
+      "url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2605.29402.md",
+      "format": "markdown",
+      "generated_at": "2026-05-29T12:15:08+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2605.29325": {
+      "path": "papers/2605.29325.md",
+      "url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2605.29325.md",
+      "format": "markdown",
+      "generated_at": "2026-05-29T12:15:08+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2605.29230": {
+      "path": "papers/2605.29230.md",
+      "url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2605.29230.md",
+      "format": "markdown",
+      "generated_at": "2026-05-29T12:15:08+00:00",
+      "basis": "PDF全文与摘要"
+    }
+  },
+  "last_success_at": "2026-05-29T12:15:08+00:00",
+  "schema_version": "1"
+}

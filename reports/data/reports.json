@@ -1,0 +1,91 @@
+{
+  "generated_at": "2026-05-29T12:15:08+00:00",
+  "reports": [
+    {
+      "arxiv_id": "2605.29092",
+      "title": "Lightweight Complementary-Cue Fusion for Robust Video Face Forgery Detection",
+      "authors": [
+        "Sunghwan Baek",
+        "Tariq Anwaar",
+        "Karanveer Singh",
+        "Rita Singh"
+      ],
+      "published": "2026-05-29T04:00:00+00:00",
+      "recommended_on": "2026-05-29",
+      "score": 21.0,
+      "level": "中优先级",
+      "primary_task": "分类/属性",
+      "one_sentence": "面向视频人脸伪造检测的小开销特征融合方案，适合人脸风控或内容安全方向小试。",
+      "report_path": "reports/papers/2605.29092.md",
+      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2605.29092.md",
+      "paper_url": "https://arxiv.org/abs/2605.29092",
+      "pdf_url": "https://arxiv.org/pdf/2605.29092",
+      "code_url": "",
+      "report_basis": "PDF全文与摘要"
+    },
+    {
+      "arxiv_id": "2605.29402",
+      "title": "Semantic and Visual Evidence for Efficient Long-Video Reasoning: A Solution for the HD-EPIC VQA Challenge",
+      "authors": [
+        "Yinsong Xu",
+        "Wei Jing",
+        "Liuxin Zhang",
+        "Wanjun Lv",
+        "Hui Li"
+      ],
+      "published": "2026-05-29T04:00:00+00:00",
+      "recommended_on": "2026-05-29",
+      "score": 18.0,
+      "level": "中优先级",
+      "primary_task": "视频理解",
+      "one_sentence": "该方法对长视频VQA有一定启发，但更偏MLLM证据检索框架，离检测/跟踪生产主链路还有距离。",
+      "report_path": "reports/papers/2605.29402.md",
+      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2605.29402.md",
+      "paper_url": "https://arxiv.org/abs/2605.29402",
+      "pdf_url": "https://arxiv.org/pdf/2605.29402",
+      "code_url": "",
+      "report_basis": "PDF全文与摘要"
+    },
+    {
+      "arxiv_id": "2605.29325",
+      "title": "Multi-Stage VLM Pipeline for Zero-Shot Traffic Accident Understanding",
+      "authors": [
+        "Fumiya Tatematsu",
+        "Fumihiko Takahashi"
+      ],
+      "published": "2026-05-29T04:00:00+00:00",
+      "recommended_on": "2026-05-29",
+      "score": 17.5,
+      "level": "中优先级",
+      "primary_task": "视频理解",
+      "one_sentence": "交通事故理解挑战赛方案有视频事件定位和目标落点预测价值，但依赖大VLM，工程落地成本偏高。",
+      "report_path": "reports/papers/2605.29325.md",
+      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2605.29325.md",
+      "paper_url": "https://arxiv.org/abs/2605.29325",
+      "pdf_url": "https://arxiv.org/pdf/2605.29325",
+      "code_url": "https://github.com/fuumin621/cvpr2026-accident-1st-place-solution",
+      "report_basis": "PDF全文与摘要"
+    },
+    {
+      "arxiv_id": "2605.29230",
+      "title": "Toward Ethical Facial Age Estimation: A Generalized Zero-Shot Benchmark Without Training on Children's Data",
+      "authors": [
+        "Caio Petrucci",
+        "Leo Sampaio Ferraz Ribeiro",
+        "Sandra Avila"
+      ],
+      "published": "2026-05-29T04:00:00+00:00",
+      "recommended_on": "2026-05-29",
+      "score": 16.0,
+      "level": "中优先级",
+      "primary_task": "分类/属性",
+      "one_sentence": "这是人脸年龄估计的合规评测基准，业务价值主要在数据治理和风险评估而非模型直接提升。",
+      "report_path": "reports/papers/2605.29230.md",
+      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2605.29230.md",
+      "paper_url": "https://arxiv.org/abs/2605.29230",
+      "pdf_url": "https://arxiv.org/pdf/2605.29230",
+      "code_url": "",
+      "report_basis": "PDF全文与摘要"
+    }
+  ]
+}
