@@ -1,106 +1,26 @@
 {
-  "generated_at": "2026-06-01T02:26:52+00:00",
+  "generated_at": "2026-06-01T13:56:08+00:00",
   "reports": [
     {
-      "arxiv_id": "2605.31174",
-      "title": "Detect in Any Scene: An Agentic Framework for Object Detection with Experience-Aware Reasoning",
+      "arxiv_id": "2605.30544",
+      "title": "On-Device Generative AI for GDPR-Compliant Visual Monitoring: Natural Language Alerts from Local Object Detection",
       "authors": [
-        "Wenlun Zhang",
-        "Jun Yin",
-        "Kentaro Yoshioka"
+        "Gudrun Schappacher-Tilp",
+        "Nicoletta Kaehling",
+        "Jan Kornberger",
+        "Egon Teiniker"
       ],
-      "published": "2026-05-29T11:41:58Z",
+      "published": "2026-06-01T04:00:00+00:00",
       "recommended_on": "2026-06-01",
-      "score": 23.5,
+      "score": 22.5,
       "level": "高优先级",
-      "primary_task": "检测",
-      "one_sentence": "面向复杂退化场景的检测编排框架值得小试，但工程成本和推理链路复杂度较高。",
-      "report_path": "reports/papers/2605.31174.md",
-      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2605.31174.md",
-      "paper_url": "http://arxiv.org/abs/2605.31174v1",
-      "pdf_url": "https://arxiv.org/pdf/2605.31174v1",
-      "code_url": "",
-      "report_basis": "PDF全文与摘要"
-    },
-    {
-      "arxiv_id": "2605.31145",
-      "title": "FOCUS: Forcing In-Context Object Localization through Visual Support Constraints and Policy Optimization",
-      "authors": [
-        "Mohammed Asad Karim",
-        "Vinay Kumar Verma"
-      ],
-      "published": "2026-05-29T10:53:52Z",
-      "recommended_on": "2026-06-01",
-      "score": 22.0,
-      "level": "高优先级",
-      "primary_task": "检测",
-      "one_sentence": "类别无关的in-context目标定位直接对应开放词汇/少样本定位，值得小试。",
-      "report_path": "reports/papers/2605.31145.md",
-      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2605.31145.md",
-      "paper_url": "http://arxiv.org/abs/2605.31145v1",
-      "pdf_url": "https://arxiv.org/pdf/2605.31145v1",
-      "code_url": "",
-      "report_basis": "PDF全文与摘要"
-    },
-    {
-      "arxiv_id": "2605.31124",
-      "title": "QVGGT: Post-Training Quantized Visual Geometry Grounded Transformer",
-      "authors": [
-        "Zhizhen Pan",
-        "Hesong Wang",
-        "Huan Wang"
-      ],
-      "published": "2026-05-29T10:32:52Z",
-      "recommended_on": "2026-06-01",
-      "score": 18.0,
-      "level": "中优先级",
       "primary_task": "小模型/部署",
-      "one_sentence": "面向1.2B视觉几何模型的后训练量化，对端侧视觉大模型部署有参考价值，但任务偏3D几何。",
-      "report_path": "reports/papers/2605.31124.md",
-      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2605.31124.md",
-      "paper_url": "http://arxiv.org/abs/2605.31124v1",
-      "pdf_url": "https://arxiv.org/pdf/2605.31124v1",
+      "one_sentence": "端侧YOLO检测加本地小LLM生成告警，适合作为隐私合规视觉监控的工程样板。",
+      "report_path": "reports/papers/2605.30544.md",
+      "report_url": "https://jiigan-tech.feishu.cn/wiki/SKodwp1heiv4IjkCdLdcSxy3n4c",
+      "paper_url": "https://arxiv.org/abs/2605.30544",
+      "pdf_url": "https://arxiv.org/pdf/2605.30544",
       "code_url": "",
-      "report_basis": "PDF全文与摘要"
-    },
-    {
-      "arxiv_id": "2605.31192",
-      "title": "The Regularizing Power of Language-Training Deepfake Detectors",
-      "authors": [
-        "Benedikt Hopf",
-        "Zongwei Wu",
-        "Radu Timofte"
-      ],
-      "published": "2026-05-29T12:01:17Z",
-      "recommended_on": "2026-06-01",
-      "score": 16.0,
-      "level": "中优先级",
-      "primary_task": "分类/属性",
-      "one_sentence": "深伪检测属于视觉二分类/人脸安全相关方向，可观察其跨数据泛化思路。",
-      "report_path": "reports/papers/2605.31192.md",
-      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2605.31192.md",
-      "paper_url": "http://arxiv.org/abs/2605.31192v1",
-      "pdf_url": "https://arxiv.org/pdf/2605.31192v1",
-      "code_url": "",
-      "report_basis": "PDF全文截断与摘要"
-    },
-    {
-      "arxiv_id": "2605.31191",
-      "title": "Student Capacity Moderates Knowledge Distillation Effectiveness: A Systematic Study Across ResNet Teacher-Student Pairs on CIFAR-10",
-      "authors": [
-        "Umut Onur Yasar"
-      ],
-      "published": "2026-05-29T11:57:13Z",
-      "recommended_on": "2026-06-01",
-      "score": 15.5,
-      "level": "中优先级",
-      "primary_task": "小模型/部署",
-      "one_sentence": "这是小规模分类蒸馏的系统性实验，结论务实但业务增益有限。",
-      "report_path": "reports/papers/2605.31191.md",
-      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2605.31191.md",
-      "paper_url": "http://arxiv.org/abs/2605.31191v1",
-      "pdf_url": "https://arxiv.org/pdf/2605.31191v1",
-      "code_url": "https://github.com/umutonuryasar/kd-capacity-gap",
       "report_basis": "PDF全文与摘要"
     }
   ]
