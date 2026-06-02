@@ -14,7 +14,12 @@
     "2408.01534",
     "2605.30544",
     "2605.30380",
-    "2605.31029"
+    "2605.31029",
+    "2606.00852",
+    "2606.00844",
+    "2606.00987",
+    "2606.00999",
+    "2606.00872"
   ],
   "generated_reports": {
     "2605.29092": {
@@ -169,8 +174,87 @@
       "quality_issues": [],
       "generated_at": "2026-06-01T13:07:14+00:00",
       "basis": "PDF全文与摘要"
+    },
+    "2606.00852": {
+      "path": "papers/2606.00852.md",
+      "url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00852.md",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00852.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-02T01:33:14+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.00844": {
+      "path": "papers/2606.00844.md",
+      "url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00844.md",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00844.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "failed",
+      "quality_issues": [
+        "报告声称读取 PDF，但正文缺少 PAGE 页码证据"
+      ],
+      "generated_at": "2026-06-02T01:33:14+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.00987": {
+      "path": "papers/2606.00987.md",
+      "url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00987.md",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00987.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "failed",
+      "quality_issues": [
+        "报告声称读取 PDF，但正文缺少 PAGE 页码证据"
+      ],
+      "generated_at": "2026-06-02T01:33:14+00:00",
+      "basis": "PDF全文截断与摘要"
+    },
+    "2606.00999": {
+      "path": "papers/2606.00999.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/MN9ZwemNeimzmxkIN68cWAOKnxc",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00999.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "JRq2d6NaNoiQd4xV1c2csDsunhh",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/MN9ZwemNeimzmxkIN68cWAOKnxc",
+      "wiki_node_token": "MN9ZwemNeimzmxkIN68cWAOKnxc",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-02T01:33:14+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.00872": {
+      "path": "papers/2606.00872.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/GwfNwedgdieYJzkQjHNcg2Ftn7d",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00872.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "K08DdOISColIXSxuKpwc4Ou6nQd",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/GwfNwedgdieYJzkQjHNcg2Ftn7d",
+      "wiki_node_token": "GwfNwedgdieYJzkQjHNcg2Ftn7d",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-02T01:33:14+00:00",
+      "basis": "PDF全文与摘要"
     }
   },
-  "last_success_at": "2026-06-01T13:56:08+00:00",
+  "last_success_at": "2026-06-02T01:33:14+00:00",
   "schema_version": "1"
 }

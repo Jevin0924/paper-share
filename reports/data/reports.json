@@ -1,26 +1,110 @@
 {
-  "generated_at": "2026-06-01T13:56:08+00:00",
+  "generated_at": "2026-06-02T01:33:14+00:00",
   "reports": [
     {
-      "arxiv_id": "2605.30544",
-      "title": "On-Device Generative AI for GDPR-Compliant Visual Monitoring: Natural Language Alerts from Local Object Detection",
+      "arxiv_id": "2606.00852",
+      "title": "RefDiffNet: Learning to Expose Subtle PCB Defects Before Detection",
       "authors": [
-        "Gudrun Schappacher-Tilp",
-        "Nicoletta Kaehling",
-        "Jan Kornberger",
-        "Egon Teiniker"
+        "Vinay Edula",
+        "Nilesh Badwe",
+        "Priyanka Bagade"
       ],
-      "published": "2026-06-01T04:00:00+00:00",
-      "recommended_on": "2026-06-01",
-      "score": 22.5,
+      "published": "2026-05-30T18:53:39Z",
+      "recommended_on": "2026-06-02",
+      "score": 24.0,
       "level": "高优先级",
-      "primary_task": "小模型/部署",
-      "one_sentence": "端侧YOLO检测加本地小LLM生成告警，适合作为隐私合规视觉监控的工程样板。",
-      "report_path": "reports/papers/2605.30544.md",
-      "report_url": "https://jiigan-tech.feishu.cn/wiki/SKodwp1heiv4IjkCdLdcSxy3n4c",
-      "paper_url": "https://arxiv.org/abs/2605.30544",
-      "pdf_url": "https://arxiv.org/pdf/2605.30544",
+      "primary_task": "检测",
+      "one_sentence": "轻量参考图差分增强模块可插到多类检测器前，对工业小缺陷检测有直接小试价值。",
+      "report_path": "reports/papers/2606.00852.md",
+      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00852.md",
+      "paper_url": "http://arxiv.org/abs/2606.00852v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.00852v1",
       "code_url": "",
+      "report_basis": "PDF全文与摘要"
+    },
+    {
+      "arxiv_id": "2606.00844",
+      "title": "MoEIoU: Rethinking Bounding-Box Regression as a Mixture of Experts",
+      "authors": [
+        "Vinay Edula",
+        "Priyanka Bagade"
+      ],
+      "published": "2026-05-30T18:34:30Z",
+      "recommended_on": "2026-06-02",
+      "score": 20.0,
+      "level": "中优先级",
+      "primary_task": "检测",
+      "one_sentence": "MoEIoU是检测框回归loss改进，适合作为YOLO类检测训练的低成本实验项。",
+      "report_path": "reports/papers/2606.00844.md",
+      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00844.md",
+      "paper_url": "http://arxiv.org/abs/2606.00844v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.00844v1",
+      "code_url": "",
+      "report_basis": "PDF全文与摘要"
+    },
+    {
+      "arxiv_id": "2606.00987",
+      "title": "An Open-Source Benchmark and Baseline for Multi-temporal Referring Segmentation",
+      "authors": [
+        "Bingyu Li",
+        "Da Zhang",
+        "Tao Huo",
+        "Zhiyuan Zhao",
+        "Junyu Gao",
+        "Xuelong Li"
+      ],
+      "published": "2026-05-31T04:01:10Z",
+      "recommended_on": "2026-06-02",
+      "score": 17.5,
+      "level": "中优先级",
+      "primary_task": "视频理解",
+      "one_sentence": "多时相指代表达分割对变化定位和语言引导标注有潜在迁移价值，但当前更偏benchmark和LVLM研究。",
+      "report_path": "reports/papers/2606.00987.md",
+      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00987.md",
+      "paper_url": "http://arxiv.org/abs/2606.00987v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.00987v1",
+      "code_url": "",
+      "report_basis": "PDF全文截断与摘要"
+    },
+    {
+      "arxiv_id": "2606.00999",
+      "title": "SWARD: Stochastic Window-Attention-Based Relational Distillation for Cross-Architectural Semantic Segmentation",
+      "authors": [
+        "Aditya Makineni",
+        "Qing Tian"
+      ],
+      "published": "2026-05-31T04:29:31Z",
+      "recommended_on": "2026-06-02",
+      "score": 16.0,
+      "level": "中优先级",
+      "primary_task": "小模型/部署",
+      "one_sentence": "跨架构语义分割蒸馏对轻量dense prediction有可迁移价值，但需确认是否能带动检测/人像解析类业务。",
+      "report_path": "reports/papers/2606.00999.md",
+      "report_url": "https://jiigan-tech.feishu.cn/wiki/MN9ZwemNeimzmxkIN68cWAOKnxc",
+      "paper_url": "http://arxiv.org/abs/2606.00999v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.00999v1",
+      "code_url": "",
+      "report_basis": "PDF全文与摘要"
+    },
+    {
+      "arxiv_id": "2606.00872",
+      "title": "Images as Tables: In-Context Learning with TabPFN for Low-Data Detection of AI-Generated Images",
+      "authors": [
+        "Jan Philip Walter",
+        "Shashank Agnihotri",
+        "Margret Keuper"
+      ],
+      "published": "2026-05-30T20:00:25Z",
+      "recommended_on": "2026-06-02",
+      "score": 16.0,
+      "level": "中优先级",
+      "primary_task": "分类/属性",
+      "one_sentence": "低样本AI生成图检测是图像二分类/取证任务，对内容风控或数据清洗有参考价值但不是核心感知主线。",
+      "report_path": "reports/papers/2606.00872.md",
+      "report_url": "https://jiigan-tech.feishu.cn/wiki/GwfNwedgdieYJzkQjHNcg2Ftn7d",
+      "paper_url": "http://arxiv.org/abs/2606.00872v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.00872v1",
+      "code_url": "https://github.com/jpwalter30/Towards-Generalizable-Detection-of-AI-Generated-Images",
       "report_basis": "PDF全文与摘要"
     }
   ]
