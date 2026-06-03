@@ -195,19 +195,17 @@
     },
     "2606.00844": {
       "path": "papers/2606.00844.md",
-      "url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00844.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/EdVhwXzRHi9zMrkB02jcfDrBn8b",
       "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00844.md",
       "format": "markdown",
       "publisher": "feishu_doc",
-      "doc_id": "",
-      "doc_url": "",
-      "wiki_node_token": "",
-      "wiki_space_id": "",
-      "quality_status": "failed",
-      "quality_issues": [
-        "报告声称读取 PDF，但正文缺少 PAGE 页码证据"
-      ],
-      "generated_at": "2026-06-03T01:33:55+00:00",
+      "doc_id": "AFazdsoekojQfxx2m8Cc3eDDnJb",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/EdVhwXzRHi9zMrkB02jcfDrBn8b",
+      "wiki_node_token": "EdVhwXzRHi9zMrkB02jcfDrBn8b",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-03T05:42:06+00:00",
       "basis": "PDF全文与摘要"
     },
     "2606.00987": {
@@ -274,14 +272,14 @@
     },
     "2606.00372": {
       "path": "papers/2606.00372.md",
-      "url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00372.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/Fd4twhVgoiEYLnkT1XBcjCeUnhc",
       "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00372.md",
       "format": "markdown",
       "publisher": "feishu_doc",
-      "doc_id": "",
-      "doc_url": "",
-      "wiki_node_token": "",
-      "wiki_space_id": "",
+      "doc_id": "IESQdCltiosuy6xNjPmch4jXnub",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/Fd4twhVgoiEYLnkT1XBcjCeUnhc",
+      "wiki_node_token": "Fd4twhVgoiEYLnkT1XBcjCeUnhc",
+      "wiki_space_id": "7458190600755625988",
       "quality_status": "passed",
       "quality_issues": [],
       "generated_at": "2026-06-03T01:33:55+00:00",
@@ -303,6 +301,6 @@
       "basis": "PDF全文与摘要"
     }
   },
-  "last_success_at": "2026-06-03T01:33:55+00:00",
+  "last_success_at": "2026-06-03T05:42:06+00:00",
   "schema_version": "1"
 }

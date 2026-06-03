@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-03T01:33:55+00:00",
+  "generated_at": "2026-06-03T05:42:06+00:00",
   "reports": [
     {
       "arxiv_id": "2606.00782",
@@ -57,7 +57,7 @@
       "primary_task": "检测",
       "one_sentence": "检测器失败预测对安全感知和数据闭环很实用，LFA 可作为上线监控与难例挖掘模块小试。",
       "report_path": "reports/papers/2606.00372.md",
-      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00372.md",
+      "report_url": "https://jiigan-tech.feishu.cn/wiki/Fd4twhVgoiEYLnkT1XBcjCeUnhc",
       "paper_url": "https://arxiv.org/abs/2606.00372",
       "pdf_url": "https://arxiv.org/pdf/2606.00372",
       "code_url": "",
@@ -77,7 +77,7 @@
       "primary_task": "检测",
       "one_sentence": "MoEIoU 是检测框回归损失改进，接入成本低，适合在 YOLO 类业务检测训练中做小规模 ablation。",
       "report_path": "reports/papers/2606.00844.md",
-      "report_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.00844.md",
+      "report_url": "https://jiigan-tech.feishu.cn/wiki/EdVhwXzRHi9zMrkB02jcfDrBn8b",
       "paper_url": "https://arxiv.org/abs/2606.00844",
       "pdf_url": "https://arxiv.org/pdf/2606.00844",
       "code_url": "",
