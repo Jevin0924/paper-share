@@ -35,7 +35,10 @@
     "2606.04349",
     "2606.06294",
     "2606.06338",
-    "2606.06292"
+    "2606.06292",
+    "2606.06485",
+    "2606.06261",
+    "2606.06481"
   ],
   "generated_reports": {
     "2605.29092": {
@@ -507,8 +510,57 @@
       "quality_issues": [],
       "generated_at": "2026-06-06T01:33:05+00:00",
       "basis": "PDF全文与摘要"
+    },
+    "2606.06485": {
+      "path": "papers/2606.06485.md",
+      "url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.06485.md",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.06485.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "failed",
+      "quality_issues": [
+        "无明确感知主任务，却被标为高优先级"
+      ],
+      "generated_at": "2026-06-07T01:31:33+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.06261": {
+      "path": "papers/2606.06261.md",
+      "url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.06261.md",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.06261.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "failed",
+      "quality_issues": [
+        "无明确感知主任务，却被标为高优先级"
+      ],
+      "generated_at": "2026-06-07T01:31:33+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.06481": {
+      "path": "papers/2606.06481.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/V0vowrKw7i5Onyki4C0c3w3dn0g",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.06481.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "GalWdH4Uto2L2yxtqhQcMPZmnfh",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/V0vowrKw7i5Onyki4C0c3w3dn0g",
+      "wiki_node_token": "V0vowrKw7i5Onyki4C0c3w3dn0g",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-07T01:31:33+00:00",
+      "basis": "PDF全文截断与摘要"
     }
   },
-  "last_success_at": "2026-06-06T01:33:05+00:00",
+  "last_success_at": "2026-06-07T01:31:33+00:00",
   "schema_version": "1"
 }
