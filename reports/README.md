@@ -1,11 +1,11 @@
 # 论文阅读报告索引
 
-生成时间：2026-06-08T01:32:02+00:00
+生成时间：2026-06-09T01:32:01+00:00
 
 | 日期 | arXiv ID | 方向 | 等级 | 推荐分 | 标题 |
 | --- | --- | --- | --- | ---: | --- |
-| 2026-06-08 | [2606.07233](<papers/2606.07233.md>) | 感知视觉 | 高优先级 | 29.5 | [Does Appearance Help? A Systematic Study of Image-Based Re-Identification in Online 3D Multi-Pedestrian Tracking](<papers/2606.07233.md>) |
-| 2026-06-08 | [2606.07433](<papers/2606.07433.md>) | 感知视觉 | 高优先级 | 25.5 | [Watch, Remember, Reason: Human-View Video Understanding with MLLMs](<papers/2606.07433.md>) |
-| 2026-06-08 | [2606.07474](<papers/2606.07474.md>) | 感知视觉 | 高优先级 | 20.0 | [Unsupervised Continual Clustering via Forward-Backward Knowledge Distillation](<papers/2606.07474.md>) |
-| 2026-06-08 | [2606.07503](<papers/2606.07503.md>) | 感知视觉 | 高优先级 | 19.0 | [Differences in Detection: Explainability Where it Matters](<papers/2606.07503.md>) |
-| 2026-06-08 | [2606.07419](<papers/2606.07419.md>) | 感知视觉 | 高优先级 | 18.5 | [DisPOSE: Projected Polystochastic Diffusion for Self-Supervised Multi-View 3D Human Pose Estimation](<papers/2606.07419.md>) |
+| 2026-06-09 | [2606.08508](<papers/2606.08508.md>) | 感知视觉 | 高优先级 | 19.5 | [ActProbe: Action-Space Probe for Early Failure Detection of Generative Robot Policies](<papers/2606.08508.md>) |
+| 2026-06-09 | [2606.08382](<papers/2606.08382.md>) | 感知视觉 | 高优先级 | 18.0 | [STAR-KV: Low-Rank KV Cache Compression via Soft Thresholding for Adaptive Rank Control](<papers/2606.08382.md>) |
+| 2026-06-09 | [2606.08594](<papers/2606.08594.md>) | 感知视觉 | 中优先级 | 16.5 | [How Much Capacity Does EEG Denoising Need? Ultra-Compact Networks reveal Benchmark Saturation and Metric-Utility Gap](<papers/2606.08594.md>) |
+| 2026-06-09 | [2606.08436](<papers/2606.08436.md>) | 感知视觉 | 中优先级 | 16.0 | [Reinforcing Temporal Answer Grounding in Instructional Video via Candidate-Aware Causal Reasoning](<papers/2606.08436.md>) |
+| 2026-06-09 | [2606.08437](<papers/2606.08437.md>) | 感知视觉 | 中优先级 | 15.5 | [X-Palm: Paired Multispectral-to-Smartphone Dataset for Cross-Domain Palmprint Authentication](<papers/2606.08437.md>) |
