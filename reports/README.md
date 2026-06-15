@@ -1,10 +1,9 @@
 # 论文阅读报告索引
 
-生成时间：2026-06-12T01:33:33+00:00
+生成时间：2026-06-15T02:22:27+00:00
 
 | 日期 | arXiv ID | 方向 | 等级 | 推荐分 | 标题 |
 | --- | --- | --- | --- | ---: | --- |
-| 2026-06-12 | [2606.13267](<papers/2606.13267.md>) | 检测 | 中优先级 | 21.0 | [TimeLens: On-Device Artifact Recognition with Retrieval-Augmented Question Answering for the Grand Egyptian Museum](<papers/2606.13267.md>) |
-| 2026-06-12 | [2606.13300](<papers/2606.13300.md>) | 小模型/部署 | 中优先级 | 18.5 | [Quantizing Time-Series Models As Dynamical Systems: Trajectory-Based Quantization Sensitivity Score](<papers/2606.13300.md>) |
-| 2026-06-12 | [2606.13332](<papers/2606.13332.md>) | 视频理解 | 中优先级 | 18.0 | [OR-Action: Multi-Role Video Understanding with Fine-Grained Actions](<papers/2606.13332.md>) |
-| 2026-06-12 | [2606.13435](<papers/2606.13435.md>) | 关键点/姿态 | 中优先级 | 15.5 | [GIVE: Grounding Human Gestures in Vision-Language-Action Models](<papers/2606.13435.md>) |
+| 2026-06-15 | [2606.14684](<papers/2606.14684.md>) | 小模型/部署 | 高优先级 | 22.5 | [HumP-KD: A Hybrid Uncertainty-Aware Multi-Stage Progressive Knowledge Distillation Framework for Efficient Fire Classification](<papers/2606.14684.md>) |
+| 2026-06-15 | [2606.14556](<papers/2606.14556.md>) | 检测 | 中优先级 | 18.0 | [Visual Quality Score Assessment of Large White Goods in Remanufacture with Multi-View Deformable-DETR](<papers/2606.14556.md>) |
+| 2026-06-15 | [2606.14631](<papers/2606.14631.md>) | 小模型/部署 | 中优先级 | 17.0 | [SED:Lightweight Saliency prediction for Event-based data via Distillation](<papers/2606.14631.md>) |
