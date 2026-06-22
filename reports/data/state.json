@@ -84,7 +84,10 @@
     "2606.20161",
     "2606.20559",
     "2606.20542",
-    "2606.20488"
+    "2606.20488",
+    "2606.16122",
+    "2606.20449",
+    "2606.20491"
   ],
   "generated_reports": {
     "2605.29092": {
@@ -1309,8 +1312,53 @@
       "quality_issues": [],
       "generated_at": "2026-06-20T01:35:03+00:00",
       "basis": "PDF全文与摘要"
+    },
+    "2606.16122": {
+      "path": "papers/2606.16122.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/Xe2kwebsCi43rtkiu7QcVvdJnrc",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.16122.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "SeYZd1qvpojG8pxFFdqcz0tDnqc",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/Xe2kwebsCi43rtkiu7QcVvdJnrc",
+      "wiki_node_token": "Xe2kwebsCi43rtkiu7QcVvdJnrc",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-22T01:34:23+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.20449": {
+      "path": "papers/2606.20449.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/IchvwRJuViRw3ukrOQGcpLM0nsf",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.20449.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "WS3DdgthkoqDTmxYYSQcn7pzngf",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/IchvwRJuViRw3ukrOQGcpLM0nsf",
+      "wiki_node_token": "IchvwRJuViRw3ukrOQGcpLM0nsf",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-22T01:34:23+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.20491": {
+      "path": "papers/2606.20491.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/DQSVw1iiwiFgwjkzHwFce0eznnF",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.20491.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "LyIAdHrIjov9OkxTimLcEzLmn8b",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/DQSVw1iiwiFgwjkzHwFce0eznnF",
+      "wiki_node_token": "DQSVw1iiwiFgwjkzHwFce0eznnF",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-22T01:34:23+00:00",
+      "basis": "PDF全文与摘要"
     }
   },
-  "last_success_at": "2026-06-21T01:35:09+00:00",
+  "last_success_at": "2026-06-22T01:34:23+00:00",
   "schema_version": "1"
 }
