@@ -87,7 +87,12 @@
     "2606.20488",
     "2606.16122",
     "2606.20449",
-    "2606.20491"
+    "2606.20491",
+    "2606.21287",
+    "2606.21419",
+    "2606.21358",
+    "2606.21568",
+    "2606.21579"
   ],
   "generated_reports": {
     "2605.29092": {
@@ -1357,8 +1362,708 @@
       "quality_issues": [],
       "generated_at": "2026-06-22T01:34:23+00:00",
       "basis": "PDF全文与摘要"
+    },
+    "2606.21287": {
+      "path": "papers/2606.21287.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/BzvnwAVvBiv6zRkEbIKcKViJngb",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.21287.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "ErISdypotowHdExcRcQc89jQnCd",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/BzvnwAVvBiv6zRkEbIKcKViJngb",
+      "wiki_node_token": "BzvnwAVvBiv6zRkEbIKcKViJngb",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-23T01:35:22+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.21419": {
+      "path": "papers/2606.21419.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/UBQtwYzFOirq2WkRzQ9cRxubn6d",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.21419.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "JOh1diSemomCrjxALO2cboZXnFh",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/UBQtwYzFOirq2WkRzQ9cRxubn6d",
+      "wiki_node_token": "UBQtwYzFOirq2WkRzQ9cRxubn6d",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-23T01:35:22+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.21358": {
+      "path": "papers/2606.21358.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/R9i4w11VoirCpekYyDWc7t43nJc",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.21358.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "SIsjd3XBkoZYWcxWKOyc6ArfnXf",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/R9i4w11VoirCpekYyDWc7t43nJc",
+      "wiki_node_token": "R9i4w11VoirCpekYyDWc7t43nJc",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-23T01:35:22+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.21568": {
+      "path": "papers/2606.21568.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/FNoPwrsttiuylskDhZQcbG1anGc",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.21568.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "LZTTdtWzhodqF4xus6LcVfeinjg",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/FNoPwrsttiuylskDhZQcbG1anGc",
+      "wiki_node_token": "FNoPwrsttiuylskDhZQcbG1anGc",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-23T01:35:22+00:00",
+      "basis": "摘要与评审信息"
+    },
+    "2606.21579": {
+      "path": "papers/2606.21579.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/JN0Mww4maiJyBqkY2Fwc8anJnbb",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.21579.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "T21bdxznSoMmx9xlgG1cRmI8nof",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/JN0Mww4maiJyBqkY2Fwc8anJnbb",
+      "wiki_node_token": "JN0Mww4maiJyBqkY2Fwc8anJnbb",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-23T01:35:22+00:00",
+      "basis": "PDF全文与摘要"
     }
   },
-  "last_success_at": "2026-06-22T01:34:23+00:00",
-  "schema_version": "1"
+  "last_success_at": "2026-06-23T01:35:22+00:00",
+  "schema_version": "1",
+  "recommendation_history": {
+    "2605.29092": {
+      "first_recommended_on": "2026-05-29",
+      "last_recommended_on": "2026-05-29",
+      "last_pushed_on": "2026-05-29",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2605.29402": {
+      "first_recommended_on": "2026-05-29",
+      "last_recommended_on": "2026-05-29",
+      "last_pushed_on": "2026-05-29",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2605.29325": {
+      "first_recommended_on": "2026-05-29",
+      "last_recommended_on": "2026-05-29",
+      "last_pushed_on": "2026-05-29",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2605.29230": {
+      "first_recommended_on": "2026-05-29",
+      "last_recommended_on": "2026-05-29",
+      "last_pushed_on": "2026-05-29",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2605.31174": {
+      "first_recommended_on": "2026-06-01",
+      "last_recommended_on": "2026-06-01",
+      "last_pushed_on": "2026-06-01",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2605.31217": {
+      "first_recommended_on": "2026-06-01",
+      "last_recommended_on": "2026-06-01",
+      "last_pushed_on": "2026-06-01",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2605.31264": {
+      "first_recommended_on": "2026-06-01",
+      "last_recommended_on": "2026-06-01",
+      "last_pushed_on": "2026-06-01",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2605.31145": {
+      "first_recommended_on": "2026-06-01",
+      "last_recommended_on": "2026-06-01",
+      "last_pushed_on": "2026-06-01",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2605.31191": {
+      "first_recommended_on": "2026-06-01",
+      "last_recommended_on": "2026-06-01",
+      "last_pushed_on": "2026-06-01",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2605.31124": {
+      "first_recommended_on": "2026-06-01",
+      "last_recommended_on": "2026-06-01",
+      "last_pushed_on": "2026-06-01",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2605.31192": {
+      "first_recommended_on": "2026-06-01",
+      "last_recommended_on": "2026-06-01",
+      "last_pushed_on": "2026-06-01",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2408.01534": {
+      "first_recommended_on": "2026-06-01",
+      "last_recommended_on": "2026-06-01",
+      "last_pushed_on": "2026-06-01",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2605.30544": {
+      "first_recommended_on": "2026-06-01",
+      "last_recommended_on": "2026-06-01",
+      "last_pushed_on": "2026-06-01",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2605.30380": {
+      "first_recommended_on": "2026-06-01",
+      "last_recommended_on": "2026-06-01",
+      "last_pushed_on": "2026-06-01",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2605.31029": {
+      "first_recommended_on": "2026-06-01",
+      "last_recommended_on": "2026-06-01",
+      "last_pushed_on": "2026-06-01",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.00852": {
+      "first_recommended_on": "2026-06-03",
+      "last_recommended_on": "2026-06-03",
+      "last_pushed_on": "2026-06-03",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.00844": {
+      "first_recommended_on": "2026-06-03",
+      "last_recommended_on": "2026-06-03",
+      "last_pushed_on": "2026-06-03",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.00987": {
+      "first_recommended_on": "2026-06-02",
+      "last_recommended_on": "2026-06-02",
+      "last_pushed_on": "2026-06-02",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.00999": {
+      "first_recommended_on": "2026-06-02",
+      "last_recommended_on": "2026-06-02",
+      "last_pushed_on": "2026-06-02",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.00872": {
+      "first_recommended_on": "2026-06-02",
+      "last_recommended_on": "2026-06-02",
+      "last_pushed_on": "2026-06-02",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.00782": {
+      "first_recommended_on": "2026-06-03",
+      "last_recommended_on": "2026-06-03",
+      "last_pushed_on": "2026-06-03",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.00372": {
+      "first_recommended_on": "2026-06-03",
+      "last_recommended_on": "2026-06-03",
+      "last_pushed_on": "2026-06-03",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.00775": {
+      "first_recommended_on": "2026-06-03",
+      "last_recommended_on": "2026-06-03",
+      "last_pushed_on": "2026-06-03",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.03748": {
+      "first_recommended_on": "2026-06-04",
+      "last_recommended_on": "2026-06-04",
+      "last_pushed_on": "2026-06-04",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.02894": {
+      "first_recommended_on": "2026-06-04",
+      "last_recommended_on": "2026-06-04",
+      "last_pushed_on": "2026-06-04",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.02603": {
+      "first_recommended_on": "2026-06-04",
+      "last_recommended_on": "2026-06-04",
+      "last_pushed_on": "2026-06-04",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.02724": {
+      "first_recommended_on": "2026-06-04",
+      "last_recommended_on": "2026-06-04",
+      "last_pushed_on": "2026-06-04",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.03490": {
+      "first_recommended_on": "2026-06-04",
+      "last_recommended_on": "2026-06-04",
+      "last_pushed_on": "2026-06-04",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.04480": {
+      "first_recommended_on": "2026-06-05",
+      "last_recommended_on": "2026-06-05",
+      "last_pushed_on": "2026-06-05",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.05149": {
+      "first_recommended_on": "2026-06-05",
+      "last_recommended_on": "2026-06-05",
+      "last_pushed_on": "2026-06-05",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.04925": {
+      "first_recommended_on": "2026-06-05",
+      "last_recommended_on": "2026-06-05",
+      "last_pushed_on": "2026-06-05",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.04656": {
+      "first_recommended_on": "2026-06-05",
+      "last_recommended_on": "2026-06-05",
+      "last_pushed_on": "2026-06-05",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.04349": {
+      "first_recommended_on": "2026-06-05",
+      "last_recommended_on": "2026-06-05",
+      "last_pushed_on": "2026-06-05",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.06294": {
+      "first_recommended_on": "2026-06-06",
+      "last_recommended_on": "2026-06-06",
+      "last_pushed_on": "2026-06-06",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.06338": {
+      "first_recommended_on": "2026-06-06",
+      "last_recommended_on": "2026-06-06",
+      "last_pushed_on": "2026-06-06",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.06292": {
+      "first_recommended_on": "2026-06-06",
+      "last_recommended_on": "2026-06-06",
+      "last_pushed_on": "2026-06-06",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.06485": {
+      "first_recommended_on": "2026-06-07",
+      "last_recommended_on": "2026-06-07",
+      "last_pushed_on": "2026-06-07",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.06261": {
+      "first_recommended_on": "2026-06-07",
+      "last_recommended_on": "2026-06-07",
+      "last_pushed_on": "2026-06-07",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.06481": {
+      "first_recommended_on": "2026-06-07",
+      "last_recommended_on": "2026-06-07",
+      "last_pushed_on": "2026-06-07",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.07233": {
+      "first_recommended_on": "2026-06-08",
+      "last_recommended_on": "2026-06-08",
+      "last_pushed_on": "2026-06-08",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.07433": {
+      "first_recommended_on": "2026-06-08",
+      "last_recommended_on": "2026-06-08",
+      "last_pushed_on": "2026-06-08",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.07474": {
+      "first_recommended_on": "2026-06-08",
+      "last_recommended_on": "2026-06-08",
+      "last_pushed_on": "2026-06-08",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.07503": {
+      "first_recommended_on": "2026-06-08",
+      "last_recommended_on": "2026-06-08",
+      "last_pushed_on": "2026-06-08",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.07419": {
+      "first_recommended_on": "2026-06-08",
+      "last_recommended_on": "2026-06-08",
+      "last_pushed_on": "2026-06-08",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.08508": {
+      "first_recommended_on": "2026-06-09",
+      "last_recommended_on": "2026-06-09",
+      "last_pushed_on": "2026-06-09",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.08382": {
+      "first_recommended_on": "2026-06-09",
+      "last_recommended_on": "2026-06-09",
+      "last_pushed_on": "2026-06-09",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.08594": {
+      "first_recommended_on": "2026-06-09",
+      "last_recommended_on": "2026-06-09",
+      "last_pushed_on": "2026-06-09",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.08436": {
+      "first_recommended_on": "2026-06-09",
+      "last_recommended_on": "2026-06-09",
+      "last_pushed_on": "2026-06-09",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.08437": {
+      "first_recommended_on": "2026-06-09",
+      "last_recommended_on": "2026-06-09",
+      "last_pushed_on": "2026-06-09",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.10790": {
+      "first_recommended_on": "2026-06-10",
+      "last_recommended_on": "2026-06-10",
+      "last_pushed_on": "2026-06-10",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.10940": {
+      "first_recommended_on": "2026-06-10",
+      "last_recommended_on": "2026-06-10",
+      "last_pushed_on": "2026-06-10",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.12258": {
+      "first_recommended_on": "2026-06-11",
+      "last_recommended_on": "2026-06-11",
+      "last_pushed_on": "2026-06-11",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.12371": {
+      "first_recommended_on": "2026-06-11",
+      "last_recommended_on": "2026-06-11",
+      "last_pushed_on": "2026-06-11",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.12125": {
+      "first_recommended_on": "2026-06-11",
+      "last_recommended_on": "2026-06-11",
+      "last_pushed_on": "2026-06-11",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.12195": {
+      "first_recommended_on": "2026-06-11",
+      "last_recommended_on": "2026-06-11",
+      "last_pushed_on": "2026-06-11",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.12300": {
+      "first_recommended_on": "2026-06-11",
+      "last_recommended_on": "2026-06-11",
+      "last_pushed_on": "2026-06-11",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.13267": {
+      "first_recommended_on": "2026-06-12",
+      "last_recommended_on": "2026-06-12",
+      "last_pushed_on": "2026-06-12",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.13300": {
+      "first_recommended_on": "2026-06-12",
+      "last_recommended_on": "2026-06-12",
+      "last_pushed_on": "2026-06-12",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.13332": {
+      "first_recommended_on": "2026-06-12",
+      "last_recommended_on": "2026-06-12",
+      "last_pushed_on": "2026-06-12",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.13435": {
+      "first_recommended_on": "2026-06-12",
+      "last_recommended_on": "2026-06-12",
+      "last_pushed_on": "2026-06-12",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.14684": {
+      "first_recommended_on": "2026-06-15",
+      "last_recommended_on": "2026-06-15",
+      "last_pushed_on": "2026-06-15",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.14556": {
+      "first_recommended_on": "2026-06-15",
+      "last_recommended_on": "2026-06-15",
+      "last_pushed_on": "2026-06-15",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.14631": {
+      "first_recommended_on": "2026-06-15",
+      "last_recommended_on": "2026-06-15",
+      "last_pushed_on": "2026-06-15",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.14094": {
+      "first_recommended_on": "2026-06-16",
+      "last_recommended_on": "2026-06-16",
+      "last_pushed_on": "2026-06-16",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.13910": {
+      "first_recommended_on": "2026-06-16",
+      "last_recommended_on": "2026-06-16",
+      "last_pushed_on": "2026-06-16",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.13700": {
+      "first_recommended_on": "2026-06-16",
+      "last_recommended_on": "2026-06-16",
+      "last_pushed_on": "2026-06-16",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.14005": {
+      "first_recommended_on": "2026-06-16",
+      "last_recommended_on": "2026-06-16",
+      "last_pushed_on": "2026-06-16",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.17798": {
+      "first_recommended_on": "2026-06-17",
+      "last_recommended_on": "2026-06-17",
+      "last_pushed_on": "2026-06-17",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.17936": {
+      "first_recommended_on": "2026-06-17",
+      "last_recommended_on": "2026-06-17",
+      "last_pushed_on": "2026-06-17",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.18008": {
+      "first_recommended_on": "2026-06-17",
+      "last_recommended_on": "2026-06-17",
+      "last_pushed_on": "2026-06-17",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.17711": {
+      "first_recommended_on": "2026-06-17",
+      "last_recommended_on": "2026-06-17",
+      "last_pushed_on": "2026-06-17",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.17805": {
+      "first_recommended_on": "2026-06-17",
+      "last_recommended_on": "2026-06-17",
+      "last_pushed_on": "2026-06-17",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.18864": {
+      "first_recommended_on": "2026-06-18",
+      "last_recommended_on": "2026-06-18",
+      "last_pushed_on": "2026-06-18",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.19156": {
+      "first_recommended_on": "2026-06-18",
+      "last_recommended_on": "2026-06-18",
+      "last_pushed_on": "2026-06-18",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.19150": {
+      "first_recommended_on": "2026-06-18",
+      "last_recommended_on": "2026-06-18",
+      "last_pushed_on": "2026-06-18",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.20282": {
+      "first_recommended_on": "2026-06-19",
+      "last_recommended_on": "2026-06-19",
+      "last_pushed_on": "2026-06-19",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.20302": {
+      "first_recommended_on": "2026-06-19",
+      "last_recommended_on": "2026-06-19",
+      "last_pushed_on": "2026-06-19",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.20140": {
+      "first_recommended_on": "2026-06-19",
+      "last_recommended_on": "2026-06-19",
+      "last_pushed_on": "2026-06-19",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.20189": {
+      "first_recommended_on": "2026-06-19",
+      "last_recommended_on": "2026-06-19",
+      "last_pushed_on": "2026-06-19",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.20312": {
+      "first_recommended_on": "2026-06-19",
+      "last_recommended_on": "2026-06-19",
+      "last_pushed_on": "2026-06-19",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2511.09554": {
+      "first_recommended_on": "2026-06-19",
+      "last_recommended_on": "2026-06-19",
+      "last_pushed_on": "2026-06-19",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.20161": {
+      "first_recommended_on": "2026-06-19",
+      "last_recommended_on": "2026-06-19",
+      "last_pushed_on": "2026-06-19",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.20559": {
+      "first_recommended_on": "2026-06-20",
+      "last_recommended_on": "2026-06-20",
+      "last_pushed_on": "2026-06-20",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.20542": {
+      "first_recommended_on": "2026-06-20",
+      "last_recommended_on": "2026-06-20",
+      "last_pushed_on": "2026-06-20",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.20488": {
+      "first_recommended_on": "2026-06-20",
+      "last_recommended_on": "2026-06-20",
+      "last_pushed_on": "2026-06-20",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids"
+    },
+    "2606.16122": {
+      "first_recommended_on": "2026-06-22",
+      "last_recommended_on": "2026-06-22",
+      "last_pushed_on": "2026-06-22",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids",
+      "title": "Thinking with Visual Grounding",
+      "updated_at": "2026-06-22T01:52:14+00:00"
+    },
+    "2606.20449": {
+      "first_recommended_on": "2026-06-22",
+      "last_recommended_on": "2026-06-22",
+      "last_pushed_on": "2026-06-22",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids",
+      "title": "InfantFace: Detecting infant faces in neonatal clinical environments",
+      "updated_at": "2026-06-22T01:52:14+00:00"
+    },
+    "2606.20491": {
+      "first_recommended_on": "2026-06-22",
+      "last_recommended_on": "2026-06-22",
+      "last_pushed_on": "2026-06-22",
+      "pushed": true,
+      "migrated_from": "processed_arxiv_ids",
+      "title": "Fast Human Attention Prediction for Fixation-guided Active Perception in Autonomous Navigation",
+      "updated_at": "2026-06-22T01:52:14+00:00"
+    }
+  },
+  "last_history_update_at": "2026-06-22T01:52:14+00:00"
 }
