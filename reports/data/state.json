@@ -92,7 +92,12 @@
     "2606.21419",
     "2606.21358",
     "2606.21568",
-    "2606.21579"
+    "2606.21579",
+    "2606.21200",
+    "2606.20687",
+    "2606.21607",
+    "2606.20726",
+    "2606.21138"
   ],
   "generated_reports": {
     "2605.29092": {
@@ -1437,9 +1442,84 @@
       "quality_issues": [],
       "generated_at": "2026-06-23T01:35:22+00:00",
       "basis": "PDF全文与摘要"
+    },
+    "2606.21200": {
+      "path": "papers/2606.21200.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/AsK5wjCXGiFOsIk9gdQc7zJonsh",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.21200.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "DVQbd1HGiotTqTxla9NcggIfngf",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/AsK5wjCXGiFOsIk9gdQc7zJonsh",
+      "wiki_node_token": "AsK5wjCXGiFOsIk9gdQc7zJonsh",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-24T01:36:59+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.20687": {
+      "path": "papers/2606.20687.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/M2XZwEkRhivPL6kCKnSczc4cnkd",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.20687.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "TJLjdow1VoR1wwxIFxuc6yqFnvc",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/M2XZwEkRhivPL6kCKnSczc4cnkd",
+      "wiki_node_token": "M2XZwEkRhivPL6kCKnSczc4cnkd",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-24T01:36:59+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.21607": {
+      "path": "papers/2606.21607.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/GMOxw19NtiNl8jkVmwscDm1gn0d",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.21607.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "M12vdOmbMoGGJkxVDd7cCnUsnOb",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/GMOxw19NtiNl8jkVmwscDm1gn0d",
+      "wiki_node_token": "GMOxw19NtiNl8jkVmwscDm1gn0d",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-24T01:36:59+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.20726": {
+      "path": "papers/2606.20726.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/VziiwerBKi71vYkYUfbc5mldnue",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.20726.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "TlRrd0VJ4oe297x1ZRTcEcAjnff",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/VziiwerBKi71vYkYUfbc5mldnue",
+      "wiki_node_token": "VziiwerBKi71vYkYUfbc5mldnue",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-24T01:36:59+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.21138": {
+      "path": "papers/2606.21138.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/M77MwmBfui8KbPkAFR7cnumUnJe",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.21138.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "GHBpdmE9hoc1UGxp1pXcXhkmnhd",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/M77MwmBfui8KbPkAFR7cnumUnJe",
+      "wiki_node_token": "M77MwmBfui8KbPkAFR7cnumUnJe",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-24T01:36:59+00:00",
+      "basis": "PDF全文与摘要"
     }
   },
-  "last_success_at": "2026-06-23T01:35:22+00:00",
+  "last_success_at": "2026-06-24T01:36:59+00:00",
   "schema_version": "1",
   "recommendation_history": {
     "2605.29092": {
@@ -2063,7 +2143,47 @@
       "migrated_from": "processed_arxiv_ids",
       "title": "Fast Human Attention Prediction for Fixation-guided Active Perception in Autonomous Navigation",
       "updated_at": "2026-06-22T01:52:14+00:00"
+    },
+    "2606.21287": {
+      "first_recommended_on": "2026-06-23",
+      "last_recommended_on": "2026-06-23",
+      "last_pushed_on": "2026-06-23",
+      "pushed": true,
+      "title": "Unsupervised Domain Adaptation for Sim-to-Real Object Pose Estimation with Contrastive Alignment and Pseudo-Label Refinement",
+      "updated_at": "2026-06-23T02:03:00+00:00"
+    },
+    "2606.21419": {
+      "first_recommended_on": "2026-06-23",
+      "last_recommended_on": "2026-06-23",
+      "last_pushed_on": "2026-06-23",
+      "pushed": true,
+      "title": "MIRCaps: A Large-Scale Mixed-Domain Dataset with Image-Level and Region-Level Captions for Fine-Grained Vision-Language Learning",
+      "updated_at": "2026-06-23T02:03:00+00:00"
+    },
+    "2606.21358": {
+      "first_recommended_on": "2026-06-23",
+      "last_recommended_on": "2026-06-23",
+      "last_pushed_on": "2026-06-23",
+      "pushed": true,
+      "title": "LEViL: Label-Efficient Video Learning via Zero-Shot Distillation over VLM-Generated Pseudo-Label Spaces",
+      "updated_at": "2026-06-23T02:03:00+00:00"
+    },
+    "2606.21568": {
+      "first_recommended_on": "2026-06-23",
+      "last_recommended_on": "2026-06-23",
+      "last_pushed_on": "2026-06-23",
+      "pushed": true,
+      "title": "A Smart Classroom Behavior Analysis Framework with a New Highly Congested Classroom Dataset",
+      "updated_at": "2026-06-23T02:03:00+00:00"
+    },
+    "2606.21579": {
+      "first_recommended_on": "2026-06-23",
+      "last_recommended_on": "2026-06-23",
+      "last_pushed_on": "2026-06-23",
+      "pushed": true,
+      "title": "The Unreasonable Effectiveness of VLMs for Zero-shot Procedural Mistake Detection",
+      "updated_at": "2026-06-23T02:03:00+00:00"
     }
   },
-  "last_history_update_at": "2026-06-22T01:52:14+00:00"
+  "last_history_update_at": "2026-06-23T02:03:00+00:00"
 }
