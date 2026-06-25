@@ -97,7 +97,12 @@
     "2606.20687",
     "2606.21607",
     "2606.20726",
-    "2606.21138"
+    "2606.21138",
+    "2606.25652",
+    "2606.25658",
+    "2606.25585",
+    "2606.25732",
+    "2606.25619"
   ],
   "generated_reports": {
     "2605.29092": {
@@ -1517,9 +1522,84 @@
       "quality_issues": [],
       "generated_at": "2026-06-24T01:36:59+00:00",
       "basis": "PDF全文与摘要"
+    },
+    "2606.25652": {
+      "path": "papers/2606.25652.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/AnKKw1zKkiS1eok4bC3cJW9Cn6b",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.25652.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "EXQYd50WsoGvNzxEtvwcYwkJnIb",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/AnKKw1zKkiS1eok4bC3cJW9Cn6b",
+      "wiki_node_token": "AnKKw1zKkiS1eok4bC3cJW9Cn6b",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-25T01:34:38+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.25658": {
+      "path": "papers/2606.25658.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/NFZlwY35HiIvsakCD22c3d1xn8f",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.25658.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "CYkDd1T45ozrtyxsj43cD03gnFA",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/NFZlwY35HiIvsakCD22c3d1xn8f",
+      "wiki_node_token": "NFZlwY35HiIvsakCD22c3d1xn8f",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-25T01:34:38+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.25585": {
+      "path": "papers/2606.25585.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/RsSPwyaXxiYE5rkujogctIcgn1e",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.25585.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "OaJXd8gM5ofVXnx8gQfcVEwhn8X",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/RsSPwyaXxiYE5rkujogctIcgn1e",
+      "wiki_node_token": "RsSPwyaXxiYE5rkujogctIcgn1e",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-25T01:34:38+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.25732": {
+      "path": "papers/2606.25732.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/H7klwOE64i1Ztwkq50kcAqwqnXb",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.25732.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "CwCqdZfG4o4stdxutJvcy9Whnib",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/H7klwOE64i1Ztwkq50kcAqwqnXb",
+      "wiki_node_token": "H7klwOE64i1Ztwkq50kcAqwqnXb",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-25T01:34:38+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.25619": {
+      "path": "papers/2606.25619.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/NtdBwNMYVi0mbxkyJJ9cWDFpnFe",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.25619.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "W2JhduY4Go6QcBx9dzfcvG6BnZc",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/NtdBwNMYVi0mbxkyJJ9cWDFpnFe",
+      "wiki_node_token": "NtdBwNMYVi0mbxkyJJ9cWDFpnFe",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-25T01:34:38+00:00",
+      "basis": "PDF全文与摘要"
     }
   },
-  "last_success_at": "2026-06-24T01:36:59+00:00",
+  "last_success_at": "2026-06-25T01:34:38+00:00",
   "schema_version": "1",
   "recommendation_history": {
     "2605.29092": {
@@ -2183,7 +2263,47 @@
       "pushed": true,
       "title": "The Unreasonable Effectiveness of VLMs for Zero-shot Procedural Mistake Detection",
       "updated_at": "2026-06-23T02:03:00+00:00"
+    },
+    "2606.21200": {
+      "first_recommended_on": "2026-06-24",
+      "last_recommended_on": "2026-06-24",
+      "last_pushed_on": "2026-06-24",
+      "pushed": true,
+      "title": "Real-time pedestrian attribute recognition with YOLOv8 and ResNet18",
+      "updated_at": "2026-06-24T02:07:14+00:00"
+    },
+    "2606.20687": {
+      "first_recommended_on": "2026-06-24",
+      "last_recommended_on": "2026-06-24",
+      "last_pushed_on": "2026-06-24",
+      "pushed": true,
+      "title": "ARGUSTRACK: A Multi-View Annotation System for Multi-Object Tracking",
+      "updated_at": "2026-06-24T02:07:14+00:00"
+    },
+    "2606.21607": {
+      "first_recommended_on": "2026-06-24",
+      "last_recommended_on": "2026-06-24",
+      "last_pushed_on": "2026-06-24",
+      "pushed": true,
+      "title": "T-MOR: Learning Motion-Aware Skeleton Representations for Human Action Recognition",
+      "updated_at": "2026-06-24T02:07:14+00:00"
+    },
+    "2606.20726": {
+      "first_recommended_on": "2026-06-24",
+      "last_recommended_on": "2026-06-24",
+      "last_pushed_on": "2026-06-24",
+      "pushed": true,
+      "title": "How Well Can Your Video Model Remember? Measuring Memory-Budget Trade-offs in Long Video Understanding",
+      "updated_at": "2026-06-24T02:07:14+00:00"
+    },
+    "2606.21138": {
+      "first_recommended_on": "2026-06-24",
+      "last_recommended_on": "2026-06-24",
+      "last_pushed_on": "2026-06-24",
+      "pushed": true,
+      "title": "SEED: Simple ViT and Evolving Harness for Explainable Text Forgery Detection",
+      "updated_at": "2026-06-24T02:07:14+00:00"
     }
   },
-  "last_history_update_at": "2026-06-23T02:03:00+00:00"
+  "last_history_update_at": "2026-06-24T02:07:14+00:00"
 }
