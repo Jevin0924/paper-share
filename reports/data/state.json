@@ -104,7 +104,8 @@
     "2606.25732",
     "2606.25619",
     "2606.26904",
-    "2606.26973"
+    "2606.26973",
+    "2606.27187"
   ],
   "generated_reports": {
     "2605.29092": {
@@ -1629,9 +1630,24 @@
       "quality_issues": [],
       "generated_at": "2026-06-26T01:34:49+00:00",
       "basis": "PDF全文与摘要"
+    },
+    "2606.27187": {
+      "path": "reports/2606.27187/index.html",
+      "url": "",
+      "archive_url": "",
+      "format": "html",
+      "publisher": "file",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-26T03:46:04+00:00",
+      "basis": "PDF全文截断与摘要"
     }
   },
-  "last_success_at": "2026-06-26T01:34:49+00:00",
+  "last_success_at": "2026-06-26T03:46:04+00:00",
   "schema_version": "1",
   "recommendation_history": {
     "2605.29092": {
@@ -2375,7 +2391,23 @@
       "pushed": true,
       "title": "ScaleHP: Estimating Hand Pose in Metric Space",
       "updated_at": "2026-06-25T02:05:10+00:00"
+    },
+    "2606.26904": {
+      "first_recommended_on": "2026-06-26",
+      "last_recommended_on": "2026-06-26",
+      "last_pushed_on": "2026-06-26",
+      "pushed": true,
+      "title": "Confidence-Aware Tool Orchestration for Robust Video Understanding",
+      "updated_at": "2026-06-26T01:45:21+00:00"
+    },
+    "2606.26973": {
+      "first_recommended_on": "2026-06-26",
+      "last_recommended_on": "2026-06-26",
+      "last_pushed_on": "2026-06-26",
+      "pushed": true,
+      "title": "Geometric Gradient Rectification for Safe Open-Set Semi-Supervised Learning",
+      "updated_at": "2026-06-26T01:45:21+00:00"
     }
   },
-  "last_history_update_at": "2026-06-25T02:05:10+00:00"
+  "last_history_update_at": "2026-06-26T01:45:21+00:00"
 }

@@ -1,51 +1,39 @@
 {
-  "generated_at": "2026-06-26T01:34:49+00:00",
+  "generated_at": "2026-06-26T03:46:04+00:00",
   "reports": [
     {
-      "arxiv_id": "2606.26904",
-      "title": "Confidence-Aware Tool Orchestration for Robust Video Understanding",
+      "arxiv_id": "2606.27187",
+      "title": "HarmVideoBench: Benchmarking Harmful Video Understanding in Large Multimodal Models",
       "authors": [
-        "Yangfan He",
-        "Yujin Choi",
-        "Jaehong Yoon"
+        "Jiajun Wu",
+        "Haoyu Kang",
+        "Yining Sun",
+        "Jiacheng Hou",
+        "Heng Zhang",
+        "Danyang Zhang",
+        "Zhenjun Zhao",
+        "Haochi Zhang",
+        "Leixin Sun",
+        "Eric Hanchen Jiang",
+        "Yushan Li",
+        "Ruiyu Li",
+        "Mengkai Huang",
+        "Yan Gao",
+        "Xu Zhang",
+        "Guancheng Wan"
       ],
-      "published": "2026-06-25T11:37:51Z",
+      "published": "2026-06-25T15:50:33Z",
       "recommended_on": "2026-06-26",
-      "score": 21.0,
+      "score": 17.5,
       "level": "中优先级",
       "primary_task": "视频理解",
-      "one_sentence": "Robust-TO面向真实视频扰动下的可靠推理，对视频感知系统的证据融合有参考价值。",
-      "report_path": "reports/papers/2606.26904.md",
-      "report_url": "https://jiigan-tech.feishu.cn/wiki/Q5p8wAxhviHUSdk1HQzcn9U5nTg",
-      "paper_url": "http://arxiv.org/abs/2606.26904v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.26904v1",
+      "one_sentence": "HarmVideoBench提供有害视频多层理解评测，并给出按需检索上下文的BCR方法。",
+      "report_path": "reports/reports/2606.27187/index.html",
+      "report_url": "",
+      "paper_url": "http://arxiv.org/abs/2606.27187v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.27187v1",
       "code_url": "",
       "report_basis": "PDF全文截断与摘要"
-    },
-    {
-      "arxiv_id": "2606.26973",
-      "title": "Geometric Gradient Rectification for Safe Open-Set Semi-Supervised Learning",
-      "authors": [
-        "Jiahe Chen",
-        "Qian Shao",
-        "Qiyuan Chen",
-        "Jiaying He",
-        "Jintai Chen",
-        "Jian Wu",
-        "Hongxia Xu"
-      ],
-      "published": "2026-06-25T12:45:42Z",
-      "recommended_on": "2026-06-26",
-      "score": 18.5,
-      "level": "中优先级",
-      "primary_task": "自动标注/数据",
-      "one_sentence": "GGR可作为自动标注和半监督训练中处理开放集噪声样本的候选插件。",
-      "report_path": "reports/papers/2606.26973.md",
-      "report_url": "https://jiigan-tech.feishu.cn/wiki/OKsgwpPk2iSSf2kMvfxcg6wun2f",
-      "paper_url": "http://arxiv.org/abs/2606.26973v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.26973v1",
-      "code_url": "https://github.com/JiaheChen2002/GGR",
-      "report_basis": "PDF全文与摘要"
     }
   ]
 }
