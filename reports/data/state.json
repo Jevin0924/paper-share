@@ -102,7 +102,9 @@
     "2606.25658",
     "2606.25585",
     "2606.25732",
-    "2606.25619"
+    "2606.25619",
+    "2606.26904",
+    "2606.26973"
   ],
   "generated_reports": {
     "2605.29092": {
@@ -1597,9 +1599,39 @@
       "quality_issues": [],
       "generated_at": "2026-06-25T01:34:38+00:00",
       "basis": "PDF全文与摘要"
+    },
+    "2606.26904": {
+      "path": "papers/2606.26904.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/Q5p8wAxhviHUSdk1HQzcn9U5nTg",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.26904.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "FksRdtCI3oEaPExIBQacUuzonrY",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/Q5p8wAxhviHUSdk1HQzcn9U5nTg",
+      "wiki_node_token": "Q5p8wAxhviHUSdk1HQzcn9U5nTg",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-26T01:34:49+00:00",
+      "basis": "PDF全文截断与摘要"
+    },
+    "2606.26973": {
+      "path": "papers/2606.26973.md",
+      "url": "https://jiigan-tech.feishu.cn/wiki/OKsgwpPk2iSSf2kMvfxcg6wun2f",
+      "archive_url": "https://git.jiigan.com/jg-mp/paper-share/-/blob/paper-reports/reports/papers/2606.26973.md",
+      "format": "markdown",
+      "publisher": "feishu_doc",
+      "doc_id": "P5nwdcNPGoFLUqx556ycfOgcnid",
+      "doc_url": "https://jiigan-tech.feishu.cn/wiki/OKsgwpPk2iSSf2kMvfxcg6wun2f",
+      "wiki_node_token": "OKsgwpPk2iSSf2kMvfxcg6wun2f",
+      "wiki_space_id": "7458190600755625988",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-26T01:34:49+00:00",
+      "basis": "PDF全文与摘要"
     }
   },
-  "last_success_at": "2026-06-25T01:34:38+00:00",
+  "last_success_at": "2026-06-26T01:34:49+00:00",
   "schema_version": "1",
   "recommendation_history": {
     "2605.29092": {
@@ -2303,7 +2335,47 @@
       "pushed": true,
       "title": "SEED: Simple ViT and Evolving Harness for Explainable Text Forgery Detection",
       "updated_at": "2026-06-24T02:07:14+00:00"
+    },
+    "2606.25652": {
+      "first_recommended_on": "2026-06-25",
+      "last_recommended_on": "2026-06-25",
+      "last_pushed_on": "2026-06-25",
+      "pushed": true,
+      "title": "Auto-Labelling-Based Domain Transfer for 3D Object Detection on a Bicycle-Mounted LiDAR Platform",
+      "updated_at": "2026-06-25T02:05:10+00:00"
+    },
+    "2606.25658": {
+      "first_recommended_on": "2026-06-25",
+      "last_recommended_on": "2026-06-25",
+      "last_pushed_on": "2026-06-25",
+      "pushed": true,
+      "title": "Towards a Dynamic and Fixed-budget Memory Bank for Efficient Streaming Video Understanding",
+      "updated_at": "2026-06-25T02:05:10+00:00"
+    },
+    "2606.25585": {
+      "first_recommended_on": "2026-06-25",
+      "last_recommended_on": "2026-06-25",
+      "last_pushed_on": "2026-06-25",
+      "pushed": true,
+      "title": "FeVOS: Foresight Expression Video Object Segmentation",
+      "updated_at": "2026-06-25T02:05:10+00:00"
+    },
+    "2606.25732": {
+      "first_recommended_on": "2026-06-25",
+      "last_recommended_on": "2026-06-25",
+      "last_pushed_on": "2026-06-25",
+      "pushed": true,
+      "title": "Efficient Real-World Dehazing via Physics-Inspired Global-Local Decoupling",
+      "updated_at": "2026-06-25T02:05:10+00:00"
+    },
+    "2606.25619": {
+      "first_recommended_on": "2026-06-25",
+      "last_recommended_on": "2026-06-25",
+      "last_pushed_on": "2026-06-25",
+      "pushed": true,
+      "title": "ScaleHP: Estimating Hand Pose in Metric Space",
+      "updated_at": "2026-06-25T02:05:10+00:00"
     }
   },
-  "last_history_update_at": "2026-06-24T02:07:14+00:00"
+  "last_history_update_at": "2026-06-25T02:05:10+00:00"
 }
