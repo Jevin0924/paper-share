@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-26T03:46:04+00:00",
+  "generated_at": "2026-06-27T01:33:57+00:00",
   "reports": [
     {
       "arxiv_id": "2606.27187",
@@ -23,13 +23,13 @@
         "Guancheng Wan"
       ],
       "published": "2026-06-25T15:50:33Z",
-      "recommended_on": "2026-06-26",
-      "score": 17.5,
+      "recommended_on": "2026-06-27",
+      "score": 17.8,
       "level": "中优先级",
       "primary_task": "视频理解",
-      "one_sentence": "HarmVideoBench提供有害视频多层理解评测，并给出按需检索上下文的BCR方法。",
+      "one_sentence": "HarmVideoBench适合视频理解/内容安全团队观察多层视频语义评测方法。",
       "report_path": "reports/reports/2606.27187/index.html",
-      "report_url": "",
+      "report_url": "https://jevin0924.github.io/paper-share/reports/2606.27187/index.html",
       "paper_url": "http://arxiv.org/abs/2606.27187v1",
       "pdf_url": "https://arxiv.org/pdf/2606.27187v1",
       "code_url": "",
