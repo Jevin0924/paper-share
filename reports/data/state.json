@@ -105,7 +105,15 @@
     "2606.25619",
     "2606.26904",
     "2606.26973",
-    "2606.27187"
+    "2606.27187",
+    "2606.28077",
+    "2606.27999",
+    "2606.28083",
+    "2606.27556",
+    "2606.27772",
+    "2606.27831",
+    "2606.27922",
+    "2606.27505"
   ],
   "generated_reports": {
     "2605.29092": {
@@ -1645,9 +1653,131 @@
       "quality_issues": [],
       "generated_at": "2026-06-26T03:46:04+00:00",
       "basis": "PDF全文截断与摘要"
+    },
+    "2606.28077": {
+      "path": "reports/2606.28077/index.html",
+      "url": "https://jevin0924.github.io/paper-share/reports/2606.28077/index.html",
+      "archive_url": "https://jevin0924.github.io/paper-share/reports/2606.28077/index.html",
+      "format": "html",
+      "publisher": "file",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-29T05:08:05+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.27999": {
+      "path": "reports/2606.27999/index.html",
+      "url": "https://jevin0924.github.io/paper-share/reports/2606.27999/index.html",
+      "archive_url": "https://jevin0924.github.io/paper-share/reports/2606.27999/index.html",
+      "format": "html",
+      "publisher": "file",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-29T05:08:05+00:00",
+      "basis": "PDF全文截断与摘要"
+    },
+    "2606.28083": {
+      "path": "reports/2606.28083/index.html",
+      "url": "https://jevin0924.github.io/paper-share/reports/2606.28083/index.html",
+      "archive_url": "https://jevin0924.github.io/paper-share/reports/2606.28083/index.html",
+      "format": "html",
+      "publisher": "file",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-29T05:08:05+00:00",
+      "basis": "PDF全文截断与摘要"
+    },
+    "2606.27556": {
+      "path": "reports/2606.27556/index.html",
+      "url": "https://jevin0924.github.io/paper-share/reports/2606.27556/index.html",
+      "archive_url": "https://jevin0924.github.io/paper-share/reports/2606.27556/index.html",
+      "format": "html",
+      "publisher": "file",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-30T01:38:22+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.27772": {
+      "path": "reports/2606.27772/index.html",
+      "url": "https://jevin0924.github.io/paper-share/reports/2606.27772/index.html",
+      "archive_url": "https://jevin0924.github.io/paper-share/reports/2606.27772/index.html",
+      "format": "html",
+      "publisher": "file",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-30T01:38:22+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.27831": {
+      "path": "reports/2606.27831/index.html",
+      "url": "https://jevin0924.github.io/paper-share/reports/2606.27831/index.html",
+      "archive_url": "https://jevin0924.github.io/paper-share/reports/2606.27831/index.html",
+      "format": "html",
+      "publisher": "file",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "failed",
+      "quality_issues": [
+        "paper-craft HTML generation failed: TimeoutExpired"
+      ],
+      "generated_at": "2026-06-30T01:38:22+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.27922": {
+      "path": "reports/2606.27922/index.html",
+      "url": "https://jevin0924.github.io/paper-share/reports/2606.27922/index.html",
+      "archive_url": "https://jevin0924.github.io/paper-share/reports/2606.27922/index.html",
+      "format": "html",
+      "publisher": "file",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-30T01:38:22+00:00",
+      "basis": "PDF全文与摘要"
+    },
+    "2606.27505": {
+      "path": "reports/2606.27505/index.html",
+      "url": "https://jevin0924.github.io/paper-share/reports/2606.27505/index.html",
+      "archive_url": "https://jevin0924.github.io/paper-share/reports/2606.27505/index.html",
+      "format": "html",
+      "publisher": "file",
+      "doc_id": "",
+      "doc_url": "",
+      "wiki_node_token": "",
+      "wiki_space_id": "",
+      "quality_status": "passed",
+      "quality_issues": [],
+      "generated_at": "2026-06-30T01:38:22+00:00",
+      "basis": "PDF全文与摘要"
     }
   },
-  "last_success_at": "2026-06-27T01:33:57+00:00",
+  "last_success_at": "2026-06-30T01:38:22+00:00",
   "schema_version": "1",
   "recommendation_history": {
     "2605.29092": {
@@ -2415,7 +2545,31 @@
       "pushed": true,
       "title": "HarmVideoBench: Benchmarking Harmful Video Understanding in Large Multimodal Models",
       "updated_at": "2026-06-27T01:34:10+00:00"
+    },
+    "2606.28077": {
+      "first_recommended_on": "2026-06-29",
+      "last_recommended_on": "2026-06-29",
+      "last_pushed_on": "2026-06-29",
+      "pushed": true,
+      "title": "TextDS: Parameter-Efficient Representation Alignment for Scene Text Detection under Distribution Shifts",
+      "updated_at": "2026-06-29T05:46:30+00:00"
+    },
+    "2606.27999": {
+      "first_recommended_on": "2026-06-29",
+      "last_recommended_on": "2026-06-29",
+      "last_pushed_on": "2026-06-29",
+      "pushed": true,
+      "title": "HumanMoveVQA: Can Video MLLMs reason about human movement in videos?",
+      "updated_at": "2026-06-29T05:46:30+00:00"
+    },
+    "2606.28083": {
+      "first_recommended_on": "2026-06-29",
+      "last_recommended_on": "2026-06-29",
+      "last_pushed_on": "2026-06-29",
+      "pushed": true,
+      "title": "STAG: Spatio-temporal Evolving Structural Representation of Action Units for Micro-expression Recognition",
+      "updated_at": "2026-06-29T05:46:30+00:00"
     }
   },
-  "last_history_update_at": "2026-06-27T01:34:10+00:00"
+  "last_history_update_at": "2026-06-29T05:46:30+00:00"
 }

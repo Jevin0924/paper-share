@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hippocampus-DETR: An Explicit Memory Object Detection Framework Based on Hippocampus Modeling | 论文阅读报告</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --text: #172033;
+      --muted: #667085;
+      --line: #d8dee9;
+      --panel: #ffffff;
+      --panel-alt: #eef4f7;
+      --accent: #0f766e;
+      --accent-2: #b45309;
+      --danger: #b42318;
+      --shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); line-height: 1.62; }
+    a { color: inherit; }
+    .shell { width: min(1120px, 100%); margin: 0 auto; padding: 32px 20px 54px; }
+    .hero { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); box-shadow: var(--shadow); padding: 28px; }
+    .eyebrow { margin: 0 0 10px; color: var(--accent); font-size: 13px; font-weight: 800; }
+    h1 { margin: 0; font-size: clamp(26px, 4vw, 42px); line-height: 1.16; letter-spacing: 0; }
+    .authors { margin: 14px 0 0; color: var(--muted); }
+    .meta-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+    .meta { border: 1px solid var(--line); border-radius: 8px; background: var(--panel-alt); padding: 12px; min-width: 0; }
+    .meta span { display: block; color: var(--muted); font-size: 12px; }
+    .meta strong { display: block; margin-top: 4px; overflow-wrap: anywhere; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .button { display: inline-flex; align-items: center; min-height: 38px; border: 1px solid var(--accent); border-radius: 8px; color: var(--accent); text-decoration: none; font-weight: 760; padding: 7px 13px; }
+    .button:hover { background: rgba(15, 118, 110, 0.08); }
+    .section { margin-top: 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); box-shadow: var(--shadow); padding: 22px; }
+    h2 { margin: 0 0 12px; font-size: 20px; letter-spacing: 0; }
+    .lead { font-size: 17px; }
+    .two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .label { color: var(--accent-2); font-size: 13px; font-weight: 800; }
+    ul { margin: 8px 0 0; padding-left: 20px; }
+    li { margin: 6px 0; }
+    .risk li::marker { color: var(--danger); }
+    .footer { margin-top: 22px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 760px) { .meta-grid, .two-col { grid-template-columns: 1fr; } .hero, .section { padding: 18px; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <p class="eyebrow">论文阅读报告</p>
+      <h1>Hippocampus-DETR: An Explicit Memory Object Detection Framework Based on Hippocampus Modeling</h1>
+      <p class="authors">Zhaoning Shi, Bo Ma, Hao Xu, Zepeng Yang, Bo Liang</p>
+      <div class="meta-grid">
+        <div class="meta"><span>arXiv ID</span><strong>2606.27831</strong></div>
+<div class="meta"><span>发布时间</span><strong>2026-06-29</strong></div>
+<div class="meta"><span>方向</span><strong>检测</strong></div>
+<div class="meta"><span>推荐等级</span><strong>中优先级</strong></div>
+<div class="meta"><span>推荐分</span><strong>20.0 / 30</strong></div>
+<div class="meta"><span>报告依据</span><strong>PDF全文与摘要</strong></div>
+      </div>
+      <div class="actions"><a class="button" href="https://arxiv.org/abs/2606.27831" target="_blank" rel="noreferrer">查看论文</a>
+<a class="button" href="https://arxiv.org/pdf/2606.27831" target="_blank" rel="noreferrer">下载 PDF</a>
+<a class="button" href="https://github.com/2186cloud/hipnet" target="_blank" rel="noreferrer">查看代码</a></div>
+    </header>
+
+    <section class="section">
+      <h2>一页结论</h2>
+      <p class="lead">Hippocampus-DETR在DETR中加入显式记忆网络HipNet以增强检测学习效率和鲁棒性。</p>
+      <p><span class="label">适合读者：</span>检测 方向算法工程师</p>
+      <p><span class="label">业务判断：</span>直接命中检测，且有开源；但生物启发模块较复杂，缺少具体指标，先观察复现质量。</p>
+    </section>
+
+    <section class="section two-col">
+      <div>
+        <h2>问题定义</h2>
+        <p>提出基于海马体建模的显式记忆检测框架，并扩展到少样本分类、多模态特征和图像恢复验证。</p>
+      </div>
+      <div>
+        <h2>问题价值</h2>
+        <p>直接命中检测，且有开源；但生物启发模块较复杂，缺少具体指标，先观察复现质量。</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>核心方法拆解</h2>
+      <p>提出基于海马体建模的显式记忆检测框架，并扩展到少样本分类、多模态特征和图像恢复验证。</p>
+      <ul><li>HipNet模拟entorhinal cortex、dentate gyrus、CA3、CA1、subiculum等子模块</li><li>通过模式分离、模式补全、重要性过滤和层级训练处理视觉编码特征</li></ul>
+    </section>
+
+    <section class="section">
+      <h2>创新点</h2>
+      <ul><li>HipNet模拟entorhinal cortex、dentate gyrus、CA3、CA1、subiculum等子模块</li><li>通过模式分离、模式补全、重要性过滤和层级训练处理视觉编码特征</li></ul>
+    </section>
+
+    <section class="section two-col">
+      <div>
+        <h2>实验与证据</h2>
+        <p>摘要称检测准确率高于主流模型，并具备泛化和数据效率；未给出具体检测指标。</p>
+      </div>
+      <div>
+        <h2>业务价值</h2>
+        <p>可用于检测团队探索记忆增强、少样本检测和数据效率提升。</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>落地建议</h2>
+      <ul><li>1天内：确认论文任务、数据集、指标和是否有官方代码。</li><li>1周内：选择一个内部样本集做最小复现实验或离线评估。</li><li>后续：根据 检测 收益决定是否进入技术储备。</li></ul>
+    </section>
+
+    <section class="section risk">
+      <h2>风险限制</h2>
+      <ul><li>摘要表述较大但指标不具体</li><li>模块复杂度、训练成本和真实检测收益待验证。</li></ul>
+    </section>
+
+    <section class="section">
+      <h2>待确认问题</h2>
+      <ul><li>代码是否可用</li><li>关键指标是否能迁移到内部数据</li><li>推理成本是否满足部署约束</li></ul>
+    </section>
+
+    <p class="footer">生成时间：2026-06-30T01:38:22+00:00。报告依据：PDF全文与摘要。如报告依据不是 PDF 正文，结论应以论文全文复核为准。</p>
+  </main>
+</body>
+</html>

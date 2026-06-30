@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STAG — 微表情识别论文深度解读</title>
+<style>
+:root{
+  --text:#1a1a1a;
+  --bg:#fafaf8;
+  --panel:#ffffff;
+  --accent:#2563eb;
+  --accent-soft:#eef4ff;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --code-bg:#f3f4f6;
+  --warn:#92400e;
+  --warn-bg:#fff7ed;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Serif SC","Microsoft YaHei",serif;
+  color:var(--text);
+  background:var(--bg);
+  line-height:1.85;
+  padding:2.5rem 1.5rem;
+  max-width:920px;
+  margin:0 auto;
+  font-size:17px;
+}
+h1{font-size:2.05rem;margin:0 0 .45rem;line-height:1.32;letter-spacing:0}
+h2{font-size:1.35rem;margin:2.8rem 0 .8rem;color:var(--accent);padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+h3{font-size:1.08rem;margin:1.55rem 0 .55rem;color:#222}
+p{margin:1rem 0}
+a{color:var(--accent);text-decoration:none}
+strong{color:#111}
+.meta{color:var(--muted);font-size:.92rem;margin-bottom:2rem;line-height:1.85}
+.summary-box{
+  background:linear-gradient(135deg,#eef4ff,#faf5ff);
+  padding:1.25rem 1.35rem;
+  border-radius:12px;
+  margin:1.5rem 0;
+  border:1px solid #dbeafe;
+}
+.summary-box h3{margin:0 0 .45rem;color:var(--accent)}
+.note{
+  background:var(--warn-bg);
+  border:1px solid #fed7aa;
+  color:var(--warn);
+  padding:1rem 1.15rem;
+  border-radius:10px;
+  margin:1.2rem 0;
+}
+blockquote{
+  border-left:3px solid var(--accent);
+  padding:.7rem 1rem;
+  margin:1.2rem 0;
+  background:#f0f4ff;
+  border-radius:0 8px 8px 0;
+  color:#1f2937;
+}
+pre{
+  background:var(--code-bg);
+  padding:1rem 1.2rem;
+  border-radius:8px;
+  overflow-x:auto;
+  font-size:.85rem;
+  line-height:1.5;
+  margin:1.5rem 0;
+  border:1px solid var(--border);
+}
+code{font-family:"SF Mono","Fira Code","Consolas",monospace;font-size:.9em}
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border:1px solid var(--border);border-radius:8px;background:var(--panel)}
+table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:720px}
+td,th{border-bottom:1px solid var(--border);border-right:1px solid var(--border);padding:.58rem .75rem;text-align:left;vertical-align:top}
+th{background:#f9fafb;font-weight:600;color:#111}
+td:last-child,th:last-child{border-right:0}
+tr:last-child td{border-bottom:0}
+.figure{
+  margin:1.5rem 0;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:.9rem;
+}
+.figure img{width:100%;height:auto;display:block;border-radius:6px}
+figcaption{font-size:.9rem;color:var(--muted);margin-top:.65rem;line-height:1.6}
+.evidence{
+  font-size:.93rem;
+  color:#374151;
+}
+.kicker{
+  color:var(--muted);
+  font-size:.95rem;
+  margin-top:.25rem;
+}
+.golden{
+  font-size:1.15rem;
+  font-weight:600;
+  color:var(--accent);
+  text-align:center;
+  padding:1.7rem 1rem;
+  border-top:2px solid var(--accent);
+  border-bottom:2px solid var(--accent);
+  margin:2.5rem 0;
+  line-height:1.6;
+}
+@media(max-width:700px){
+  body{font-size:16px;padding:1.2rem 1rem}
+  h1{font-size:1.5rem}
+  table{font-size:.86rem}
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',securityLevel:'loose'});</script>
+</head>
+<body>
+<h1>STAG: Spatio-temporal Evolving Structural Representation of Action Units for Micro-expression Recognition</h1>
+<div class="meta">
+  作者：Nandani Sharma, Varun Sharma, Dinesh Singh<br>
+  arXiv：<a href="http://arxiv.org/abs/2606.28083v1">2606.28083v1</a> · 发布日期：2026-06-26 · 类别：cs.CV, cs.AI, cs.GR, cs.HC, cs.MM<br>
+  代码状态：<strong>本文未提供可确认的公开代码</strong>。给定元信息中 code_url 与 project_url 为空；全文页码材料中未出现可确认仓库链接，故本文不伪造源码路径或代码段。
+</div>
+
+<div class="summary-box">
+  <h3>一句话总结</h3>
+  <p>STAG 将光流、面部 ROI 图、Action Unit 生理先验与 Transformer 时序建模放在一个统一框架中，通过动态 ROI-AU 连接和双向交叉注意力同时回答微表情识别里的“哪里动了”和“什么时候动了”，并在 NaME、4DME、DFME、CASME-II、SAMM、SMIC-HS 等数据集上报告了较强的跨数据集泛化与可解释性证据。</p>
+</div>
+
+<h2>研究背景与动机</h2>
+<p>微表情识别（micro-expression recognition, MER）处理的是强度极低、持续时间极短、局部区域变化明显的面部肌肉运动。论文在 PAGE 1 明确指出，微表情是“不自主、极短暂”的面部肌肉运动，并与欺骗检测、安全、医疗和人机交互等应用相关。其困难不只在于分类标签少，更在于有效信号往往只存在于眼周、眉区、鼻尖或口周的短暂运动中。</p>
+
+<p>现有深度学习方法大致经历了三条路径：第一类是 CNN、RNN、3D CNN 或 ConvLSTM 体系，擅长从局部图像或短时片段中学习运动特征，但时间感受野有限，可解释性不足；第二类是 Transformer 或基础模型风格的方法，能够建模长程依赖，却常把空间结构与时间序列分开处理；第三类是图神经网络方法，把面部 landmarks 或 ROI 建成图，提升结构推理能力，但许多方法仍依赖固定邻接矩阵，难以反映微表情过程中肌肉联动关系的变化。这一脉络在 PAGE 1 至 PAGE 4 的 Introduction 和 Related Work 中被系统展开。</p>
+
+<blockquote>论文对问题的核心判断是：现有方法往往“depend heavily on apex–onset frames”且忽略细粒度帧间动态，见 PAGE 1。</blockquote>
+
+<p>所谓 apex-onset 依赖，是指许多方法重点使用表情从起始帧到峰值帧之间的差异。这个设计在标注质量高、峰值帧明确时有效，但微表情本身短促且弱，峰值帧标注误差、帧率变化、主体差异都会影响结果。PAGE 2 进一步指出，现有方法在固定 ROI 连接、AU 信息松耦合、空间与时间独立优化等方面存在局限，导致模型难以同时捕捉“空间连接如何变化”和“时序运动如何演化”。</p>
+
+<p>STAG 的出发点可以概括为：微表情不是单个区域的孤立变化，而是多个面部肌肉区域在短时间内发生的弱联动；因此，模型既要看见细微光流，也要理解 ROI 之间的结构关系，还要让这种结构随时间和 AU 激活模式动态改变。论文的贡献列表在 PAGE 2 明确强调了三点：统一的动态 ROI-AU 耦合时空框架、增强图注意力网络 E-GAT、以及 E-GAT 与 Transformer 之间的双向交叉注意力。</p>
+
+<h2>预备知识</h2>
+<p>Action Unit（AU）来自 Facial Action Coding System（FACS），是描述面部肌肉动作的生理学编码。论文在 PAGE 2 指出，FACS 为理解面部表情提供了有价值的生理先验，但已有 MER 方法通常没有充分利用 AU 驱动的动态连接演化。换言之，AU 在 STAG 中不是单纯的附加标签，而是用于调制面部区域关系的结构信号。</p>
+
+<p>ROI 图建模将人脸划分为若干关键区域，并将这些区域视为图节点；节点特征来自局部运动，边权表示区域之间的关系强弱。传统静态图使用预设邻接矩阵，STAG 则让邻接矩阵由特征相似度、注意力分数和时序平滑共同决定。Transformer 分支则负责从全序列中学习长程时间依赖，避免只依赖峰值帧。</p>
+
+<h2>方法总览</h2>
+<p>STAG 的输入是一段微表情视频。模型先进行人脸对齐和 ROI 构建，再计算局部光流，将每个 ROI 的运动向量投影到高维嵌入空间。随后，图分支使用 E-GAT 进行空间结构推理，Transformer 分支进行全序列时间建模，二者通过双向交叉注意力交换信息。最后，融合特征可与 AU 嵌入拼接，并通过 focal loss 优化分类头。该整体流程见论文 Figure 1（PAGE 5）。</p>
+
+<pre class="mermaid">flowchart TB
+    V[Input video] --> L[Face alignment and ROI]
+    L --> OF[Optical flow per ROI]
+    OF --> E[ROI embedding]
+    E --> G[E-GAT spatial branch]
+    E --> T[Transformer temporal branch]
+    G --> C[Bidirectional cross attention]
+    T --> C
+    AU[AU vector] --> F[AU embedding]
+    C --> Z[Fused feature]
+    F --> Z
+    Z --> Y[MER class prediction]</pre>
+
+<figure class="figure">
+  <img src="../../assets/2606.28083/figure-03-p5.png" alt="STAG framework figure from PAGE 5">
+  <figcaption>论文 Figure 1 的页面抽取图像之一：STAG 框架总览，展示从视频、ROI、光流、E-GAT、Transformer、Cross Attention 到分类输出的流程，见 PAGE 5。</figcaption>
+</figure>
+
+<figure class="figure">
+  <img src="../../assets/2606.28083/figure-04-p5.png" alt="STAG framework second extracted figure from PAGE 5">
+  <figcaption>论文 Figure 1 的页面抽取图像之二。由于给定 figures 仅提供 PAGE 1 与 PAGE 5 图像路径，本文只嵌入这些已提供 html_path，不生成 Figure 2 至 Figure 8 的不存在图片路径。</figcaption>
+</figure>
+
+<h2>方法详解</h2>
+
+<h3>1. 问题定义：以光流序列和 AU 向量预测类别</h3>
+<p>论文在 PAGE 4 将输入定义为标准化光流序列 $\mathbf{X}\in\mathbb{R}^{T\times R\times 2}$，其中 $T$ 是帧数，$R$ 是面部 ROI 数量，最后一维表示水平和垂直光流。模型目标写作：</p>
+<p>$$\hat{y}=\arg\max_{c\in\mathcal{Y}} f_{\theta}\left(\mathbf{X},\mathbf{v}_{au}\right)$$</p>
+<p>这一定义对应论文公式 (1)，见 PAGE 4。人话解释是：STAG 不直接把整张脸图像扔进分类器，而是先把每个 ROI 在每个时间点的运动变成结构化输入，再结合可选 AU 指示向量预测微表情类别。</p>
+
+<h3>2. 人脸对齐与 ROI 构建：从 68 点 landmarks 到 18 个运动通道</h3>
+<p>PAGE 5 至 PAGE 6 描述了预处理过程。视频帧记为 $\mathcal{V}=\{I_t\}_{t=1}^{T}$，每帧使用 68 点 facial landmark predictor。论文使用眼角 landmarks 定义尺度和中心，进行 face-centred crop，并基于眉毛、眼睛、鼻尖和嘴部等解剖区域构建 ROI。可用全文中明确写到：STAG 形成 $R=18$ 个 motion channels，包括左眉 4、右眉 4、嘴部 6、鼻尖 2、左眼 1、右眼 1，见 PAGE 5 至 PAGE 6。</p>
+
+<p>landmark 表示为：</p>
+<p>$$\mathcal{L}_t=\{\mathbf{l}^{(i)}_t\}_{i=1}^{68},\qquad \mathbf{l}^{(i)}_t=(x^{(i)}_t,y^{(i)}_t)\in\mathbb{R}^{2}$$</p>
+<p>这对应论文公式 (2)，见 PAGE 6。它说明每一帧的人脸几何被转换成 68 个二维关键点，这些关键点再决定局部 ROI 的位置。</p>
+
+<p>眼距与中心用于归一化：</p>
+<p>$$d_e=\left\|\mathbf{l}^{(a)}_t-\mathbf{l}^{(b)}_t\right\|_2,\qquad \mathbf{c}_t=\frac{1}{2}\left(\mathbf{l}^{(a)}_t+\mathbf{l}^{(b)}_t\right)$$</p>
+<p>这整合了论文公式 (3) 与 (4)，见 PAGE 6。其作用是降低个体脸型、尺度和拍摄距离造成的差异，使后续 ROI 运动在不同被试之间更可比。</p>
+
+<h3>3. 光流表示：只聚合主导运动像素</h3>
+<p>微表情信号弱，直接使用全 ROI 平均容易被背景、皮肤纹理、定位噪声污染。STAG 在每个 ROI 内计算 dense optical flow，并根据运动幅值保留高运动像素集合。论文在 PAGE 6 给出局部光流：</p>
+<p>$$\mathbf{F}_{t,r}(p)=\left(u_{t,r}(p),v_{t,r}(p)\right)\in\mathbb{R}^{2}$$</p>
+<p>其中 $p$ 是 ROI 内像素，$u$ 与 $v$ 分别表示水平和垂直运动分量。运动幅值为：</p>
+<p>$$m_{t,r}(p)=\sqrt{u_{t,r}^{2}(p)+v_{t,r}^{2}(p)}$$</p>
+<p>这对应论文公式 (8) 与 (9)，见 PAGE 6。人话解释是：每个像素的运动不只看方向，还看位移强度。</p>
+
+<p>随后，模型使用阈值 $\tau_{t,r}$ 选择主导运动像素集合：</p>
+<p>$$\mathcal{P}_{t,r}=\{p\in\mathcal{R}_{t,r}\mid m_{t,r}(p)\ge \tau_{t,r}\}$$</p>
+<p>最终 ROI 运动向量为：</p>
+<p>$$\mathbf{x}_{t,r}=\frac{1}{|\mathcal{P}_{t,r}|}\sum_{p\in\mathcal{P}_{t,r}}\begin{bmatrix}u_{t,r}(p)\\v_{t,r}(p)\end{bmatrix}\in\mathbb{R}^{2}$$</p>
+<p>这对应论文公式 (10) 与 (11)，见 PAGE 6。这个设计的关键在于：STAG 不是平均所有像素，而是先筛出高运动部分，再聚合代表性运动向量，从而压制低强度噪声。</p>
+
+<h3>4. ROI 嵌入：把二维运动投影到可学习空间</h3>
+<p>二维光流向量表达能力有限，因此论文在 PAGE 6 使用两层 MLP 将 $\mathbf{x}_{t,r}$ 映射为 ROI embedding：</p>
+<p>$$\mathbf{h}_{t,r}=GELU\left(W_2\,GELU(W_1\mathbf{x}_{t,r}+b_1)+b_2\right)\in\mathbb{R}^{D_e}$$</p>
+<p>这对应论文公式 (12)，见 PAGE 6。它把简单的水平/垂直位移变成高维特征，为后续图注意力和 Transformer 提供统一输入 $\mathbf{H}^{(0)}\in\mathbb{R}^{T\times R\times D_e}$。</p>
+
+<h3>5. Evolving Graph Formulation：动态 ROI 关系不是固定邻接矩阵</h3>
+<p>STAG 的核心创新之一是 evolving graph。PAGE 6 至 PAGE 7 表明，模型先从前 $T_0=\min(5,T)$ 帧计算数据驱动的初始相似度图：</p>
+<p>$$\mathbf{A}^{(0)}_{ij}=\operatorname{softmax}_{j}\left(\frac{\tilde{\mathbf{h}}_i^{\top}\tilde{\mathbf{h}}_j}{\tau}\right),\qquad \tau=0.1$$</p>
+<p>这对应论文公式 (13)，见 PAGE 6。人话解释是：初始图不是手工指定哪两个区域相连，而是根据不同 ROI 在初始帧中的特征相似性建立参考拓扑。</p>
+
+<p>随后，E-GAT 使用多头注意力计算边相关分数。论文公式 (14) 很长，核心是将 scaled dot-product attention 与 additive GAT 分支合并：</p>
+<p>$$e_{tijk}=LReLU\left(\frac{\mathbf{Q}_{tik}\mathbf{K}_{tjk}^{\top}}{\sqrt{d_h}}+(\mathbf{Q}_{tik}\odot\boldsymbol{\alpha}^{left}_{k})\mathbf{1}+(\mathbf{K}_{tjk}\odot\boldsymbol{\alpha}^{right}_{k})\mathbf{1}+b_{ij}\right)+\delta_{ij}\gamma_{loop}$$</p>
+<p>该公式见 PAGE 6 至 PAGE 7。它说明 STAG 的边权不只来自节点相似度，还包含可学习结构偏置、自环控制和多头注意力，从而更适合表达微表情中弱而复杂的局部联动。</p>
+
+<h3>6. 时序平滑动态邻接：让图随时间变，但不要抖动</h3>
+<p>微表情的局部运动很细微，逐帧图结构如果完全自由更新，容易对噪声过敏；如果完全固定，又无法表达表情演化。论文在 PAGE 7 用自回归更新进行平衡：</p>
+<p>$$\hat{\mathbf{A}}^{(t)}=\lambda\,\operatorname{softmax}(\mathbf{E}^{(t)})+(1-\lambda)\hat{\mathbf{A}}^{(t-1)},\qquad \lambda=\sigma(\gamma_s)\in(0,1)$$</p>
+<p>这对应论文公式 (16)，见 PAGE 7。人话解释是：当前帧的新注意力图只占一部分，上一帧的图结构也保留一部分，因此连接关系能随表情变化，又保持时间连续性。</p>
+
+<p>节点更新采用残差连接和 LayerNorm：</p>
+<p>$$\mathbf{H}^{(\ell+1)}_{t}=LN\left(\mathbf{H}^{(\ell)}_{t}+Dropout\left(\hat{\mathbf{A}}^{(t)}\cdot\mathbf{V}_{t}W_{O}^{\top}\right)\right)$$</p>
+<p>该式对应论文公式 (17)，见 PAGE 7。它表示每个 ROI 节点会从动态图邻居聚合信息，同时保留自身原始状态，减少深层图传播的信息损失。</p>
+
+<h3>7. 图分支的时间注意力池化：选择更有信息量的帧</h3>
+<p>STAG 不把所有帧等权平均，而是为每一帧计算 salience weight。论文在 PAGE 7 给出：</p>
+<p>$$\omega_t=\frac{e^{s_t}}{\sum_{t'=1}^{T}e^{s_{t'}}},\qquad s_t=\mathbf{w}_2^{\top}\tanh(W_3\bar{\mathbf{h}}_t+\mathbf{b}_3)$$</p>
+<p>这对应论文公式 (18)，见 PAGE 7。人话解释是：模型会学习哪些帧更能代表微表情运动，而不是机械地认为每一帧同样重要。随后，图节点序列被聚合为 $\mathbf{G}\in\mathbb{R}^{R\times D_e}$，见公式 (19)，PAGE 7。</p>
+
+<h3>8. Transformer 分支：建模全序列时间依赖</h3>
+<p>与图分支并行，Transformer 分支把所有 ROI 嵌入展平成时间 token，并加入可学习 class token 和位置编码。论文在 PAGE 7 写作：</p>
+<p>$$\hat{\mathbf{H}}^{(0)}=[\mathbf{c};\mathbf{H}_{flat}W_{inp}]+\mathbf{P}$$</p>
+<p>这对应公式 (22)，见 PAGE 7。随后，序列经过 Pre-LN Transformer blocks：</p>
+<p>$$\mathbf{z}^{(\ell)}=\hat{\mathbf{H}}^{(\ell)}+MHA\left(LN\left(\hat{\mathbf{H}}^{(\ell)}\right)\right)$$</p>
+<p>$$\hat{\mathbf{H}}^{(\ell+1)}=\mathbf{z}^{(\ell)}+FFN\left(LN\left(\mathbf{z}^{(\ell)}\right)\right)$$</p>
+<p>这对应公式 (23) 与 (24)，见 PAGE 7。其作用是利用 self-attention 学习全序列帧间依赖，补足图分支偏重空间结构推理的不足。</p>
+
+<h3>9. 双向交叉注意力：让“哪里动了”和“何时动了”互相修正</h3>
+<p>STAG 的第二个关键创新是 bidirectional cross-attention fusion。论文在 PAGE 7 至 PAGE 8 将图 token $\mathbf{G}$ 与时间 token $\mathbf{T}$ 投影到共享融合空间：</p>
+<p>$$\mathbf{G}_{f}=\mathbf{G}W_{g\rightarrow f},\qquad \mathbf{T}_{f}=\mathbf{T}W_{t\rightarrow f}$$</p>
+<p>这对应公式 (26)，见 PAGE 7。之后进行双向注意力：</p>
+<p>$$\mathbf{G}^{*}=LN\left(\mathbf{G}_{f}+MHA(Q=\mathbf{G}_{f},K=\mathbf{T}_{f},V=\mathbf{T}_{f})\right)$$</p>
+<p>$$\mathbf{T}^{*}=LN\left(\mathbf{T}_{f}+MHA(Q=\mathbf{T}_{f},K=\mathbf{G}_{f},V=\mathbf{G}_{f})\right)$$</p>
+<p>这对应公式 (27) 与 (28)，见 PAGE 7 至 PAGE 8。第一式表示图节点从时间序列中读取信息，第二式表示时间 token 从空间图结构中读取信息。相比 late fusion，这种设计使空间结构和时间动态在全局汇聚前已经发生相互校正。</p>
+
+<h3>10. AU 嵌入与 focal loss：把生理先验和类别不平衡纳入训练</h3>
+<p>PAGE 8 说明，若有 AU 注释，二值 AU 向量 $\mathbf{v}_{au}\in\{0,1\}^{N_{AU}}$ 会经过两层 MLP 得到 AU embedding：</p>
+<p>$$\mathbf{f}_{au}=LN\left(W_{au,2}\,GELU(W_{au,1}\mathbf{v}_{au}+\mathbf{b}_{au,1})+\mathbf{b}_{au,2}\right)\in\mathbb{R}^{D_{au}}$$</p>
+<p>这对应公式 (32)，见 PAGE 8。最终表示为：</p>
+<p>$$\mathbf{f}_{final}=\begin{cases}cat[\mathbf{f}_{fusion},\mathbf{f}_{au}],& \text{if AU annotations are available}\\ \mathbf{f}_{fusion},& \text{otherwise}\end{cases}$$</p>
+<p>这对应公式 (33)，见 PAGE 8。它说明 AU 分支是条件式的：有 AU 信息时参与融合，没有 AU 信息时不强行构造。</p>
+
+<p>针对微表情数据集常见类别不平衡，论文使用 label-smoothed focal loss。目标平滑为：</p>
+<p>$$\tilde{y}_{ic}=\begin{cases}1-\varepsilon_{y_i},& c=y_i\\ \frac{\varepsilon_{y_i}}{C-1},& c\ne y_i\end{cases}$$</p>
+<p>最终损失为：</p>
+<p>$$\mathcal{L}=-\frac{1}{B}\sum_{i=1}^{B}\sum_{c=1}^{C}\alpha_c\tilde{y}_{ic}(1-p_{ic})^{\gamma_c}\log(p_{ic})$$</p>
+<p>这对应论文公式 (34) 与 (35)，见 PAGE 8。人话解释是：少数类和难分类样本会获得更高训练权重，避免模型只偏向样本最多的 Negative 类。</p>
+
+<h2>与已有方法的结构差异</h2>
+<p>论文 Table 1（PAGE 4）将 STAG 与 AU-GCN、STA-GCN、GCL、AGT、ATM-GCN、GTA、DGAT、MER-CLIP、MOL 等方法对比。该表的核心信息是：很多方法具备图建模、AU guidance 或 Transformer encoder 的一部分，但只有 STAG 同时标注为具备 bidirectional cross-attention、AU-driven adaptive connectivity、temporal graph evolution、beyond-apex full-sequence modeling 与 cross-dataset generalization focus。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>能力维度</th>
+<th>已有方法常见状态</th>
+<th>STAG 的设计</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>空间建模</td>
+<td>图方法可建模 ROI 或 AU 关系，但常依赖静态或弱自适应图</td>
+<td>E-GAT 使用动态注意力边、结构偏置、自环和时间平滑邻接</td>
+<td>Table 1 与公式 (13)-(17)，PAGE 4, PAGE 6-7</td>
+</tr>
+<tr>
+<td>时间建模</td>
+<td>许多方法依赖 apex-onset 或局部时序建模</td>
+<td>Transformer 分支建模完整序列，并使用 class token 获得全局时间表示</td>
+<td>公式 (22)-(25)，PAGE 7</td>
+</tr>
+<tr>
+<td>时空融合</td>
+<td>常见 late fusion 或部分 graph-transformer fusion</td>
+<td>双向 cross-attention 在 token 级别互相读取空间与时间信息</td>
+<td>公式 (26)-(31)，PAGE 7-8</td>
+</tr>
+<tr>
+<td>AU 利用方式</td>
+<td>AU 信息经常松耦合，未必参与动态连接演化</td>
+<td>AU-guided dynamic connectivity 与 AU embedding 分支共同引入生理先验</td>
+<td>PAGE 2, PAGE 8, Table 5 PAGE 12</td>
+</tr>
+<tr>
+<td>可解释性</td>
+<td>部分方法提供注意力或热图解释</td>
+<td>结合 Grad-CAM、扰动图、光流、E-GAT attention、t-SNE 和混淆矩阵分析</td>
+<td>Figure 2-8，PAGE 14-18</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>实验设置</h2>
+<p>论文在 PAGE 8 至 PAGE 10 说明，STAG 在六个微表情识别基准数据集上评估：CASME II、4DME、DFME、NaME、SAMM 和 SMIC-HS。Table 2（PAGE 8）列出不同数据集在 3-class、5-class、6-class、7-class 设置下的类别分布，显示类别不平衡非常明显。例如 CASME II 3-class 中 Negative 为 198，Positive 为 32，Surprise 为 25；NaME 3-class 中 Negative 为 329，Positive 仅 15，Surprise 为 162。</p>
+
+<p>训练细节也在 PAGE 10 给出：模型训练 200 epochs，使用 AdamW，学习率 $1.5\times 10^{-4}$，weight decay 为 0.08，batch size 为 64，dropout 为 0.3；还使用 early stopping、12 个 warm-up epochs、SWA、MixUp、CutMix、test-time augmentation 和 class oversampling。评估协议包括 Stratified K-Fold、Group K-Fold 和 Leave-One-Subject-Out。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>数据集与协议</th>
+<th>类别分布或设置</th>
+<th>关键观察</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CASME II 3-class</td>
+<td>Positive 32, Negative 198, Surprise 25</td>
+<td>负类明显占优，类别不平衡会影响 UF1 与 UAR</td>
+<td>Table 2, PAGE 8</td>
+</tr>
+<tr>
+<td>SAMM 3-class</td>
+<td>Positive 26, Negative 92, Surprise 15</td>
+<td>样本量较小，但 STAG 在 SAMM 上报告了强结果</td>
+<td>Table 2 PAGE 8; Table 4 PAGE 10</td>
+</tr>
+<tr>
+<td>DFME 7-class</td>
+<td>Happiness 63, Disgust 129, Fear 62, Anger 39, Sadness 46, Surprise 101, Contempt 34</td>
+<td>更细粒度分类带来更大混淆，论文另做 14/18 ROI 对比</td>
+<td>Table 2 PAGE 8; Table 10 PAGE 13</td>
+</tr>
+<tr>
+<td>评估协议</td>
+<td>LOSO, GKF, SKF</td>
+<td>覆盖被试外泛化、分组泛化与分层交叉验证</td>
+<td>Experimental Setup, PAGE 10</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>主要实验结果</h2>
+<p>论文 Table 3（PAGE 9）报告 NaME、4DME、SMIC-HS、DFME 上的 SOTA 对比。STAG 在 NaME 3-class 上达到 UF1 0.8983、UAR 0.8981，明显高于表中 MixFormer、CIT 等基线；在 4DME 3-class 上达到 UF1 0.9410、UAR 0.9613；在 DFME Test A 上达到 UF1 0.5110、UAR 0.5196，略高于 MER-CLIP 的 0.5024/0.5115。但在 DFME Test B 上，STAG 的 UF1 0.4776、UAR 0.4710 低于 MER-CLIP 的 0.5128/0.5120；在 SMIC-HS 上，STAG 为 UF1 0.7370、UAR 0.7497，低于 SODA4MER、MDMO 等方法。这说明论文并非在所有设置上绝对领先。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>数据集</th>
+<th>协议/类别</th>
+<th>STAG UF1</th>
+<th>STAG UAR</th>
+<th>对比解读</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NaME</td>
+<td>3-class</td>
+<td>0.8983</td>
+<td>0.8981</td>
+<td>显著高于表中 CIT 0.2949/0.2898 与 MixFormer 0.2703/0.2598；但该差距异常大，复现性需依赖代码与协议细节验证</td>
+<td>Table 3, PAGE 9</td>
+</tr>
+<tr>
+<td>4DME</td>
+<td>3-class</td>
+<td>0.9410</td>
+<td>0.9613</td>
+<td>论文报告为强结果；5-class 为 UF1 0.7245、UAR 0.7744，类别增加后下降明显</td>
+<td>Table 3, PAGE 9</td>
+</tr>
+<tr>
+<td>SMIC-HS</td>
+<td>3-class</td>
+<td>0.7370</td>
+<td>0.7497</td>
+<td>低于 SODA4MER 0.8855/0.8881、MDMO 0.8870/0.8670；论文将其归因于数据集规模、强度与多样性限制</td>
+<td>Table 3 PAGE 9; Discussion PAGE 11</td>
+</tr>
+<tr>
+<td>DFME</td>
+<td>Test A</td>
+<td>0.5110</td>
+<td>0.5196</td>
+<td>略高于 MER-CLIP 0.5024/0.5115</td>
+<td>Table 3, PAGE 9</td>
+</tr>
+<tr>
+<td>DFME</td>
+<td>Test B</td>
+<td>0.4776</td>
+<td>0.4710</td>
+<td>低于 MER-CLIP 0.5128/0.5120，表明跨测试划分并非稳定领先</td>
+<td>Table 3, PAGE 9</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<p>Table 4（PAGE 10）给出 CASME-II 与 SAMM 的对比。STAG 在 CASME-II 3-class 的 UF1 为 0.8742、UAR 为 0.9296，低于 CausalNet、DBDE-Net、HFA-Net、DSBICNet 等若干方法的 UF1；但在 SAMM 3-class 上达到 UF1 0.9175、UAR 0.9372，在表中处于最高水平。5-class 下，STAG 在 SAMM 达到 UF1 0.8225、UAR 0.8362，表现同样强。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>任务</th>
+<th>STAG UF1</th>
+<th>STAG UAR</th>
+<th>表中强对手</th>
+<th>结论</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CASME-II 3-class</td>
+<td>0.8742</td>
+<td>0.9296</td>
+<td>DSBICNet 0.9928/0.9896；CausalNet 0.9748/0.9782；HFA-Net 0.9738/0.9754</td>
+<td>STAG 的 UAR 较强，但 UF1 不是 SOTA</td>
+<td>Table 4, PAGE 10</td>
+</tr>
+<tr>
+<td>CASME-II 5-class</td>
+<td>0.7776</td>
+<td>0.8413</td>
+<td>DBDE-Net 0.8691/0.8912；FDP 0.8705；TSFmicro 0.8617</td>
+<td>细粒度任务下具备竞争力，但非最优</td>
+<td>Table 4, PAGE 10</td>
+</tr>
+<tr>
+<td>SAMM 3-class</td>
+<td>0.9175</td>
+<td>0.9372</td>
+<td>HFA-Net 0.9002/0.8938；DBDE-Net 0.8813/0.8860；CausalNet 0.8708/0.8522</td>
+<td>该表中 STAG 最高，支持其对 SAMM 的有效性</td>
+<td>Table 4, PAGE 10</td>
+</tr>
+<tr>
+<td>SAMM 5-class</td>
+<td>0.8225</td>
+<td>0.8362</td>
+<td>DGAT 0.8116/0.8537；MADV-Net 0.8800 UF1；FDP 0.8529 UF1</td>
+<td>UAR 接近最高，UF1 低于部分方法，需区分指标</td>
+<td>Table 4, PAGE 10</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>消融实验分析</h2>
+<p>Table 5（PAGE 12）是理解 STAG 的关键证据。论文在 SAMM 数据集上做了架构、图深度、Transformer 深度、数据增强、TTA 和 AU guidance 消融。最有说服力的结果是 AU guidance：去掉 AU guidance 后，UF1 从 0.9112 降至 0.6231，UAR 从 0.9335 降至 0.7101。这一跌幅直接支持论文关于 AU-guided connectivity 的核心主张。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>消融项</th>
+<th>配置</th>
+<th>UF1</th>
+<th>UAR</th>
+<th>解释</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>完整模型</td>
+<td>Full Model (STAG), GL=3, TL=5</td>
+<td>0.9112</td>
+<td>0.9335</td>
+<td>作为多个消融的主要参照点</td>
+<td>Table 5, PAGE 12</td>
+</tr>
+<tr>
+<td>无 AU guidance</td>
+<td>Without AU Guidance</td>
+<td>0.6231</td>
+<td>0.7101</td>
+<td>性能大幅下降，说明 AU 引导不是边缘增强，而是关键结构先验</td>
+<td>Table 5, PAGE 12</td>
+</tr>
+<tr>
+<td>有 AU guidance</td>
+<td>With AU Guidance</td>
+<td>0.9112</td>
+<td>0.9335</td>
+<td>恢复完整性能，支持 AU-guided dynamic connectivity</td>
+<td>Table 5, PAGE 12</td>
+</tr>
+<tr>
+<td>图深度</td>
+<td>4 E-GAT Layers</td>
+<td>0.9175</td>
+<td>0.9372</td>
+<td>该设置高于 1/2 层，表明更深图推理可增强空间关系表达</td>
+<td>Table 5, PAGE 12</td>
+</tr>
+<tr>
+<td>Transformer 深度</td>
+<td>3 Layers</td>
+<td>0.9175</td>
+<td>0.9372</td>
+<td>3 层优于 2/5/7 层中的多数设置，显示容量与过拟合之间存在平衡</td>
+<td>Table 5, PAGE 12</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<p>需要注意的是，Table 5 中 “Transformer Only” 已有 UF1 0.9104、UAR 0.9335，接近 Full Model 的 0.9112/0.9335；“Graph Only” 也达到 UF1 0.9024。仅从这张表看，完整模型相对单分支的提升幅度并不总是巨大。更强的证据其实来自 AU guidance 的去除实验，以及 Figure 2、Figure 6 中关于模型关注区域和动态图连接的可解释性分析。</p>
+
+<h2>跨数据集泛化</h2>
+<p>跨数据集评估是微表情识别中更接近真实应用的测试，因为训练集和测试集可能来自不同相机、光照、帧率、被试群体和标注协议。PAGE 11 至 PAGE 13 给出 3-class 和 5-class 的 cross-dataset 结果。Table 6 显示，以 NaME 或 DFME 作为源数据集时，迁移到 SAMM 的表现较强；但迁移到 SMIC-HS 时性能显著下降。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Target</th>
+<th>UF1</th>
+<th>UAR</th>
+<th>关键含义</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NaME</td>
+<td>SAMM</td>
+<td>0.9093</td>
+<td>0.9212</td>
+<td>源数据较大且自然场景多样，迁移到 SAMM 时表现强</td>
+<td>Table 6, PAGE 12</td>
+</tr>
+<tr>
+<td>DFME</td>
+<td>SAMM</td>
+<td>0.8991</td>
+<td>0.9026</td>
+<td>DFME 作为源数据也具备较好可迁移特征</td>
+<td>Table 6, PAGE 12</td>
+</tr>
+<tr>
+<td>NaME</td>
+<td>SMIC-HS</td>
+<td>0.2131</td>
+<td>0.3399</td>
+<td>SMIC-HS 域差异显著，模型迁移失败较明显</td>
+<td>Table 6, PAGE 12</td>
+</tr>
+<tr>
+<td>DFME</td>
+<td>SMIC-HS</td>
+<td>0.3532</td>
+<td>0.4075</td>
+<td>较 NaME→SMIC-HS 更高，但仍低，说明该目标域困难</td>
+<td>Table 6, PAGE 12</td>
+</tr>
+<tr>
+<td>CASME II</td>
+<td>DFME</td>
+<td>0.7608</td>
+<td>0.8260</td>
+<td>小数据源仍可迁移，但稳定性不如大而多样的数据源</td>
+<td>Table 6, PAGE 12</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<p>Table 7（PAGE 13）进一步显示，5-class 跨数据集评估明显更难。DFME→CASME II 达到 UF1 0.6704、UAR 0.6571，DFME→NaME 达到 0.6550/0.6567；但 SAMM 作为源数据迁移到 NaME、CASME II、4DME 时 UF1 分别只有 0.1856、0.2210、0.1995。论文将这种现象与数据规模、类别分布和域差异联系起来，见 PAGE 12 至 PAGE 13。</p>
+
+<h2>ROI 配置与 AU 的相互作用</h2>
+<p>PAGE 13 的 Table 8 至 Table 10 比较了 14-ROI 与 18-ROI 配置在 DFME 3/5/7-class 上的表现。结果显示，14-ROI 加 AU 的配置在三个任务上都优于 18-ROI 加 AU。尤其在 DFME 3-class 中，14-ROI+AU 达到 UF1 0.8221、UAR 0.8354，而 18-ROI+AU 只有 UF1 0.7070、UAR 0.7777。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>任务</th>
+<th>ROI</th>
+<th>AU</th>
+<th>UF1</th>
+<th>UAR</th>
+<th>解读</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DFME 3-class</td>
+<td>14</td>
+<td>Yes</td>
+<td>0.8221</td>
+<td>0.8354</td>
+<td>优于 18-ROI+AU，说明更紧凑且解剖意义明确的 ROI 可能更有效</td>
+<td>Table 8, PAGE 13</td>
+</tr>
+<tr>
+<td>DFME 3-class</td>
+<td>18</td>
+<td>Yes</td>
+<td>0.7070</td>
+<td>0.7777</td>
+<td>更多 ROI 未必带来更好结果，可能引入冗余或噪声</td>
+<td>Table 8, PAGE 13</td>
+</tr>
+<tr>
+<td>DFME 5-class</td>
+<td>14</td>
+<td>Yes</td>
+<td>0.5712</td>
+<td>0.5912</td>
+<td>高于 14-ROI 无 AU 的 0.3874/0.4577，AU 贡献明显</td>
+<td>Table 9, PAGE 13</td>
+</tr>
+<tr>
+<td>DFME 7-class</td>
+<td>14</td>
+<td>Yes</td>
+<td>0.5211</td>
+<td>0.5381</td>
+<td>高于 14-ROI 无 AU 的 0.2946/0.3567，细粒度分类仍受益于 AU</td>
+<td>Table 10, PAGE 13</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<p>这组结果对方法理解很重要：STAG 的优势并不等同于“区域越多越好”，而是“区域划分、AU 先验、动态图连接”要共同匹配微表情的肌肉运动结构。论文在 PAGE 13 的讨论也指出，18-ROI 配置中额外区域可能引入冗余，而 14-ROI 更紧凑，更利于 AU guidance 发挥作用。</p>
+
+<h2>可解释性分析</h2>
+<p>论文的可解释性证据主要分布在 PAGE 14 至 PAGE 18。Figure 2（PAGE 14）展示 Grad-CAM、perturbation maps、optical flow、E-GAT attention 和 combined visualization，作者认为这些结果表明模型集中关注眼部、口部等微表情相关区域，并压制背景。Figure 3（PAGE 15）将 STAG 与 MER-CLIP、HFA-Net、ADSS、GCL、LRCN-STAN、DBDE-Net 等方法的 heat-map 做定性比较，论文声称 STAG 更聚焦于 AU 相关区域。</p>
+
+<p>Figure 4（PAGE 15）展示 SAMM 样本的 ROI-based optical flow analysis，包括时序光流幅值、每个 ROI 平均运动强度、平均运动向量和 top-5 active ROI 的时间曲线。该图的价值在于把“模型看见了什么运动”具体化：不仅有最终分类，还能看到哪些 ROI 在何时出现运动峰值。Figure 5（PAGE 16）给出多个数据集的 3D t-SNE 嵌入，作者解释为不同类别之间形成较清晰聚类，其中 NaME 与 CASME-II 更紧凑，SMIC-HS 重叠更明显。</p>
+
+<p>Figure 6（PAGE 16）尤其对应 E-GAT 的结构解释。论文描述第一层 E-GAT 具有较密集的跨区域连接，用于捕捉全局同步运动；第二层变得更稀疏、更局部，聚焦细粒度区域内动态。这与动态邻接和多层图推理的设计一致。Figure 7（PAGE 17）总结不同数据集、协议和类别设置下 UF1/UAR/WAR 变化；Figure 8（PAGE 18）展示 3-class 与 5-class 的混淆矩阵，显示类别增加后 4DME 和 DFME 中混淆更明显。</p>
+
+<blockquote>论文在结论中将有效性归因于“dynamic AU-guided relational modeling”和“spatio-temporal attention”，见 PAGE 17。</blockquote>
+
+<h2>代码与复现性状态</h2>
+<p><strong>本文未提供可确认的公开代码。</strong>给定论文元信息中的 code_url 和 project_url 为空；PAGE 1 至 PAGE 20 的可用全文材料中也没有可确认的 GitHub、项目主页或源码发布声明。因此本文不提供源码路径、函数名或代码片段，也不声称已经完成论文方法与源码的逐行对应。</p>
+
+<p>从复现角度看，论文给出了较完整的数学公式、训练超参数和评估协议；但仍存在若干需要源码确认的实现细节。例如，AU-guided dynamic connectivity 如何在训练数据缺失 AU 注释时具体处理，14-ROI 与 18-ROI 配置如何与 PAGE 5 中描述的 18 motion channels 对齐，以及数据集特定预处理是否完全继承各 benchmark paper。论文在 PAGE 10 写到 unspecified hyperparameters and implementation settings inherited from respective benchmark papers；这有助于公平比较，但也增加了外部复现成本。</p>
+
+<h2>讨论：适用边界与业务价值</h2>
+<p>STAG 的技术价值在于把微表情识别从“局部外观分类”推进到“局部运动、动态关系与时间演化联合建模”。对于人脸分析团队，这类思路可借鉴到表情识别、活体检测、情绪计算、细粒度人脸属性视频分析等任务中，尤其适用于需要解释“哪个区域的什么运动导致了判断”的场景。</p>
+
+<p>然而，STAG 的适用边界也很明确。首先，它依赖人脸检测、landmark 跟踪、ROI 构建和光流估计；如果视频质量差、遮挡严重、姿态变化大或 landmarks 不稳定，前端误差会传递到动态图建模。其次，微表情数据集通常样本少、类别不平衡严重，论文虽使用 focal loss、MixUp、CutMix、oversampling 和 TTA，但这些策略无法从根本上替代大规模多域数据。</p>
+
+<p>从业务落地角度，论文结果支持“动态图 + AU + Transformer”作为视频人脸微动作分析的候选路线，但不能直接推导出在真实线上场景可稳定部署。尤其是 NaME 上相对基线的大幅提升、SMIC-HS 上的明显下降、DFME Test A/Test B 的差异，都说明跨域稳定性仍需独立验证。</p>
+
+<h2>局限分析</h2>
+<p>第一类局限来自作者自己的结果讨论。PAGE 11 明确说明，STAG 在 SMIC-HS 上表现低于部分 SOTA 方法，并将其归因于数据集规模有限、表达强度较低、样本多样性不足，这些因素限制了鲁棒图表示的学习。PAGE 12 至 PAGE 13 还指出 5-class 跨数据集任务中性能下降，原因包括类别粒度增加、类别不平衡和跨数据集外观差异。</p>
+
+<p>第二类局限是独立判断。论文报告的部分提升幅度很大，特别是 NaME 3-class 相对已有方法的差距；在没有公开代码和完整复现实验脚本的情况下，这些结果需要谨慎对待。训练中使用了多种增强和推理技巧，如 MixUp、CutMix、SWA、TTA、class oversampling，不同方法是否在完全相同增强预算下比较，单凭全文证据无法完全确认。</p>
+
+<p>第三类局限是方法复杂度。STAG 同时包含 landmark/ROI 预处理、光流、E-GAT、Transformer、cross-attention、AU embedding、focal loss 等模块。这样的组合提高了表达能力，也增加了误差来源和调参空间。论文声称具有 computational efficiency，摘要和 PAGE 1 提到 extensive experiments demonstrate computational efficiency，但给定全文片段中没有看到清晰的 FLOPs、推理时延或参数量对比表；因此计算效率的强结论在本文证据中仍然不足。</p>
+
+<h2>结论</h2>
+<p>STAG 的核心贡献是把微表情识别中的三个关键变量放进同一个可学习系统：局部光流回答“动了什么”，动态图 ROI 关系回答“哪些面部区域联动”，Transformer 时序建模回答“这种运动如何随时间展开”。双向交叉注意力使空间和时间特征在汇聚前相互校正，AU-guided connectivity 则将面部肌肉动作的生理先验纳入结构推理。</p>
+
+<p>从论文证据看，STAG 在 SAMM、NaME、4DME 和部分 DFME 设置上表现突出，消融实验尤其支持 AU guidance 的重要性；但它在 SMIC-HS、CASME-II 若干指标和 DFME Test B 上并非全面领先。综合判断，STAG 更像是一套结构上有启发性的 MER 框架，而不是一个已被充分开源验证的即插即用方案。</p>
+
+<div class="golden">微表情识别的难点不只是看见一帧表情，而是解释一组面部肌肉区域如何在极短时间内共同演化。</div>
+
+<h2>证据索引</h2>
+<div class="table-wrap">
+<table class="evidence">
+<thead>
+<tr>
+<th>关键事实</th>
+<th>页码证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>论文标题、作者、摘要、微表情挑战、STAG 总体动机</td>
+<td>PAGE 1</td>
+</tr>
+<tr>
+<td>现有 graph-based MER 的静态邻接、AU 松耦合、空间时间独立优化等问题；STAG 贡献列表</td>
+<td>PAGE 2</td>
+</tr>
+<tr>
+<td>CNN、dual-branch、graph 方法相关工作，以及 STAG 与 late fusion 方法的差异</td>
+<td>PAGE 3</td>
+</tr>
+<tr>
+<td>代表性方法组件对比 Table 1；问题定义公式 (1)</td>
+<td>PAGE 4</td>
+</tr>
+<tr>
+<td>Figure 1 框架总览；人脸对齐、ROI 构建、18 motion channels 描述</td>
+<td>PAGE 5</td>
+</tr>
+<tr>
+<td>landmark、眼距归一化、ROI 边界、光流、运动幅值、主导像素集合、ROI motion vector、ROI embedding、初始邻接矩阵公式</td>
+<td>PAGE 6</td>
+</tr>
+<tr>
+<td>E-GAT attention score、动态邻接时序平滑、节点更新、时间注意力池化、Transformer token、cross-attention 公式</td>
+<td>PAGE 7</td>
+</tr>
+<tr>
+<td>AU embedding、final representation、label-smoothed focal loss；Table 2 数据集类别分布；实验设置开头</td>
+<td>PAGE 8</td>
+</tr>
+<tr>
+<td>NaME、4DME、SMIC-HS、DFME 主要结果 Table 3</td>
+<td>PAGE 9</td>
+</tr>
+<tr>
+<td>CASME-II 与 SAMM 对比 Table 4；训练细节：AdamW、学习率、batch size、dropout、SWA、TTA 等</td>
+<td>PAGE 10</td>
+</tr>
+<tr>
+<td>结果讨论：SMIC-HS 表现较低的原因；SAMM 与 CASME-II 解读；消融实验引入</td>
+<td>PAGE 11</td>
+</tr>
+<tr>
+<td>Table 5 消融实验；Table 6 3-class 跨数据集结果</td>
+<td>PAGE 12</td>
+</tr>
+<tr>
+<td>Table 7 5-class 跨数据集结果；Table 8-10 14-ROI 与 18-ROI 对比</td>
+<td>PAGE 13</td>
+</tr>
+<tr>
+<td>Figure 2 可解释性分析：Grad-CAM、perturbation、optical flow、E-GAT、combined visualization</td>
+<td>PAGE 14</td>
+</tr>
+<tr>
+<td>Figure 3 heat-map SOTA 定性比较；Figure 4 SAMM ROI optical flow visualization</td>
+<td>PAGE 15</td>
+</tr>
+<tr>
+<td>Figure 5 t-SNE；Figure 6 E-GAT 层级连接与 message passing visualization</td>
+<td>PAGE 16</td>
+</tr>
+<tr>
+<td>Figure 7 多数据集协议性能图；Conclusion 开头</td>
+<td>PAGE 17</td>
+</tr>
+<tr>
+<td>Figure 8 confusion matrices；Acknowledgment</td>
+<td>PAGE 18</td>
+</tr>
+<tr>
+<td>符号表 Table 11、维度表 Table 12、参考文献开头</td>
+<td>PAGE 19</td>
+</tr>
+<tr>
+<td>参考文献继续；给定全文在参考文献部分截断，未提供可确认代码仓库</td>
+<td>PAGE 20 与论文元信息 code_url/project_url 为空</td>
+</tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>

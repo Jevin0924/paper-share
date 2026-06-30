@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radar-Guided Camera Verification for Automatic Emergency Braking — 深度解读</title>
+<style>
+:root{
+  --text:#1a1a1a;
+  --bg:#fafaf8;
+  --accent:#2563eb;
+  --accent2:#0f766e;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --code-bg:#f3f4f6;
+  --card:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Serif SC","Noto Sans SC",serif;
+  color:var(--text);
+  background:var(--bg);
+  line-height:1.85;
+  padding:2.5rem 1.5rem;
+  max-width:880px;
+  margin:0 auto;
+  font-size:17px;
+}
+h1{font-size:2rem;margin:0 0 .5rem;line-height:1.3;letter-spacing:0}
+h2{font-size:1.35rem;margin:2.8rem 0 .9rem;color:var(--accent);padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+h3{font-size:1.08rem;margin:1.7rem 0 .55rem;color:#222}
+h4{font-size:1rem;margin:1.2rem 0 .4rem;color:#333}
+p{margin:1rem 0}
+a{color:var(--accent);text-decoration:none}
+.meta{color:var(--muted);font-size:.92rem;margin-bottom:2rem;line-height:1.8}
+.summary-box{
+  background:linear-gradient(135deg,#f0f4ff,#f0fdfa);
+  padding:1.4rem 1.5rem;
+  border-radius:12px;
+  margin:1.4rem 0 2rem;
+  border:1px solid #dbeafe;
+}
+.summary-box h3{margin:0 0 .5rem;color:var(--accent)}
+blockquote{
+  border-left:3px solid var(--accent);
+  padding:.7rem 1.1rem;
+  margin:1.3rem 0;
+  background:#f0f4ff;
+  border-radius:0 8px 8px 0;
+  color:#26324a;
+}
+table{width:100%;border-collapse:collapse;margin:1.35rem 0;font-size:.93rem;background:var(--card)}
+td,th{border:1px solid var(--border);padding:.6rem .75rem;text-align:left;vertical-align:top}
+th{background:#f9fafb;font-weight:650}
+figure{margin:1.5rem 0;background:#fff;border:1px solid var(--border);border-radius:10px;padding:.8rem}
+figure img{display:block;width:100%;height:auto;border-radius:6px}
+figcaption{font-size:.9rem;color:var(--muted);margin-top:.7rem;line-height:1.65}
+pre{
+  background:var(--code-bg);
+  padding:1rem 1.1rem;
+  border-radius:8px;
+  overflow-x:auto;
+  font-size:.86rem;
+  line-height:1.5;
+  margin:1.3rem 0;
+  border:1px solid var(--border);
+}
+code{font-family:"SF Mono","Fira Code",Consolas,monospace;font-size:.9em}
+.katex-display{overflow-x:auto;overflow-y:hidden;padding:.2rem 0}
+.note{
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  color:#55301b;
+  padding:1rem 1.1rem;
+  border-radius:10px;
+  margin:1.2rem 0;
+}
+.evidence{
+  font-size:.92rem;
+  color:#374151;
+}
+.golden{
+  font-size:1.15rem;
+  font-weight:650;
+  color:var(--accent);
+  text-align:center;
+  padding:1.5rem 1rem;
+  border-top:2px solid var(--accent);
+  border-bottom:2px solid var(--accent);
+  margin:2.2rem 0;
+  line-height:1.6;
+}
+@media(max-width:600px){
+  body{font-size:16px;padding:1.2rem 1rem}
+  h1{font-size:1.45rem}
+  table{font-size:.86rem}
+  td,th{padding:.5rem}
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',securityLevel:'loose'});</script>
+</head>
+<body>
+<article>
+<h1>Radar-Guided Camera Verification for Automatic Emergency Braking：重新定义雷达-相机融合中的“检测”问题</h1>
+<div class="meta">
+  <p><strong>论文：</strong>Radar-Guided Camera Verification for Automatic Emergency Braking: Rethinking Object Detection in Radar–Camera Fusion</p>
+  <p><strong>作者：</strong>Ram Charan Akula, Sivanathan Kandhasamy, Manikandan Ganesan</p>
+  <p><strong>链接：</strong><a href="https://arxiv.org/abs/2606.27556">arXiv:2606.27556</a> · <a href="https://arxiv.org/pdf/2606.27556">PDF</a> · <strong>方向：</strong>检测 / AEB 感知验证</p>
+  <p><strong>代码状态：</strong>本文元信息未提供代码链接，论文 PAGE 1–8 未出现可确认的公开仓库地址；因此本报告按“本文未提供可确认的公开代码”处理。</p>
+  <p><strong>报告依据：</strong>PDF 全文与摘要，关键事实均标注 PAGE 证据。</p>
+</div>
+
+<div class="summary-box">
+  <h3>一句话总结</h3>
+  <p>本文将 AEB 中的相机任务从通用目标检测改写为雷达定位后的障碍物存在性验证，用雷达引导 ROI 内的 Canny 边缘密度门控，在真实车辆上实现低延迟、高召回、无需训练和无需 GPU 的制动验证链路。</p>
+</div>
+
+<h2>1. 研究背景与动机</h2>
+<p>自动紧急制动（Automatic Emergency Braking, AEB）的核心目标不是完整理解交通场景，而是在碰撞风险窗口内及时、可靠地判断是否需要制动。传统雷达-相机融合系统之所以被广泛采用，是因为雷达提供距离和相对速度，相机提供视觉确认；论文在摘要与引言中明确指出这一组合是现代 AEB 的常见感知架构（见 PAGE 1）。</p>
+
+<p>现有融合系统通常把相机端设计为语义目标检测器：给定整帧图像，检测器要在图像中寻找目标、回归框、识别类别，并输出置信度。论文将 CenterFusion、特征级融合方法、CR3DT 等归入这一范式：这些工作主要追求更强的 3D 检测或跟踪性能，但相机侧仍依赖学习模型完成目标识别和场景理解（见 PAGE 1–3）。</p>
+
+<p>本文的关键动机来自任务分解：在雷达主导的 AEB 链路中，目标定位并不一定需要由相机完成。雷达已经检测、跟踪并定位前方目标，随后系统只需把雷达轨迹投影到图像平面。此时，相机不再需要搜索整张图像，而只需在雷达给出的局部区域内回答一个二值问题：那里是否确实存在障碍物（见 PAGE 1–3）。</p>
+
+<p>这一问题改写直接改变了计算负担。通用检测器为了覆盖开放场景，必须处理大量与当前制动决策无关的像素、类别和候选框；本文方法只处理雷达投影出的 ROI。论文报告 ROI 在 8 m 处占整帧 4.3%，在 25 m 处只占 1.3%，对应 95.7% 到 98.7% 的视觉搜索空间压缩（见 PAGE 3–4）。</p>
+
+<p>论文的论点不是“目标检测无用”，而是“在雷达已经完成定位、AEB 只关心是否应刹车时，完整检测可能不是必要的最低复杂度解”。作者用非常小的相机阶段替代检测器：灰度化、Canny 边缘提取、边缘密度统计、阈值判定。论文原文将相机角色概括为从“detector to verifier”，这个短语很好地概括了本文方法论转向（见 PAGE 1–2）。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>维度</th>
+      <th>典型检测式雷达-相机融合</th>
+      <th>本文雷达引导验证</th>
+      <th>证据</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>相机任务</td>
+      <td>整帧目标定位与类别识别</td>
+      <td>雷达 ROI 内障碍物存在性验证</td>
+      <td>PAGE 1–3</td>
+    </tr>
+    <tr>
+      <td>学习依赖</td>
+      <td>通常依赖深度模型、训练数据、权重</td>
+      <td>无训练数据、无模型权重、部署端无需 GPU</td>
+      <td>PAGE 1, PAGE 3</td>
+    </tr>
+    <tr>
+      <td>系统目标</td>
+      <td>提升通用检测或 3D 感知性能</td>
+      <td>满足 AEB 制动确认的实时性与高召回</td>
+      <td>PAGE 4–7</td>
+    </tr>
+    <tr>
+      <td>端到端验证</td>
+      <td>论文表 I 中多项相关工作未报告端到端 AEB</td>
+      <td>真实车、制动执行器、33 个威胁场景</td>
+      <td>PAGE 3, PAGE 5</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>2. 预备知识：AEB 中的“检测”与“验证”</h2>
+<p>在通用自动驾驶感知中，“检测”通常意味着从图像或多模态输入中同时完成定位和语义识别。例如检测器需要输出行人、车辆、自行车等类别，以及对应边界框。该目标适合开放场景理解，但其复杂度也来自开放性：模型需要学习类别外观、多尺度变化、遮挡、光照和背景干扰。</p>
+
+<p>AEB 的任务约束更窄。若雷达已经给出目标距离 $r$、相对速度 $v_r$ 和近似方位，制动逻辑更关心目标是否在碰撞路径内、时间到碰撞是否足够短、视觉上是否存在实体障碍物。换言之，相机的最低必要输出可以从多类别检测结果退化为一个门控信号：通过或不通过。</p>
+
+<p>本文使用的边缘密度不是新视觉特征。Canny 边缘检测是经典方法，计算图像灰度梯度、非极大值抑制和双阈值连接边缘。本文的新意不在于发明边缘算子，而在于把经典特征放入雷达限定的 ROI，使本来容易被全帧背景干扰的弱特征变成 AEB 任务中可用的二值验证信号（见 PAGE 3）。</p>
+
+<h2>3. 方法详解</h2>
+
+<pre class="mermaid">flowchart TB
+    RAD[Radar detect and track] --> KF[Kalman tracker]
+    KF --> PROJ[Project track to image]
+    PROJ --> ROI[Extract radar guided ROI]
+    ROI --> EDGE[Canny edge map]
+    EDGE --> DENS[Edge density score]
+    DENS --> GATE[Threshold gate]
+    GATE --> TTC[TTC logic]
+    TTC --> BBW[Brake by wire actuation]</pre>
+
+<h3>3.1 系统平台与总体架构</h3>
+<p>系统部署在一辆仪表化高尔夫车上，传感器包括 Continental ARS408-21 汽车雷达、Intel RealSense D435 相机，以及链轮链条式 brake-by-wire 制动执行器。作者对相机内参与雷达到相机外参进行标定，从而把雷达轨迹投影到图像平面，裁剪 ROI 并进行视觉验证（见 PAGE 2）。</p>
+
+<figure>
+  <img src="../../assets/2606.27556/figure-01-p2.png" alt="Instrumented vehicle and brake-by-wire actuator">
+  <figcaption>Fig. 1：测试车辆、RealSense D435、ARS408-21 雷达与链轮链条式制动执行器。该图证明本文不是离线算法演示，而是包含真实车辆和执行机构的 AEB 系统实验（见 PAGE 2）。</figcaption>
+</figure>
+
+<p>Fig. 2 给出系统数据流：雷达首先检测和跟踪潜在障碍物，估计距离与速度；雷达轨迹被投影到相机图像后提取小 ROI；边缘密度门控在 ROI 内确认障碍物存在；最后与雷达导出的 TTC 共同触发制动执行器（见 PAGE 2–3）。这一路径体现了本文的核心假设：视觉只服务于雷达目标确认，而不是替代雷达重新完成全局搜索。</p>
+
+<figure>
+  <img src="../../assets/2606.27556/figure-02-p3.png" alt="Radar-camera fusion AEB architecture">
+  <figcaption>Fig. 2：雷达主导的 AEB 架构。雷达检测与跟踪先行，相机只在雷达引导 ROI 内验证障碍物存在，验证结果与 TTC 决策共同驱动 brake-by-wire（见 PAGE 3）。</figcaption>
+</figure>
+
+<h3>3.2 雷达处理与 Kalman 跟踪</h3>
+<p>ARS408 雷达检测通过 CAN 发送，并在帧级解析。预过滤器只保留前向 0–25 m 范围、雷达散射截面积（RCS）高于 -20 dBsm 的目标；速度相近的邻近检测会进行质心合并，以处理同一物理物体产生多个雷达回波的问题。合并后的检测输入常速度 Kalman 跟踪器（见 PAGE 2–3）。</p>
+
+<p>论文给出的跟踪状态为：</p>
+<p>$$x_k = [x\ y\ v_x\ v_y]^T \tag{1}$$</p>
+<p>这里 $x_k$ 表示第 $k$ 个时刻的目标状态，$x,y$ 是平面位置，$v_x,v_y$ 是对应方向速度。人话解释：系统并不依赖相机估计运动，而是让雷达-跟踪器维护“目标在哪里、正在怎样移动”的低维状态（见 PAGE 3）。</p>
+
+<p>为了抑制雷达虚警，论文要求轨迹连续出现在三次雷达更新中才晋升为 confirmed track，并提供可选速度门控以滤除远离自车的轨迹（见 PAGE 3）。这一步对后续相机门控非常重要：如果输入 ROI 本身来自大量雷达鬼影，那么再轻量的视觉验证也会被迫处理错误候选。</p>
+
+<h3>3.3 相机-雷达投影与 ROI 提取</h3>
+<p>每个确认后的雷达轨迹通过标准针孔模型投影到图像平面：</p>
+<p>$$s
+\begin{bmatrix}
+u \\
+v \\
+1
+\end{bmatrix}
+=
+K[R|t]
+\begin{bmatrix}
+x \\
+y \\
+z \\
+1
+\end{bmatrix}
+\tag{2}$$</p>
+<p>其中 $K$ 是相机内参矩阵，$[R|t]$ 是雷达到相机坐标变换，$s$ 是尺度因子，$(u,v)$ 是图像像素坐标。人话解释：公式 (2) 把雷达空间中的目标位置变成图像上的一个位置区域，后续视觉只需围绕该位置裁剪小窗口（见 PAGE 3）。</p>
+
+<p>论文设定 $z$ 从 0 到 2.2 m，并将投影像素包围为轴对齐边界框，再加入 22 px padding。作者报告该 ROI 在 8 m 处约为整帧 4.3%，在 25 m 处缩小到 1.3%（见 PAGE 3–4）。这不是单纯的工程微优化，而是将感知问题从全帧搜索转变为雷达条件下的小区域验证。</p>
+
+<h3>3.4 边缘密度门控</h3>
+<p>给定尺寸为 $h \times w$ 的 ROI patch $P$，系统先转为灰度图，然后使用固定阈值 Canny：low = 40, high = 120。随后统计边缘像素占 ROI 总像素的比例：</p>
+<p>$$d(P)=\frac{1}{h\cdot w}\sum_{u,v}\mathbf{1}[E(P)(u,v)>0] \tag{3}$$</p>
+<p>其中 $E(P)$ 是 ROI 的二值 Canny 边缘图，$\mathbf{1}[\cdot]$ 是指示函数，条件为真时取 1。人话解释：公式 (3) 把 ROI 内“有多少像素看起来像物体边界”压缩成一个标量 $d(P)$；如果这个标量足够大，系统认为雷达指向的位置存在可见障碍物（见 PAGE 3）。</p>
+
+<p>部署阈值为 $\tau=0.025$，即至少 2.5% 的 ROI 像素必须为边缘，门控才通过。论文强调该相机阶段没有训练流水线、没有模型权重，也不需要部署端 GPU；原文短语 “requires no training data” 是其工程主张的核心之一（见 PAGE 1, PAGE 3）。</p>
+
+<p>为什么边缘密度在这里能工作？因为雷达已经把搜索空间限制到目标附近。若在整帧图像上使用边缘密度，路面纹理、树影、建筑边缘都会带来大量干扰；但在雷达 ROI 内，问题变成“雷达说这里有东西，图像这里是否也出现足够结构”。这使一个非常粗糙的视觉统计量具有任务相关性。</p>
+
+<h3>3.5 TTC 与制动决策</h3>
+<p>论文用雷达距离 $r$ 和相对速度 $v_r$ 计算 time-to-collision，并引入 1.0 s 的有效 TTC 偏移：</p>
+<p>$$TTC=\frac{r}{|v_r|},\quad TTC_{eff}=TTC-1.0\ \mathrm{s} \tag{4}$$</p>
+<p>这里 $TTC$ 表示按当前相对速度估计的碰撞剩余时间，$TTC_{eff}$ 则在此基础上扣除 1 秒安全裕量。人话解释：即便视觉确认通过，系统也不是立即刹车，而是结合雷达速度与距离判断碰撞时间是否进入制动窗口（见 PAGE 3–4）。</p>
+
+<p>最终制动条件为：</p>
+<p>$$brake=1\ \mathrm{iff}\ d(P)\ge\tau\land r\in[3,25]\ \mathrm{m}\land TTC_{eff}<2.5\ \mathrm{s} \tag{5}$$</p>
+<p>公式 (5) 把视觉门控、距离范围和时间风险三个条件合取。人话解释：只有当 ROI 边缘密度超过阈值、目标位于 3–25 m 工作距离内、且有效碰撞时间小于 2.5 s 时，系统才向制动执行器发送命令（见 PAGE 4）。</p>
+
+<h3>3.6 与检测器式融合的本质差异</h3>
+<p>本文方法的核心创新可以分成三点。第一，任务重定义：相机从目标检测器变成雷达定位后的二值验证器。第二，计算域收缩：相机只处理雷达投影 ROI，而不是整帧图像。第三，安全偏置：阈值选择优先召回而非精度，这与 AEB 中漏刹成本高于误刹成本的任务属性一致（见 PAGE 4–5）。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>创新点</th>
+      <th>解决的问题</th>
+      <th>具体做法</th>
+      <th>为什么有效</th>
+      <th>证据</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>检测转验证</td>
+      <td>检测器承担定位与识别双重任务，计算复杂</td>
+      <td>雷达先定位，相机只判断 ROI 中是否有障碍物</td>
+      <td>AEB 决策主要需要障碍物存在性和 TTC，不必总是需要类别标签</td>
+      <td>PAGE 1–3</td>
+    </tr>
+    <tr>
+      <td>雷达引导 ROI</td>
+      <td>整帧处理浪费大量无关像素</td>
+      <td>用投影模型裁剪雷达目标区域，加入 22 px padding</td>
+      <td>ROI 仅占整帧 1.3%–4.3% 的典型远近距离示例，显著降低延迟</td>
+      <td>PAGE 3–4</td>
+    </tr>
+    <tr>
+      <td>边缘密度门控</td>
+      <td>深度检测模型需要训练、权重和硬件资源</td>
+      <td>Canny 边缘图上统计 $d(P)$ 并与 $\tau$ 比较</td>
+      <td>真实障碍物在小 ROI 内通常产生足够边缘结构，空路面和天空较少通过</td>
+      <td>PAGE 3–5</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>3.7 代码分析状态</h3>
+<p>本文未提供可确认的公开代码。论文元信息中 <code>code_url</code> 与 <code>project_url</code> 为空，全文 PAGE 1–8 也没有列出 GitHub、项目主页或可下载实现地址。因此，本报告不伪造源码路径、函数名或代码段。能够从论文确认的实现信息仅包括：当前实现使用 Python 与 OpenCV，作者认为进一步优化实现可能带来额外性能收益（见 PAGE 6）。</p>
+
+<div class="note">
+  <strong>复现含义：</strong>可复现的算法描述足够清晰，包括雷达过滤范围、Kalman 状态、投影模型、ROI padding、Canny 阈值、边缘密度公式、部署阈值与制动逻辑；但缺少公开代码会影响工程细节验证，例如 CAN 解析、标定流程、线程调度、执行器控制协议和日志格式。
+</div>
+
+<h2>4. 实验分析</h2>
+
+<h3>4.1 延迟实验：ROI 处理是否真的带来数量级收益？</h3>
+<p>延迟实验比较两种 Canny 处理方式：只处理雷达引导 ROI，以及处理完整 $848\times480$ 图像。所有测试在同一台无 GPU 加速的笔记本上进行，数据来自 72 个驾驶 session、49,988 帧，并收集 41,452 个 ROI timing samples（见 PAGE 4）。</p>
+
+<figure>
+  <img src="../../assets/2606.27556/figure-03-p4.png" alt="ROI vs full-frame processing time">
+  <figcaption>Fig. 3：ROI 与整帧 Canny 处理时间对比。论文报告 ROI 平均延迟 0.121 ms，整帧 0.706 ms；ROI p95 为 0.228 ms（见 PAGE 4）。</figcaption>
+</figure>
+
+<table>
+  <thead>
+    <tr>
+      <th>指标</th>
+      <th>ROI Patch</th>
+      <th>Full Frame</th>
+      <th>改进</th>
+      <th>证据</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>平均延迟</td>
+      <td>0.121 ms</td>
+      <td>0.706 ms</td>
+      <td>5.8× faster</td>
+      <td>Table II, PAGE 4</td>
+    </tr>
+    <tr>
+      <td>标准差</td>
+      <td>0.061 ms</td>
+      <td>0.263 ms</td>
+      <td>证据不足：论文未给倍率</td>
+      <td>Table II, PAGE 4</td>
+    </tr>
+    <tr>
+      <td>p95 延迟</td>
+      <td>0.228 ms</td>
+      <td>1.049 ms</td>
+      <td>4.6× lower</td>
+      <td>Table II, PAGE 4</td>
+    </tr>
+    <tr>
+      <td>8 m 像素占比</td>
+      <td>4.3%</td>
+      <td>100%</td>
+      <td>95.7% reduction</td>
+      <td>Table II, PAGE 4</td>
+    </tr>
+    <tr>
+      <td>25 m 像素占比</td>
+      <td>1.3%</td>
+      <td>100%</td>
+      <td>98.7% reduction</td>
+      <td>Table II, PAGE 4</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>这组结果说明，本文方法的低延迟不是来自某个复杂优化技巧，而是来自问题规模削减。Canny 在整帧上本来已经不算昂贵，但 ROI 版本仍能把均值压到 0.121 ms。对 AEB 而言，p95 延迟比均值更有意义，因为制动链路关心尾部时延；0.228 ms 的 p95 表明相机验证阶段在该平台上几乎不会成为系统瓶颈（见 PAGE 4）。</p>
+
+<h3>4.2 门控质量：高召回阈值与精度代价</h3>
+<p>门控质量评估并不是在全部 60,492 个 ROI 上人工标注完成。论文说明先离线计算所有 72 个 session 的雷达投影 ROI 边缘密度，再按四个密度区间分层采样 320 帧，其中至少 50% 来自受控场景 session；第一作者标注 YES/NO，排除 3 个歧义样本后留下 317 个标签，包括 159 个 YES 和 158 个 NO（见 PAGE 4）。</p>
+
+<figure>
+  <img src="../../assets/2606.27556/figure-04-p5.png" alt="ROC curve and confusion matrices">
+  <figcaption>Fig. 4：ROC 曲线与两个阈值下的混淆矩阵。AUC = 0.898；部署阈值 $\tau=0.025$ 的 recall = 0.994；Youden 最优阈值 $\tau=0.080$ 的 F1 = 0.831（见 PAGE 5）。</figcaption>
+</figure>
+
+<table>
+  <thead>
+    <tr>
+      <th>指标</th>
+      <th>部署阈值 $\tau=0.025$</th>
+      <th>Youden 最优 $\tau=0.080$</th>
+      <th>解读</th>
+      <th>证据</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>TP / FP / TN / FN</td>
+      <td>158 / 80 / 78 / 1</td>
+      <td>130 / 24 / 134 / 29</td>
+      <td>部署阈值几乎不漏检，但误确认较多</td>
+      <td>Table III, PAGE 4</td>
+    </tr>
+    <tr>
+      <td>Precision</td>
+      <td>0.664</td>
+      <td>0.844</td>
+      <td>提高阈值显著减少 false positives</td>
+      <td>Table III, PAGE 4</td>
+    </tr>
+    <tr>
+      <td>Recall</td>
+      <td>0.994</td>
+      <td>0.818</td>
+      <td>AEB 部署点牺牲精度换召回</td>
+      <td>Table III, PAGE 4</td>
+    </tr>
+    <tr>
+      <td>F1 Score</td>
+      <td>0.796</td>
+      <td>0.831</td>
+      <td>若按分类平衡指标，0.080 更优</td>
+      <td>Table III, PAGE 4</td>
+    </tr>
+    <tr>
+      <td>AUC</td>
+      <td>0.898</td>
+      <td>0.898</td>
+      <td>AUC 与阈值无关，反映排序能力</td>
+      <td>Table III, Fig. 4, PAGE 4–5</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>这一结果是全文最值得仔细读的部分。若目标是一般二分类，$\tau=0.080$ 的 F1 和精度更漂亮；但 AEB 的安全代价函数不对称，漏掉真实障碍物比多触发一次警告或制动更严重。作者选择 $\tau=0.025$，对应 159 个正样本中仅漏掉 1 个，原文结果是 “recorded zero missed brake events” 在完整 33 个 staged threat 场景中成立（见 PAGE 1, PAGE 5）。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>阈值</th>
+      <th>Precision</th>
+      <th>Recall</th>
+      <th>F1</th>
+      <th>论文备注</th>
+      <th>证据</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.010</td>
+      <td>0.526</td>
+      <td>1.000</td>
+      <td>0.690</td>
+      <td>Too permissive</td>
+      <td>Table IV, PAGE 4</td>
+    </tr>
+    <tr>
+      <td>0.025</td>
+      <td>0.664</td>
+      <td>0.994</td>
+      <td>0.796</td>
+      <td>Deployed — AEB-safe</td>
+      <td>Table IV, PAGE 4</td>
+    </tr>
+    <tr>
+      <td>0.050</td>
+      <td>0.829</td>
+      <td>0.824</td>
+      <td>0.826</td>
+      <td>Balanced operation</td>
+      <td>Table IV, PAGE 4</td>
+    </tr>
+    <tr>
+      <td>0.080</td>
+      <td>0.844</td>
+      <td>0.818</td>
+      <td>0.831</td>
+      <td>Youden-optimal</td>
+      <td>Table IV, PAGE 4</td>
+    </tr>
+    <tr>
+      <td>0.150</td>
+      <td>0.937</td>
+      <td>0.465</td>
+      <td>0.622</td>
+      <td>Unsafe — too many misses</td>
+      <td>Table IV, PAGE 4</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>阈值敏感性表明，边缘密度门控存在清晰的安全-误报权衡。$\tau$ 从 0.025 增至 0.080 时，precision 从 0.664 提升到 0.844，但 recall 从 0.994 降到 0.818；继续增至 0.150 时，precision 达到 0.937，recall 却跌至 0.465。对 AEB 来说，后者意味着大量真实障碍物不通过视觉确认，因此论文将其标为 unsafe（见 PAGE 4）。</p>
+
+<h3>4.3 光照分层：低光下的精度问题</h3>
+<table>
+  <thead>
+    <tr>
+      <th>条件</th>
+      <th>n</th>
+      <th>Precision</th>
+      <th>Recall</th>
+      <th>F1</th>
+      <th>主要含义</th>
+      <th>证据</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Controlled daytime</td>
+      <td>99</td>
+      <td>0.768</td>
+      <td>1.000</td>
+      <td>0.869</td>
+      <td>受控白天场景效果稳定</td>
+      <td>Table V, PAGE 5</td>
+    </tr>
+    <tr>
+      <td>Daytime naturalistic</td>
+      <td>126</td>
+      <td>0.779</td>
+      <td>0.988</td>
+      <td>0.871</td>
+      <td>自然白天接近受控场景</td>
+      <td>Table V, PAGE 5</td>
+    </tr>
+    <tr>
+      <td>Evening / low-light</td>
+      <td>92</td>
+      <td>0.269</td>
+      <td>1.000</td>
+      <td>0.424</td>
+      <td>低光召回保持，但误确认显著增加</td>
+      <td>Table V, PAGE 5</td>
+    </tr>
+    <tr>
+      <td>All sessions combined</td>
+      <td>317</td>
+      <td>0.664</td>
+      <td>0.994</td>
+      <td>0.796</td>
+      <td>总体体现高召回部署策略</td>
+      <td>Table V, PAGE 5</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>光照分层结果揭示本文方法的主要脆弱点：固定边缘阈值在夜间或低光环境中容易被街灯、反射面和高对比噪声诱发 false confirmations。论文报告 evening / low-light precision 只有 0.269，而 recall 仍为 1.000（见 PAGE 5）。这说明该门控在低光下仍倾向于“不漏过”，但误报代价会明显上升。</p>
+
+<p>从工程角度看，这一结果并不否定方法本身，而是提示部署阈值不能只看总体 AUC。若目标平台更重视乘坐舒适性和误刹抑制，固定 $\tau=0.025$ 可能过于保守；若目标平台是低速园区车、矿区车或封闭测试场景，高召回策略可能是可接受的。论文没有提供自适应阈值或光照感知门控，因此这部分仍属于未来工作空间（见 PAGE 6）。</p>
+
+<h3>4.4 AEB 行为实验：算法是否能驱动真实制动链路？</h3>
+<p>行为评估包含 33 个 threat scenarios 和 3 个 no-threat scenarios。威胁场景覆盖静止障碍物、行人、自行车、横穿行人、不同 closing velocity，以及行人从停放车辆后出现、多目标场景等；车速在 20 km/h 到 30 km/h 之间。作者说明这些 staged scenarios 参考 Euro NCAP AEB Car-to-Car Test Protocol 设计（见 PAGE 5）。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>场景类别</th>
+      <th>结果</th>
+      <th>解读</th>
+      <th>证据</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>33 个 staged threat sessions</td>
+      <td>Brake recall = 1.000；zero missed brakes</td>
+      <td>在设计的威胁场景中没有漏刹，是本文最强的系统级证据</td>
+      <td>PAGE 5, Fig. 7 PAGE 7</td>
+    </tr>
+    <tr>
+      <td>3 个 no-threat sessions</td>
+      <td>全部发生 brake event；strict FAR = 1.000</td>
+      <td>高召回阈值带来明显误触发代价</td>
+      <td>PAGE 5, Fig. 7 PAGE 7</td>
+    </tr>
+    <tr>
+      <td>33 个 naturalistic sessions</td>
+      <td>29 个触发制动；人工复核均为 in-corridor obstacle</td>
+      <td>自然场景中触发事件并非纯随机误报，但仍需更多负样本验证</td>
+      <td>PAGE 5, Fig. 7 PAGE 7</td>
+    </tr>
+    <tr>
+      <td>4 个未触发 naturalistic sessions</td>
+      <td>记录窗口内无 qualifying close-range obstacles</td>
+      <td>论文认为未触发符合场景事实</td>
+      <td>PAGE 5, Fig. 7 PAGE 7</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>系统级结果支持作者的核心主张：对于雷达已经定位的 AEB 链路，轻量视觉验证可以支撑制动决策。然而，no-threat 的 FAR = 1.000 同样必须被严肃对待。论文将其解释为部署阈值偏向高召回的一致后果，并指出提高 $\tau$ 到 0.080 预计可减少 false triggers，但会牺牲召回（见 PAGE 5）。这意味着最终阈值不是单纯算法最优，而是产品安全策略选择。</p>
+
+<h2>5. 讨论：适用边界与工程价值</h2>
+<p>本文的适用边界首先由“雷达主导”决定。若系统没有可靠雷达定位，或者雷达目标投影不准，相机 ROI 验证就会失去前提。论文也承认雷达-相机标定精度是当前最大限制之一，短距离处小投影误差更容易影响 ROI 放置（见 PAGE 6）。因此，该方法不是通用视觉检测器的替代品，而是雷达条件充分时的 AEB 验证模块。</p>
+
+<p>其次，本文不输出类别标签。对于 AEB 来说，障碍物是否存在通常比“它是什么”更直接；但对于行为预测、责任归因、场景语义理解、道路弱势参与者分类等任务，仅有边缘密度不足以满足需求。论文结论也强调，并不是所有感知系统都应更简单，而是任务需求应驱动解决方案复杂度（见 PAGE 7）。</p>
+
+<p>从业务价值看，该方法适合资源受限且已有雷达先验的低成本 AEB 或前处理链路。它可以作为候选框验证、误检过滤或制动前确认模块，尤其适用于嵌入式算力有限、GPU 不可用、模型维护成本敏感的车辆平台。论文中“无需训练数据、模型权重或 GPU”的主张，正对应这类部署约束（见 PAGE 1, PAGE 6）。</p>
+
+<p>与深度检测器相比，本文方法的优势是确定性、可解释和低延迟；劣势是表达能力有限、对标定与光照敏感、难以处理细粒度语义和复杂背景。更稳妥的工程路线可能不是完全替代检测器，而是在雷达确认强、TTC 紧张、算力受限的场景中把该门控作为快速安全通道，或作为深度检测器前的低成本筛选器。论文没有验证这种混合架构，因此这里只能作为基于结果的工程推断。</p>
+
+<h2>6. 局限分析</h2>
+<p><strong>作者自述局限一：标定误差。</strong>论文明确指出当前系统最大的限制是 radar-camera calibration accuracy，小投影误差在短距离更明显，并会影响 ROI placement（见 PAGE 6）。这对本文方法尤其关键，因为 ROI 很小；搜索空间越小，计算越省，但对投影准确性的容忍度也越低。</p>
+
+<p><strong>作者自述局限二：标注与平台规模。</strong>数据集由单一标注者标注，作者认为更大的多标注者研究有助于测量 annotation consistency。实验也只在一辆配置好的车辆平台上完成，需要跨车辆、环境和光照进一步测试（见 PAGE 6）。这意味着当前结果更像强工程原型验证，而不是足以覆盖量产 ODD 的统计证据。</p>
+
+<p><strong>作者自述局限三：低光精度下降与固定阈值。</strong>论文指出 evening operation 中 precision 下降，说明固定 edge-density threshold 并不适合所有光照条件；未来工作将关注提高标定精度和对变化光照的鲁棒性（见 PAGE 6）。Table V 的 0.269 precision 是这项局限的直接量化证据（见 PAGE 5）。</p>
+
+<p><strong>独立判断一：no-threat 样本过少且误报严重。</strong>3 个 no-threat sessions 全部触发制动，strict FAR = 1.000（见 PAGE 5, PAGE 7）。虽然样本数很小，不能估计真实误报率，但它暴露了部署阈值的产品风险。AEB 误刹不仅影响舒适性，还可能带来后车追尾风险；论文没有提供误刹严重度、制动曲线或乘坐体验分析，因此系统安全收益与误刹代价仍需更完整评估。</p>
+
+<p><strong>独立判断二：门控评估标签规模有限。</strong>论文离线计算了 60,492 个 ROI，但人工评估只使用 317 个标签（见 PAGE 4）。分层采样有助于覆盖不同密度区间，但对于低频困难样本，如反光路牌、雨夜、强逆光、非刚体遮挡、雷达多径和复杂施工场景，317 个样本不足以说明泛化能力。当前 AUC = 0.898 是有价值的初步证据，但不能替代大规模外部验证。</p>
+
+<p><strong>独立判断三：缺少可确认公开代码削弱复现。</strong>论文算法描述足够简单，但系统成败可能取决于工程细节，例如时间同步、雷达 CAN 解析、外参标定、ROI 边界裁剪、制动执行器延迟、线程调度和异常处理。由于本文未提供可确认的公开代码，外部团队无法直接审计这些细节，也无法确认报告延迟是否包含完整端到端相机处理开销。</p>
+
+<h2>7. 结论</h2>
+<p>本文贡献不在于提出更强的目标检测网络，而在于把 AEB 雷达-相机融合中的视觉问题重新定义为雷达条件下的存在性验证。通过公式 (2) 的雷达-相机投影、公式 (3) 的边缘密度门控，以及公式 (5) 的 TTC 制动条件，作者构建了一个无需训练、无需模型权重、部署端无需 GPU 的完整 AEB 链路，并在真实车辆上展示了亚毫秒相机验证延迟和 staged threat 场景零漏刹结果（见 PAGE 1–7）。</p>
+
+<p>同时，这项工作不应被解读为“经典边缘特征可以替代所有检测器”。更准确的结论是：当雷达已经提供可靠定位，而任务只要求快速确认碰撞路径中是否有障碍物时，轻量验证可能比通用检测更符合 AEB 的最低必要复杂度。后续研究需要重点补齐跨平台验证、低光自适应阈值、误刹风险评估、多标注者数据和公开实现。</p>
+
+<div class="golden">任务需求决定感知复杂度：在 AEB 中，有时最关键的不是识别万物，而是在正确的位置及时确认“那里确实有东西”。</div>
+
+<h2>8. 证据索引</h2>
+<table class="evidence">
+  <thead>
+    <tr>
+      <th>关键结论 / 数据</th>
+      <th>PAGE 证据</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>论文提出 radar-scoped edge-density gate，用于 radar-guided ROI 内障碍物验证，而非完整目标检测。</td>
+      <td>PAGE 1</td>
+    </tr>
+    <tr>
+      <td>方法无需训练数据、模型权重或 GPU；评估覆盖 72 个驾驶 sessions 和 131,603 camera frames。</td>
+      <td>PAGE 1</td>
+    </tr>
+    <tr>
+      <td>真实车辆平台包括 ARS408-21 雷达、RealSense D435 相机和 chain-sprocket brake-by-wire actuator；Fig. 1 展示平台。</td>
+      <td>PAGE 2</td>
+    </tr>
+    <tr>
+      <td>系统架构为雷达检测跟踪、投影到相机、ROI 内边缘密度验证、结合 TTC 触发制动；Fig. 2 展示流程。</td>
+      <td>PAGE 2–3</td>
+    </tr>
+    <tr>
+      <td>Kalman 状态公式 $x_k=[x\ y\ v_x\ v_y]^T$，轨迹需连续三次雷达更新才 confirmed。</td>
+      <td>PAGE 3</td>
+    </tr>
+    <tr>
+      <td>投影公式 $s[u,v,1]^T=K[R|t][x,y,z,1]^T$，$z$ 从 0 到 2.2 m，ROI 加 22 px padding。</td>
+      <td>PAGE 3</td>
+    </tr>
+    <tr>
+      <td>边缘密度公式 $d(P)=\frac{1}{h w}\sum_{u,v}\mathbf{1}[E(P)(u,v)>0]$；Canny low=40, high=120；部署阈值 $\tau=0.025$。</td>
+      <td>PAGE 3</td>
+    </tr>
+    <tr>
+      <td>TTC 公式与制动条件：$TTC=r/|v_r|$，$TTC_{eff}=TTC-1.0s$，$d(P)\ge\tau \land r\in[3,25]m \land TTC_{eff}<2.5s$。</td>
+      <td>PAGE 3–4</td>
+    </tr>
+    <tr>
+      <td>ROI 平均延迟 0.121 ms，整帧 0.706 ms；p95 分别为 0.228 ms 与 1.049 ms；Fig. 3 和 Table II。</td>
+      <td>PAGE 4</td>
+    </tr>
+    <tr>
+      <td>ROI 在 8 m 处占 4.3% 全帧，在 25 m 处占 1.3%，对应 95.7% 与 98.7% 搜索空间压缩。</td>
+      <td>PAGE 4</td>
+    </tr>
+    <tr>
+      <td>门控评估：60,492 个 ROI 中分层采样 320 帧，排除 3 个歧义样本，得到 317 个标签。</td>
+      <td>PAGE 4</td>
+    </tr>
+    <tr>
+      <td>AUC = 0.898；部署阈值 $\tau=0.025$ 时 precision=0.664、recall=0.994、F1=0.796；Youden 阈值 $\tau=0.080$ 时 F1=0.831。</td>
+      <td>PAGE 4–5</td>
+    </tr>
+    <tr>
+      <td>光照分层：低光 precision=0.269、recall=1.000；作者指出街灯和反射面增加 false confirmations。</td>
+      <td>PAGE 5</td>
+    </tr>
+    <tr>
+      <td>AEB 行为评估：33 个 threat scenarios 中 brake recall=1.000，zero missed brakes；3 个 no-threat sessions 全部触发制动，strict FAR=1.000。</td>
+      <td>PAGE 5, PAGE 7</td>
+    </tr>
+    <tr>
+      <td>作者自述局限：标定精度、单标注者、单车辆平台、低光 precision 下降、固定阈值、Python/OpenCV 实现仍可优化。</td>
+      <td>PAGE 6</td>
+    </tr>
+    <tr>
+      <td>结论强调任务需求应驱动解决方案复杂度，AEB 优先及时可靠制动，而非所有应用都应简化感知系统。</td>
+      <td>PAGE 7</td>
+    </tr>
+    <tr>
+      <td>代码状态：论文元信息无 code_url/project_url，全文 PAGE 1–8 未提供可确认公开仓库；本文未提供可确认的公开代码。</td>
+      <td>PAGE 1–8</td>
+    </tr>
+  </tbody>
+</table>
+</article>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TruEye: Fine-Grained Detection of AI-Generated Human Subjects in Images — 深度解读</title>
+<style>
+:root{--text:#1a1a1a;--bg:#fafaf8;--accent:#2563eb;--muted:#6b7280;--border:#e5e7eb;--code-bg:#f3f4f6;--soft:#f0f4ff;--warn:#fff7ed}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Serif SC","Microsoft YaHei",serif;color:var(--text);background:var(--bg);line-height:1.86;padding:2.5rem 1.5rem;max-width:820px;margin:0 auto;font-size:17px}
+h1{font-size:2rem;margin:0 0 .4rem;line-height:1.3}
+h2{font-size:1.35rem;margin:2.8rem 0 .9rem;color:var(--accent);padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+h3{font-size:1.1rem;margin:1.7rem 0 .55rem;color:#222}
+p{margin:1rem 0}
+a{color:var(--accent);text-decoration:none}
+.meta{color:var(--muted);font-size:.92rem;margin-bottom:2rem;line-height:1.8}
+.summary-box{background:linear-gradient(135deg,#f0f4ff,#faf5ff);padding:1.35rem 1.45rem;border-radius:12px;margin:1.6rem 0;border:1px solid #dbeafe}
+.summary-box h3{margin:0 0 .5rem;color:var(--accent)}
+.note{background:#f9fafb;border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;margin:1.2rem 0}
+.warning{background:var(--warn);border:1px solid #fed7aa;border-radius:10px;padding:1rem 1.1rem;margin:1.2rem 0}
+blockquote{border-left:3px solid var(--accent);padding:.7rem 1.1rem;margin:1.4rem 0;background:var(--soft);border-radius:0 8px 8px 0;color:#1f2937}
+table{width:100%;border-collapse:collapse;margin:1.4rem 0;font-size:.92rem;background:white}
+td,th{border:1px solid var(--border);padding:.58rem .72rem;text-align:left;vertical-align:top}
+th{background:#f9fafb;font-weight:600;color:#111}
+.figure{margin:1.6rem 0;padding:0;background:white;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{font-size:.88rem;color:var(--muted);padding:.75rem 1rem;border-top:1px solid var(--border);line-height:1.6}
+.formula{background:white;border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;margin:1.25rem 0;overflow-x:auto}
+.formula p{margin:.55rem 0}
+pre{background:var(--code-bg);padding:1rem 1.2rem;border-radius:8px;overflow-x:auto;font-size:.86rem;line-height:1.5;margin:1.3rem 0;border:1px solid var(--border)}
+code{font-family:"SF Mono","Fira Code",Consolas,monospace;font-size:.9em}
+.badge{display:inline-block;border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;border-radius:999px;padding:.05rem .5rem;font-size:.78rem;margin-left:.3rem}
+.small{font-size:.9rem;color:var(--muted)}
+.evidence-list td:first-child{white-space:nowrap;color:#111;font-weight:600}
+@media(max-width:640px){body{font-size:16px;padding:1.2rem 1rem}h1{font-size:1.55rem}table{font-size:.84rem;display:block;overflow-x:auto;white-space:nowrap}.figure{border-radius:8px}}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',securityLevel:'loose'});</script>
+</head>
+<body>
+<article>
+<h1>TruEye：面向人像与场景组合的细粒度 AI 图像检测</h1>
+<div class="meta">
+<strong>论文：</strong>TruEye: Fine-Grained Detection of AI-Generated Human Subjects in Images<br>
+<strong>作者：</strong>Jay Barot, Dan Lin · Vanderbilt University<br>
+<strong>arXiv：</strong><a href="https://arxiv.org/abs/2606.27505">2606.27505</a> · 元信息发布日期 2026-06-29；PDF 页眉标注 arXiv v1 日期为 2026-06-25（见 PAGE 1）<br>
+<strong>方向：</strong>AI 生成人像/场景检测、细粒度真伪属性、定位与组合一致性分析<br>
+<strong>代码状态：</strong>本文未提供可确认的公开代码；所给元信息中 code_url 与 project_url 为空，全文 PAGE 1-18 也未给出可验证仓库链接。
+</div>
+
+<section class="summary-box">
+<h3>一句话总结</h3>
+<p>TruEye 将人像与背景场景拆成两个语义流，用 mask 条件化的双流 Transformer、特征放大模块和轻量级跨流注意力，同时输出局部伪造区域与全局组合类别；它的核心贡献不是再做一个二分类 deepfake detector，而是把“哪里假、假在人还是假在背景、真实人是否被放进了不属于他的真实场景”建模成同一个细粒度判别问题（见 PAGE 2-4、PAGE 6-10）。</p>
+</section>
+
+<h2>1. 论文定位与问题定义</h2>
+<p>这篇论文的目标是检测 AI 生成或 AI 操纵的人类主体与场景。论文开篇将应用背景放在社交媒体诈骗、身份冒用和内容审核上，并明确提出检测器需要同时满足三个条件：跨生成器泛化、平台级推理效率、以及可以让审核者理解的解释性输出。作者在 PAGE 1-2 将这三项写成 “generalization”、“inference efficiency” 和 “interpretability”，这也是全文方法设计的约束。</p>
+<p>传统检测器多把任务处理成二分类：一张图是真实还是合成。论文认为这种输出粒度不足，原因有两个。第一，二分类标签不能说明伪造发生在人身上、场景中，还是二者的组合关系中。第二，许多检测器依赖全局纹理或生成器统计痕迹，一旦生成器变化、压缩扰动或真实/合成区域占比很小，泛化性能就会下降（见 PAGE 2、PAGE 4-6）。</p>
+<p>TruEye 的任务定义更细：对输入图像输出六类标签，其中五类属于合成或操纵内容，另有一类是完全真实图像 R。五个合成类别是 SHSS、SHRS、RHSS、RHRS 和 SS：合成人在合成场景、合成人在真实场景、真实人在合成场景、真实人被集成进真实场景、以及纯合成场景。论文特别强调 RHRS 的安全意义：人和背景各自都是真实的，但共现关系是假的，例如将真实政治人物插入真实抗议现场（见 PAGE 2、PAGE 6）。</p>
+<p>这里最关键的技术转向是：TruEye 不仅检测像素是否“像 AI 生成”，还检测主体与背景之间的组合一致性。也就是说，模型既要做局部真伪判断，也要做跨区域语义关系判断。论文称其设计哲学是 “divide and conquer”，即把复杂检测任务拆成人体区域分析、场景区域分析、以及人-景一致性分析三个相互配合的子任务（见 PAGE 3）。</p>
+
+<figure class="figure">
+<img src="../../assets/2606.27505/figure-01-p3.png" alt="Figure 1: FineSyn samples and TruEye detection results">
+<figcaption>Figure 1（PAGE 3）：FineSyn 数据样例与 TruEye 检测结果。论文说明红色表示合成人区域，黄色表示合成场景区域；RHRS 类别不产生局部高亮，而输出组合类别标签（见 PAGE 10）。</figcaption>
+</figure>
+
+<h2>2. 研究背景：为什么二分类检测不够</h2>
+<p>早期 AI 图像检测依赖卷积网络或 Inception/Xception 风格模型，例如 XceptionNet 和 Adobe detector。它们可以学习某些 GAN 或 CNN 生成器留下的纹理、频域或卷积伪影，但论文指出这类方法对压缩、后处理和新型扩散/Transformer 生成器迁移较差（见 PAGE 4）。</p>
+<p>后续方法引入 ViT、频域增强、混合 CNN-Transformer、多注意力区域建模等策略，以提升跨域泛化。论文在 PAGE 5 总结了 FatFormer、FakeFormer、FreqFaceNet、HTN、MADF 等路线。这些方法的问题不是完全无效，而是训练目标往往仍然服务于“真实 vs 合成”的二分类边界；当所有操纵模式被压缩到同一个 synthetic 表征中，模型很难区分“人假、景真”和“人真、景假”。</p>
+<p>另一路相关工作关注定位，例如 ManTra-Net、Face X-ray、MVSS-Net、TruFor、SIDA 和 LEGION。定位方法能指出可疑区域，但论文认为它们仍未显式建模本文需要的语义组合类别，尤其是 RHRS 这种“像素本身不一定合成，但组合关系不真实”的案例（见 PAGE 5-6）。SIDA 和 LEGION 使用多模态或 LLM 解释，提升了可解释性，但代价是更高推理延迟和更大模型规模（见 PAGE 2、PAGE 11、PAGE 14）。</p>
+<p>因此，TruEye 的出发点不是单纯追求更强 backbone，而是改变信息组织方式：先用 mask 区分 human tokens 与 scene tokens，再让每个流只在语义一致区域内推理，最后用跨流注意力判断主体与背景是否互相匹配。这使局部定位、类别解释和全局组合判断在同一架构内完成，而不需要外接 LLM（见 PAGE 3、PAGE 6-8）。</p>
+
+<h2>3. 预备知识：token、mask 与组合一致性</h2>
+<p>论文基于 Vision Transformer 的 patch token 表示。输入图像被切分为非重叠 $P \times P$ patch，每个 patch 经卷积式 patch embedding 投影到 $D$ 维空间；实验中 patch 大小为 16×16，得到 $N=196$ 个 patch tokens，并在序列前加入一个可学习的全局分类 token $[CLS]$（见 PAGE 6）。</p>
+<p>mask 的语义不是传统图像分割的最终输出，而是模型内部的路由条件。论文定义：若某个 patch 超过 50% 属于人体相关内容，则 mask $m=1$；否则 $m=0$，表示以场景为主（见 PAGE 6-7）。这个 mask 决定后续双流 Transformer 中哪些 token 在 human stream 内被更新，哪些 token 在 scene stream 内被更新。</p>
+<p>组合一致性是理解 RHRS 的必要概念。RHRS 中所有局部 patch 都可能是真实像素，因此仅靠 patch-level synthetic probability 可能将其误判为真实。TruEye 用 human stream 的 $[CLS]$ 与 scene stream 的 tokens 做跨注意力，反过来 scene stream 的 $[CLS]$ 也关注 human tokens，用全局关系来区分“真实人真实景真实共现”和“真实人真实景虚假拼接”（见 PAGE 8-9）。</p>
+
+<h2>4. 方法详解</h2>
+<p>TruEye 的结构由四个主要组件组成：mask generator、dual-stream classifiers、feature magnifier 和 global cross-attention layer。论文 Figure 2 给出了整体架构，Section 3.1 给出输入、mask、双流、FMM、跨注意力、最终输出与推理规则，Section 3.2 给出两阶段训练目标（见 PAGE 6-10）。</p>
+
+<figure class="figure">
+<img src="../../assets/2606.27505/figure-02-p7.png" alt="Figure 2: TruEye architecture overview">
+<figcaption>Figure 2（PAGE 7）：TruEye 架构总览。输入图像经 patch embedding 与 mask generator 后进入 human stream 与 scene stream；每个流包含 Transformer block 与 FMM，随后通过跨流 attention 融合全局信息。</figcaption>
+</figure>
+
+<pre class="mermaid">
+flowchart LR
+    X[Input image] --> P[Patch embedding]
+    P --> M[Mask generator]
+    M --> H[Human stream]
+    M --> S[Scene stream]
+    H --> FH[FMM per layer]
+    S --> FS[FMM per layer]
+    FH --> CA[CLS cross attention]
+    FS --> CA
+    CA --> T[Patch logits]
+    CA --> G[Global class]
+    T --> L[Localization map]
+    G --> C[SHSS SHRS RHSS RHRS SS R]
+</pre>
+
+<h3>4.1 输入嵌入：保持空间对应关系</h3>
+<p>输入图像 $x \in \mathbb{R}^{3 \times H \times W}$ 先被切成 patch，再投影为 token。论文给出的输入序列公式是：</p>
+<div class="formula">
+$$x_0 = [c;t] + p \tag{1}$$
+<p>其中 $c \in \mathbb{R}^{D}$ 是 $[CLS]$ token，$t \in \mathbb{R}^{N \times D}$ 是 $N$ 个 patch embeddings，$p \in \mathbb{R}^{(N+1)\times D}$ 是位置编码。人话解释：模型不是直接看整张图，而是看带有位置记忆的一串图像块；$[CLS]$ 用于聚合整图级判断（见 PAGE 6）。</p>
+</div>
+<p>这一设计服务于后续定位。因为每个 patch token 保留了与原图 patch 的对应关系，最终 token-level authenticity logits 可以自然还原成区域级可疑图，而不是依赖外部解释模型补写说明（见 PAGE 8-9）。</p>
+
+<h3>4.2 Mask generator：把问题拆成人和场景</h3>
+<p>mask generator 被实现为一个 Transformer layer，用来预测每个 patch 属于人体区域还是场景区域。论文明确说明它有两个目的：第一，将人工伪影检测拆成较小子任务，让双流分类器专注于 human 或 scene；第二，允许模型处理任意人景比例，同时保持 token 结构不变（见 PAGE 7）。</p>
+<p>这一步与普通 foreground segmentation 的区别在于，mask 在 TruEye 中是条件化机制而非最终任务。它不直接回答真假，而是规定后续 self-attention 可以在哪里发生。这样的选择使模型能够把人体伪影和场景伪影分开学习，减少不同语义区域之间的特征干扰。</p>
+
+<h3>4.3 双流 Transformer：在语义一致区域内推理</h3>
+<p>mask 之后，图像 token 同时进入 human stream 与 scene stream。每个 stream 含 12 个堆叠层，每层由 Transformer block 与 Feature Magnification Module 组成。为了兼容预训练 ViT 权重，论文没有删除互补区域的 tokens，而是让两个流都保留完整 token 集；区域特异性通过 attention masking 与 region-gated residual 来控制（见 PAGE 7）。</p>
+<p>具体地说，human stream 中只有 human-region tokens 是 active，scene stream 中只有 scene-region tokens 是 active。论文称 attention logits 在 softmax 之前会加入 masking matrix $M$，从而只允许 active tokens 之间相互注意；涉及 inactive tokens 的交互被抑制。残差更新也只施加在 active tokens 上，inactive tokens 直接旁路保持不变（见 PAGE 7）。</p>
+<p>这解释了 TruEye 与“ViT + 多头分类器”的关键差异。后者在同一表征空间中同时编码人体结构、衣着纹理、背景几何、光照一致性和拼接边界，细粒度类别可能互相冲突；TruEye 则把 human-specific artifacts 与 scene-level inconsistencies 分开提取，再在跨流阶段比较二者是否一致。</p>
+
+<h3>4.4 FMM：放大细微伪影，而不是只依赖全局纹理</h3>
+<p>Feature Magnification Module 位于每个 Transformer block 之后，是一个两层全连接瓶颈。论文给出的结构是从 768 维压缩到 48 维，再扩回 768 维，并生成通道级 excitation factors，范围被限制在 $[0.5,1.5]$（见 PAGE 7-8）。</p>
+<div class="formula">
+$$x \leftarrow (0.5 + \sigma(g(x))) \odot x \tag{2}$$
+<p>其中 $g(x)$ 是两层瓶颈输出，$\sigma(\cdot)$ 是 sigmoid 函数，$\odot$ 表示通道级乘法。人话解释：FMM 给每个通道分配一个缩放因子，重要特征被放大，不重要特征被压低；这样能提升模型对局部细微不一致的敏感性（见 PAGE 8）。</p>
+</div>
+<p>FMM 的作用在消融中得到验证。删除 FMM 后，整体指标下降 10.07 个 accuracy 点和 7.22 个 F1 点；对 SHSS、RHRS 等类别也有明显损失（见 PAGE 15）。这支持论文的判断：单靠标准 Transformer 特征传播，细粒度伪影可能在全局聚合中被弱化。</p>
+
+<h3>4.5 双向跨注意力：为 RHRS 建模全局组合关系</h3>
+<p>在 12 层 Transformer + FMM 之后，TruEye 在两个流的 $[CLS]$ tokens 之间引入跨注意力。论文写道，human stream 的 $[CLS]$ token 会关注 scene stream 的全部图像 tokens，scene stream 的 $[CLS]$ token 也会关注 human stream 的全部图像 tokens（见 PAGE 8）。公式如下：</p>
+<div class="formula">
+$$h_0 \leftarrow h_0 + \phi(h_0, s, k(s)), \qquad s_0 \leftarrow s_0 + \phi(s_0, h, k(h)) \tag{3}$$
+<p>其中 $h_0$ 和 $s_0$ 分别是 human stream 与 scene stream 的 $[CLS]$ token，$\phi$ 是 masked cross-attention operator。人话解释：局部人像和局部背景先各自判断，再通过全局 token 询问对方区域是否语义上匹配；这一步专门弥补 patch-level 判断无法区分 RHRS 与完全真实图像的问题（见 PAGE 8）。</p>
+</div>
+<p>消融结果也支持这个设计。移除 cross-attention 后，RHRS 类别 accuracy 下降 19.59 点，F1 下降 11.29 点，是三个消融项中 RHRS 受损最明显的一项（见 PAGE 15）。这说明 RHRS 的难点确实主要来自跨区域关系，而不是单个 patch 的真伪纹理。</p>
+
+<h3>4.6 最终输出：同时给出局部定位与全局类别</h3>
+<p>跨注意力之后，两个更新后的 $[CLS]$ tokens 被融合为一个 global token。模型保留 human stream 的 human tokens 与 scene stream 的 scene tokens，总计 197 个 tokens：1 个 global token 加 196 个 patch tokens。共享线性层作用于每个 token，输出 authenticity logit，并通过 sigmoid 转成概率；概率越接近 1 越倾向 synthetic，越接近 0 越倾向 real（见 PAGE 8）。</p>
+<p>推理时，阈值固定为 0.5。只要至少一个 human token 被判为 synthetic，图像包含 Synthetic Human；只要至少一个 scene token 被判为 synthetic，图像包含 Synthetic Scene。$[CLS]$ token 用于区分 RHRS 与 fully real image。最终 localization 来自 patch-level prediction results（见 PAGE 8-9）。</p>
+
+<h3>4.7 两阶段训练：先学 mask，再联合优化</h3>
+<p>训练分为两阶段。论文说明模型用预训练 ViT 初始化，初始学习率为 $3 \times 10^{-4}$，优化器为 AdamW，batch size 为 32，训练 138 epochs，并使用 early stopping 防止过拟合（见 PAGE 9）。</p>
+<div class="formula">
+$$L_{\mathrm{msk}} = \frac{1}{N}\sum_{i=1}^{N}\mathrm{BCE}_{\epsilon}\left(\sigma(m_i), y_i^{(\mathrm{msk})}\right) \tag{4}$$
+<p>公式 (4) 是 Stage I 的 mask pretraining loss。$m_i$ 是第 $i$ 个 patch 的 mask logit，$y_i^{(\mathrm{msk})}$ 是二值 mask 标签。人话解释：模型先单独学会“哪里是人、哪里是场景”，避免全局真假目标在训练早期压过区域分解能力（见 PAGE 9）。</p>
+</div>
+<div class="formula">
+$$L = L_{\mathrm{msk}} + L_{\mathrm{tok}}(w_{\mathrm{pos}}) + \lambda_{\mathrm{cls}}L_{\mathrm{cls}}, \qquad \lambda_{\mathrm{cls}} = 0.6 \tag{5}$$
+<p>公式 (5) 是 Stage II 的总目标，由 mask loss、token-level loss 和 global classification loss 构成。人话解释：TruEye 同时约束区域划分、局部真伪和整图组合类别；$\lambda_{\mathrm{cls}}=0.6$ 控制全局监督权重（见 PAGE 9）。</p>
+</div>
+<div class="formula">
+$$L_{\mathrm{tok}} = \frac{1}{N}\sum_{i=1}^{N}\mathrm{BCE}_{\epsilon}\left(\sigma(z_i), y_i^{(\mathrm{tok})};w_{\mathrm{pos}}\right) \tag{6}$$
+<p>公式 (6) 是 token-level loss。$z_i$ 是第 $i$ 个 token 的 authenticity logit，$y_i^{(\mathrm{tok})}$ 是 token 真伪标签。论文设 $\epsilon=0.02$ 作为 label smoothing，以降低过度自信并提升泛化（见 PAGE 9）。</p>
+</div>
+<div class="formula">
+$$w_{\mathrm{pos}} = \operatorname{clip}\left(\frac{N_{\mathrm{neg}}}{N_{\mathrm{pos}}},0.5,2.0\right) \tag{7}$$
+<p>公式 (7) 是动态正样本权重。$N_{\mathrm{pos}}$ 与 $N_{\mathrm{neg}}$ 分别表示 batch 中 synthetic 与 real tokens 数量。人话解释：当合成 token 很少时，上调其损失权重，避免模型靠预测多数类 real 获得低损失；clip 则限制权重过大造成训练不稳定（见 PAGE 9）。</p>
+</div>
+<div class="formula">
+$$L_{\mathrm{cls}} = \mathrm{BCE}\left(\sigma(z_0), y_{\mathrm{cls}}\right), \qquad y_{\mathrm{cls}}\in\{0,1\} \tag{8}$$
+<p>公式 (8) 是 global token loss。$z_0$ 是融合后的 $[CLS]$ logit，$y_{\mathrm{cls}}$ 表示整图是否 synthetic。人话解释：这项监督让 $[CLS]$ 学到跨区域高层一致性，补足 patch-level 梯度不能完全覆盖的组合关系（见 PAGE 10）。</p>
+</div>
+
+<h3>4.8 FineSyn：为细粒度组合任务构造训练集</h3>
+<p>论文提出 FineSyn 数据集，用来覆盖真实/合成人与真实/合成场景的组合。每种 synthetic composition type 生成 5,000 张图像，并收集 10,000 张真实人类中心图像，总计 35,000 张；训练/评估采用 80-20 split（见 PAGE 10）。</p>
+<p>FineSyn 的构建流程包括 diffusion 和 GAN 生成、分割、手动组合与 harmonization。扩散模型使用 Stable Diffusion，并控制 location type、lighting、camera viewpoint、weather、age、clothing、pose、ethnicity 等 prompt 维度；GAN 侧包括 GauGAN、StarGAN、CycleGAN、BigGAN、StyleGAN、ProGAN、StyleGAN2 等；真实人和背景来自 COCO、ImageNet、FFHQ、CelebA-HQ 和 Human Pose datasets（见 PAGE 10）。</p>
+<p>这套数据构建方式的优点是能系统覆盖组合类别，尤其是 RHRS；风险是其分布仍由人工生成流程和 harmonizer 决定。若线上诈骗图像经过更多压缩、裁剪、滤镜、重采样、截图转发或平台水印处理，FineSyn 的训练分布是否覆盖足够，需要额外验证。</p>
+
+<h2>5. 代码与可复现性</h2>
+<div class="warning">
+<p><strong>代码状态：</strong>本文未提供可确认的公开代码。给定元信息中 code_url 与 project_url 为空，论文全文 PAGE 1-18 未出现可验证 GitHub 或项目主页。因此，本文不能给出源码路径、函数名或论文方法与源码实现的逐行对应关系。</p>
+</div>
+<p>可复现性方面，论文给出了较多训练与实验设置：预训练 ViT 初始化、AdamW、学习率 $3\times10^{-4}$、batch size 32、138 epochs、early stopping、单 RTX 4090 工作站、1,000 张图像测平均推理时间等（见 PAGE 9、PAGE 11、PAGE 14）。但缺少公开代码会限制第三方复核 attention mask、region-gated residual、FMM 具体实现和数据生成细节。</p>
+<p>数据层面，作者声称 FineSyn 会被 curate and release，并称其用于支持后续细粒度 synthetic-image analysis 研究（见 PAGE 4、PAGE 10）。但在给定材料中没有看到下载链接或许可信息，因此 FineSyn 的实际可获得性仍是证据不足。</p>
+
+<h2>6. 实验分析</h2>
+<p>实验使用 Intel Core i9-14900KF CPU、62 GB RAM 与单张 NVIDIA GeForce RTX 4090 GPU。对比模型包括 TruFor、SIDA、LEGION，并在若干实验中涉及纯 ViT baseline。论文称使用各模型 originally published parameters，以减少重新训练造成的偏差；TruEye 只在 FineSyn 上训练（见 PAGE 11）。</p>
+
+<table>
+<thead><tr><th>模型</th><th>基础架构</th><th>参数量</th><th>模型大小</th><th>证据</th></tr></thead>
+<tbody>
+<tr><td>TruFor</td><td>MiT-B2 + DnCNN</td><td>68.7M</td><td>255.9 MB</td><td>Table 1, PAGE 11</td></tr>
+<tr><td>LEGION</td><td>LLM + ViT + SAM</td><td>8B</td><td>29.8 GB</td><td>Table 1, PAGE 11</td></tr>
+<tr><td>SIDA</td><td>LLM</td><td>13B</td><td>28.8 GB</td><td>Table 1, PAGE 11</td></tr>
+<tr><td>TruEye</td><td>ViT</td><td>263M</td><td>1 GB</td><td>Table 1, PAGE 11</td></tr>
+</tbody>
+</table>
+
+<p>从模型规模看，TruEye 并不是最小模型；它比 TruFor 大。但它远小于 LLM 系统 SIDA 和 LEGION，也避免了 LLM 推理链路。这一点与论文“在解释性接近 LLM 方法的同时降低成本”的论点一致（见 PAGE 2-4、PAGE 11、PAGE 14）。</p>
+
+<table>
+<thead><tr><th>数据集</th><th>年份</th><th>合成图像数</th><th>真实图像数</th><th>训练该数据集的模型</th><th>证据</th></tr></thead>
+<tbody>
+<tr><td>FaceForensics++</td><td>2019</td><td>10,000</td><td>1,363</td><td>XceptionNet</td><td>Table 2, PAGE 12</td></tr>
+<tr><td>OpenForensics</td><td>2021</td><td>95,134</td><td>95,201</td><td>None</td><td>Table 2, PAGE 12</td></tr>
+<tr><td>SID-set</td><td>2025</td><td>200,000</td><td>100,000</td><td>SIDA</td><td>Table 2, PAGE 12</td></tr>
+<tr><td>OpenSDID</td><td>2025</td><td>150,000</td><td>150,000</td><td>MaskCLIP</td><td>Table 2, PAGE 12</td></tr>
+<tr><td>SynthScars</td><td>2025</td><td>12,236</td><td>0</td><td>LEGION</td><td>Table 2, PAGE 12</td></tr>
+<tr><td>FineSyn</td><td>2026</td><td>25,000</td><td>10,000</td><td>TruEye</td><td>Table 2, PAGE 12</td></tr>
+</tbody>
+</table>
+
+<h3>6.1 FineSyn 上的细粒度检测</h3>
+<p>论文首先在 FineSyn 上比较 TruEye 与纯 ViT。正文称 TruEye 达到 overall accuracy 95.52% 与 F1-score 97.08%，纯 ViT 只有 60.11% accuracy 与 53.31% F1-score；但 Table 3 的表头是 IoU/F1，并列出 TruEye overall IoU 93.70%、F1 96.73%，Pure ViT overall IoU 69.29%、F1 73.61%（见 PAGE 12）。这里正文指标与表格指标存在口径不一致，解读时应以各自上下文为准。</p>
+
+<table>
+<thead><tr><th>模型</th><th>SHSS F1</th><th>SHRS F1</th><th>SS F1</th><th>RHSS F1</th><th>RHRS F1</th><th>Real F1</th><th>Overall F1</th><th>证据</th></tr></thead>
+<tbody>
+<tr><td>TruEye</td><td>94.93</td><td>94.70</td><td>96.40</td><td>97.09</td><td>98.54</td><td>98.70</td><td>96.73</td><td>Table 3, PAGE 12</td></tr>
+<tr><td>Pure ViT</td><td>85.22</td><td>27.96</td><td>86.19</td><td>83.17</td><td>81.50</td><td>77.60</td><td>73.61</td><td>Table 3, PAGE 12</td></tr>
+</tbody>
+</table>
+
+<p>最有解释力的不是 overall F1，而是 SHRS 与 RHRS 的差距。Pure ViT 在 SHRS 上 F1 只有 27.96%，说明“合成人 + 真实场景”这种组合不能靠普通全局 ViT 分类头稳定分离；TruEye 在同类上达到 94.70%。RHRS 上，TruEye F1 为 98.54%，也支持跨流一致性建模对“真实人被放进真实场景”的价值（见 PAGE 12）。</p>
+
+<h3>6.2 跨数据集泛化</h3>
+<p>Table 4 汇报六个数据集上的 generalization performance，表头为 AUC 与 IoU。正文一处写“report AUC and F1-score”，但表格列名是 AUC/IoU；以下按表头 AUC/IoU 解读（见 PAGE 13）。</p>
+
+<table>
+<thead><tr><th>方法</th><th>SID-set AUC/IoU</th><th>SynthScars IoU</th><th>FineSyn AUC/IoU</th><th>FF++ AUC/IoU</th><th>OpenForensics AUC/IoU</th><th>OpenSDID AUC/IoU</th><th>证据</th></tr></thead>
+<tbody>
+<tr><td>TruFor</td><td>74.08 / 35.00</td><td>3.65</td><td>78.78 / 33.60</td><td>62.93 / 54.79</td><td>80.49 / 71.39</td><td>55.08 / 33.91</td><td>Table 4, PAGE 13</td></tr>
+<tr><td>SIDA</td><td>87.30 / 73.90</td><td>60.40</td><td>54.92 / 48.28</td><td>72.36 / 48.39</td><td>58.88 / 60.25</td><td>58.88 / 8.25</td><td>Table 4, PAGE 13</td></tr>
+<tr><td>LEGION</td><td>71.74 / 35.36</td><td>55.91</td><td>47.43 / 33.81</td><td>77.88 / 50.30</td><td>8.32 / 4.26</td><td>64.57 / 41.17</td><td>Table 4, PAGE 13</td></tr>
+<tr><td>TruEye</td><td>96.50 / 79.82</td><td>61.58</td><td>98.32 / 93.70</td><td>89.23 / 82.96</td><td>93.20 / 83.46</td><td>91.85 / 79.82</td><td>Table 4, PAGE 13</td></tr>
+</tbody>
+</table>
+
+<p>Table 4 的核心结论是：TruEye 在所有列中均为最强或并列最强。尤其 OpenForensics、FaceForensics++ 和 OpenSDID 被论文描述为未被任何被评估模型用于训练的数据集，因此更接近 out-of-distribution 泛化测试。TruEye 在 OpenForensics 上达到 93.20 AUC / 83.46 IoU，在 OpenSDID 上达到 91.85 AUC / 79.82 IoU，明显高于 SIDA 和 LEGION（见 PAGE 13）。</p>
+<p>不过，论文在贡献段写 evaluations span eight datasets（PAGE 4），而实验表格实际列出六个数据集（PAGE 12-13）。这可能来自版本编辑或统计口径差异。严格阅读时，应以当前全文中的 Table 2 与 Table 4 为直接证据，即六个列出的数据集。</p>
+
+<h3>6.3 推理速度与部署价值</h3>
+<figure class="figure">
+<img src="../../assets/2606.27505/figure-03-p13.png" alt="Figure 3: Inference speed of models">
+<figcaption>Figure 3（PAGE 13）：模型推理速度。论文正文在 PAGE 14 给出定量说明：TruEye 平均 4.57 ms/image，SIDA 为 460 ms/image，LEGION 为 540 ms/image；每个模型在 1,000 张图像上用官方推理脚本测试。</figcaption>
+</figure>
+<p>速度实验对业务场景有直接意义。TruEye 的 4.57 ms/image 与 SIDA 的 460 ms/image、LEGION 的 540 ms/image 相比，大约快两个数量级。论文多次将这一点概括为 over 100× faster（见 PAGE 1、PAGE 3、PAGE 4、PAGE 14）。</p>
+<p>这种速度优势来自两个方面。第一，TruEye 不调用 LLM，也不生成语言解释；解释性来自类别标签和 patch-level localization。第二，人和场景分别在各自语义 token 内做 intra-stream attention，只有全局 $[CLS]$ 做轻量跨流聚合，避免所有 patch 之间全量混合（见 PAGE 3、PAGE 7-8）。</p>
+
+<h3>6.4 鲁棒性扰动</h3>
+<p>Table 5 使用四类强扰动测试鲁棒性：JPEG 压缩 QF=10、高斯模糊 $\sigma=4$、下采样到 0.3× 分辨率，以及加性高斯噪声 $\sigma=0.1$。论文从评估数据集中随机抽取 2,000 张图像，包含 1,000 张真实和 1,000 张合成，并排除 FineSyn 以保证 out-of-distribution 测试（见 PAGE 14）。</p>
+
+<table>
+<thead><tr><th>扰动</th><th>TruEye IoU/F1</th><th>SIDA IoU/F1</th><th>LEGION IoU/F1</th><th>TruFor IoU/F1</th><th>证据</th></tr></thead>
+<tbody>
+<tr><td>JPEG QF=10</td><td>89.97 / 91.05</td><td>57.96 / 61.64</td><td>31.96 / 35.71</td><td>32.86 / 34.89</td><td>Table 5, PAGE 14</td></tr>
+<tr><td>Resize 0.3×</td><td>84.49 / 85.91</td><td>66.50 / 68.66</td><td>31.28 / 35.15</td><td>33.67 / 34.22</td><td>Table 5, PAGE 14</td></tr>
+<tr><td>Blur σ=4</td><td>80.28 / 80.90</td><td>66.24 / 68.14</td><td>29.48 / 34.42</td><td>31.33 / 32.57</td><td>Table 5, PAGE 14</td></tr>
+<tr><td>Noise σ=0.1</td><td>88.76 / 90.16</td><td>60.45 / 62.92</td><td>30.96 / 35.57</td><td>32.51 / 32.87</td><td>Table 5, PAGE 14</td></tr>
+</tbody>
+</table>
+
+<p>这组结果说明 TruEye 的优势不是只在干净样本上成立。即使经过重压缩、下采样、模糊或噪声，TruEye 仍保持 80 以上 F1。相比之下，LEGION 和 TruFor 在这些扰动下 F1 多在 30-36 区间。对于社交平台上传图像，这类扰动更接近真实链路，因此 Table 5 是论文最有部署解释力的实验之一。</p>
+
+<h3>6.5 消融实验：哪些组件真正有用</h3>
+<p>消融实验比较 single stream、no FMM 和 no cross attention。由于双流分类器依赖 mask generator，论文没有单独移除 mask generator 后仍保留双流；相反，它比较了普通 ViT、带 mask generator 的 single-stream 变体、去掉 FMM 的变体、以及去掉 cross-attention 的变体（见 PAGE 14-15）。</p>
+
+<table>
+<thead><tr><th>变体</th><th>Overall Acc 下降</th><th>Overall F1 下降</th><th>RHRS Acc/F1 下降</th><th>主要解释</th><th>证据</th></tr></thead>
+<tbody>
+<tr><td>Single Stream</td><td>-18.93</td><td>-18.60</td><td>-11.02 / -6.06</td><td>单流共享表征会混合人体与场景线索，降低细粒度判别</td><td>Table 6, PAGE 15</td></tr>
+<tr><td>No FMM</td><td>-10.07</td><td>-7.22</td><td>-13.55 / -7.55</td><td>缺少通道放大后，细微伪影更容易被标准传播抑制</td><td>Table 6, PAGE 15</td></tr>
+<tr><td>No Cross Attention</td><td>-9.68</td><td>-6.86</td><td>-19.59 / -11.29</td><td>跨区域组合关系被削弱，RHRS 受损最大</td><td>Table 6, PAGE 15</td></tr>
+</tbody>
+</table>
+
+<p>消融结果与方法论高度一致。Single stream 的大幅下降证明“只加分类头”不足；No FMM 的下降证明细粒度线索需要显式放大；No Cross Attention 对 RHRS 的伤害最大，则说明 RHRS 不是普通局部伪影检测问题，而是人-景共现关系判断问题（见 PAGE 15）。</p>
+
+<h2>7. 讨论：适用边界与业务含义</h2>
+<p>TruEye 适用于人像与场景组合关系明确的图像审核任务，例如社交媒体头像/动态、交友诈骗素材筛查、人像广告素材清洗、合成图像自动标注质检，以及对“真实人物被放入虚假上下文”的风险检测。论文的类别体系天然贴近这类业务，因为它不仅输出 synthetic/real，还能指出合成成分位于 human、scene 或两者关系中（见 PAGE 2、PAGE 6、PAGE 8-10）。</p>
+<p>它不适合被直接理解为通用图像取证系统。论文标题和数据集都以 human subjects 与 human-centric imagery 为中心，FineSyn 也围绕人和场景组合构建（见 PAGE 1、PAGE 10）。对纯物体、文档、医学图像、卫星图像、商品图或无人物场景，证据不足，不能从本文结果直接推出同等有效。</p>
+<p>方法论上，TruEye 的启示是：当检测对象具有明确语义组成时，先按语义区域建立专门表示，再做跨区域一致性判断，可能比把所有伪造模式压进单一 embedding 更稳健。这一思想也可迁移到其他组合检测任务，例如“车辆-道路”“商品-背景”“文字-海报布局”等，但需要重新定义 mask、token supervision 与类别体系。</p>
+
+<h2>8. 局限分析</h2>
+<p><strong>作者自述或材料中可确认的边界：</strong>论文没有单列 Limitations 章节，也没有明确的“作者自述局限”段落；因此若要求正式 limitation quote，证据不足。但作者在实验协议中说明 TruEye 只在 FineSyn 上训练，鲁棒性测试排除了 FineSyn，并使用各基线 originally published parameters（见 PAGE 11、PAGE 14）。这说明论文关注的是跨数据集泛化，而不是在所有数据集上统一重训后的最优比较。</p>
+<p><strong>数据生成局限：</strong>FineSyn 由 diffusion、GAN、分割、手动组合与 harmonizer 构成（见 PAGE 10）。这能覆盖论文定义的组合类别，却可能引入数据集特定痕迹，例如 harmonization 风格、prompt 分布、人物姿态分布或拼接边界模式。若模型学到的是 FineSyn 生成流程的隐性偏差，而非一般性人-景一致性，线上泛化会受影响。Table 4 和 Table 5 提供了缓解证据，但仍需要更多真实平台数据验证。</p>
+<p><strong>代码与数据可复核局限：</strong>本文未提供可确认公开代码，FineSyn 也未在给定材料中提供下载链接或许可信息。缺少代码会影响对 attention masking、region-gated residual、FMM scale 约束、训练细节和推理阈值实现的复核；缺少数据链接则影响第三方重复 Table 3-6 的结果。</p>
+<p><strong>指标与文本一致性问题：</strong>论文中存在若干口径不完全一致之处。PAGE 4 写 evaluations span eight datasets，但 PAGE 12-13 的 Table 2 与 Table 4 展示六个数据集；PAGE 13 正文说 Table 4 报告 AUC 与 F1-score，但表头是 AUC 与 IoU；PAGE 12 正文的 overall accuracy/F1 与 Table 3 的 overall IoU/F1 也不是同一组数字。这些不必然推翻结论，但会增加读者复现和引用时的核对成本。</p>
+<p><strong>误伤率与部署阈值仍未充分展开：</strong>论文使用 0.5 阈值进行推理，并报告 AUC、IoU、F1、速度和鲁棒性（见 PAGE 8-14）。但对内容审核系统而言，关键还包括不同场景下的 false positive rate、人工复核量、不同肤色/年龄/场景类型上的公平性、截图链路与平台压缩下的稳定阈值。这些在给定全文中证据不足。</p>
+
+<h2>9. 结论</h2>
+<p>TruEye 的贡献可以概括为三点。第一，它把 AI 生成人像检测从二分类推进到人-景组合层面的细粒度类别，并显式覆盖 RHRS 这种真实人、真实场景但共现关系虚假的安全敏感类别。第二，它提出 mask-conditioned dual-stream Transformer：人和场景分别在语义一致 token 内推理，FMM 放大局部细微信号，跨流 $[CLS]$ attention 建模全局组合一致性。第三，它在 FineSyn、跨数据集泛化、扰动鲁棒性和推理速度上都给出强结果，尤其相对 LLM 检测器取得约百倍速度优势（见 PAGE 2-15）。</p>
+<p>从研究角度看，本文最值得保留的不是某个单点模块，而是任务重构：对“伪造”进行成分化、区域化和组合化建模。对于人像审核和生成素材治理，这比单一 real/fake 标签更可执行；对于后续研究，关键问题则是公开实现、公开数据、真实平台分布验证，以及更严格的误伤率与公平性评估。</p>
+
+<h2>证据索引</h2>
+<table class="evidence-list">
+<thead><tr><th>PAGE</th><th>关键证据</th></tr></thead>
+<tbody>
+<tr><td>PAGE 1</td><td>论文标题、作者、摘要；提出 TruEye、五类合成内容、mask-conditioned dual-stream transformer、token-level supervision、over 100× faster、实验覆盖多个数据集。</td></tr>
+<tr><td>PAGE 2</td><td>三项需求：generalization、inference efficiency、interpretability；五个合成类别 SHSS/SHRS/RHSS/RHRS/SS；RHRS 的安全例子；解释性输出不依赖 LLM。</td></tr>
+<tr><td>PAGE 3</td><td>Figure 1；divide and conquer 设计；dual-stream、FMM、region-gated cross-attention、token-level supervision 和 global classification 的方法概述；速度设计动机。</td></tr>
+<tr><td>PAGE 4</td><td>论文贡献列表；声称 FineSyn 数据集；与 SIDA、LEGION 等代表性检测器比较；此处出现 eight datasets 表述。</td></tr>
+<tr><td>PAGE 4-6</td><td>相关工作：XceptionNet、Adobe detector、ViT/频域/多注意力方法、定位方法、SIDA、LEGION；说明现有方法未显式处理本文细粒度组合类别。</td></tr>
+<tr><td>PAGE 6</td><td>TruEye 架构总览；输入图像 $x\in\mathbb{R}^{3\times H\times W}$；六类输出；patch embedding；$N=196$；公式 (1)。</td></tr>
+<tr><td>PAGE 7</td><td>Figure 2；mask generator 定义；双流 classifier；12 层 Transformer + FMM；attention masking matrix $M$；region-gated residual。</td></tr>
+<tr><td>PAGE 8</td><td>FMM 768→48→768、excitation factors $[0.5,1.5]$；公式 (2)；双向 $[CLS]$ cross-attention；公式 (3)；最终 197 tokens 输出。</td></tr>
+<tr><td>PAGE 9</td><td>推理规则：0.5 阈值、human token 与 scene token 判定、$[CLS]$ 区分 RHRS 与真实；两阶段训练设置；公式 (4)-(7)。</td></tr>
+<tr><td>PAGE 10</td><td>公式 (8)；FineSyn 构建、35,000 张图像、80-20 split、Stable Diffusion/GAN/真实数据源、segmentation/composition/harmonization 流程。</td></tr>
+<tr><td>PAGE 11</td><td>实验硬件；Table 1 模型架构、参数量与模型大小；对比 SIDA、LEGION、TruFor；说明 TruEye 仅在 FineSyn 上训练。</td></tr>
+<tr><td>PAGE 12</td><td>Table 2 数据集统计；Table 3 TruEye 与 Pure ViT 在 FineSyn 上的细粒度性能；正文给出 overall accuracy/F1，表格给出 IoU/F1。</td></tr>
+<tr><td>PAGE 13</td><td>Table 4 跨数据集 AUC/IoU；Figure 3 推理速度图；正文解释 TruEye 在多个数据集上泛化更强。</td></tr>
+<tr><td>PAGE 14</td><td>推理速度数值：TruEye 4.57 ms/image，SIDA 460 ms/image，LEGION 540 ms/image；Table 5 扰动鲁棒性；消融实验设计说明。</td></tr>
+<tr><td>PAGE 15</td><td>Table 6 消融结果；single-stream、no FMM、no cross attention 对整体性能与 RHRS 的影响；结论段开始。</td></tr>
+<tr><td>PAGE 16-18</td><td>结论与参考文献；未见公开代码链接或项目主页。</td></tr>
+</tbody>
+</table>
+</article>
+</body>
+</html>
