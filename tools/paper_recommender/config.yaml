@@ -792,7 +792,7 @@ reports:
   github_bundle_path: reports_bundle.tgz.b64
   github_commit_message: "chore: publish paper reports {date}"
   github_workflow_name: Deploy GitHub Pages
-  github_pages_include_assets: current
+  github_pages_include_assets: none
   github_pages_wait_for_actions: true
   github_pages_verify_urls: true
   github_bundle_max_mb: 95

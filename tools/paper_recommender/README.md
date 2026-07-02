@@ -96,7 +96,7 @@ python3 tools/paper_recommender/run_daily.py --publish-existing-reports
 python3 tools/paper_recommender/run_daily.py
 ```
 
-正式推送飞书群之前，脚本会先生成论文报告。默认配置下会调用本地 `paper-craft-skills` 的 `paper-analyzer` 子技能生成 HTML 报告，并把 `reports/` 打包成 `reports_bundle.tgz.b64` 更新到 GitHub 仓库 `main` 分支。GitHub Pages workflow 会解包 bundle 并发布 plain HTML 静态站点；GitHub Pages 发布或 URL 校验失败时会中断流程，不发送飞书群消息，避免群卡片里的“阅读报告”链接指向不存在的文件。默认流程不再提交或推送 GitLab `paper-reports` 分支。
+正式推送飞书群之前，脚本会先生成论文报告。默认配置下会调用本地 `paper-craft-skills` 的 `paper-analyzer` 子技能生成 HTML 报告，并把 `reports/` 打包成 `reports_bundle.tgz.b64` 更新到 GitHub 仓库 `main` 分支。默认 bundle 不包含本地图片资产；GitHub Pages workflow 会恢复历史站点并按需生成当前报告缺失的 assets。GitHub Pages 发布或 URL 校验失败时会中断流程，不发送飞书群消息，避免群卡片里的“阅读报告”链接指向不存在的文件。默认流程不再提交或推送 GitLab `paper-reports` 分支。
 
 生成报告会输出到：
 

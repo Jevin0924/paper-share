@@ -17,6 +17,7 @@ import requests
 
 
 LOGGER = logging.getLogger("paper_recommender")
+CONTENTS_API_SAFE_BYTES = 900_000
 
 
 @dataclass
@@ -206,6 +207,16 @@ def _put_bundle(
     existing_sha: str,
     message: str,
 ) -> str:
+    if len(content.encode("utf-8")) > CONTENTS_API_SAFE_BYTES:
+        return _put_bundle_with_git_data_api(
+            session=session,
+            api_base=api_base,
+            owner_repo=owner_repo,
+            path=path,
+            branch=branch,
+            content=content,
+            message=message,
+        )
     payload: dict[str, Any] = {
         "message": message,
         "content": base64.b64encode(content.encode("utf-8")).decode("ascii"),
@@ -214,9 +225,89 @@ def _put_bundle(
     if existing_sha:
         payload["sha"] = existing_sha
     response = session.put(f"{api_base}/repos/{owner_repo}/contents/{path}", json=payload, timeout=60)
+    if response.status_code == 422 and "too large" in response.text.lower():
+        return _put_bundle_with_git_data_api(
+            session=session,
+            api_base=api_base,
+            owner_repo=owner_repo,
+            path=path,
+            branch=branch,
+            content=content,
+            message=message,
+        )
     _raise_for_github(response)
     data = response.json()
     return str((data.get("commit") or {}).get("sha") or "")
+
+
+def _put_bundle_with_git_data_api(
+    session: requests.Session,
+    api_base: str,
+    owner_repo: str,
+    path: str,
+    branch: str,
+    content: str,
+    message: str,
+) -> str:
+    ref_response = session.get(f"{api_base}/repos/{owner_repo}/git/ref/heads/{branch}", timeout=30)
+    _raise_for_github(ref_response)
+    head_sha = str(((ref_response.json().get("object") or {}).get("sha") or ""))
+    if not head_sha:
+        raise RuntimeError(f"Cannot resolve GitHub branch head for {owner_repo}@{branch}")
+
+    commit_response = session.get(f"{api_base}/repos/{owner_repo}/git/commits/{head_sha}", timeout=30)
+    _raise_for_github(commit_response)
+    base_tree_sha = str(((commit_response.json().get("tree") or {}).get("sha") or ""))
+    if not base_tree_sha:
+        raise RuntimeError(f"Cannot resolve GitHub tree for {owner_repo}@{head_sha[:12]}")
+
+    blob_response = session.post(
+        f"{api_base}/repos/{owner_repo}/git/blobs",
+        json={"content": content, "encoding": "utf-8"},
+        timeout=180,
+    )
+    _raise_for_github(blob_response)
+    blob_sha = str(blob_response.json().get("sha") or "")
+    if not blob_sha:
+        raise RuntimeError("GitHub did not return a blob SHA for report bundle")
+
+    tree_response = session.post(
+        f"{api_base}/repos/{owner_repo}/git/trees",
+        json={
+            "base_tree": base_tree_sha,
+            "tree": [
+                {
+                    "path": path,
+                    "mode": "100644",
+                    "type": "blob",
+                    "sha": blob_sha,
+                }
+            ],
+        },
+        timeout=60,
+    )
+    _raise_for_github(tree_response)
+    tree_sha = str(tree_response.json().get("sha") or "")
+    if not tree_sha:
+        raise RuntimeError("GitHub did not return a tree SHA for report bundle")
+
+    new_commit_response = session.post(
+        f"{api_base}/repos/{owner_repo}/git/commits",
+        json={"message": message, "tree": tree_sha, "parents": [head_sha]},
+        timeout=60,
+    )
+    _raise_for_github(new_commit_response)
+    new_commit_sha = str(new_commit_response.json().get("sha") or "")
+    if not new_commit_sha:
+        raise RuntimeError("GitHub did not return a commit SHA for report bundle")
+
+    update_response = session.patch(
+        f"{api_base}/repos/{owner_repo}/git/refs/heads/{branch}",
+        json={"sha": new_commit_sha, "force": False},
+        timeout=60,
+    )
+    _raise_for_github(update_response)
+    return new_commit_sha
 
 
 def _wait_for_pages_workflow(

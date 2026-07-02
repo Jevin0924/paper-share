@@ -418,9 +418,16 @@ def publish_existing_reports(config: dict[str, Any], recommended_on: str, repo_r
         raise RuntimeError(f"Unsupported reports.publish_target: {target}")
     payload = json.loads(reports_json.read_text(encoding="utf-8"))
     records = payload.get("reports") or []
+    current_records = [
+        record
+        for record in records
+        if isinstance(record, dict) and str(record.get("recommended_on") or "").strip() == recommended_on
+    ]
+    if not current_records:
+        current_records = [record for record in records if isinstance(record, dict)][-5:]
     base_url = (env_optional("PAPER_REPORT_BASE_URL") or str(reports_config.get("base_url") or "")).strip()
-    arxiv_ids = [str(record.get("arxiv_id") or "").strip() for record in records if isinstance(record, dict)]
-    report_urls = [_record_report_url(record, base_url) for record in records if isinstance(record, dict)]
+    arxiv_ids = [str(record.get("arxiv_id") or "").strip() for record in current_records]
+    report_urls = [_record_report_url(record, base_url) for record in current_records]
     result = publish_reports_to_github_pages(
         config,
         repo_root=repo_root,

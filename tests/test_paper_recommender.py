@@ -1014,6 +1014,7 @@ class PaperRecommenderTests(unittest.TestCase):
         self.assertEqual(reports["github_repository"], "Jevin0924/paper-share")
         self.assertEqual(reports["github_branch"], "main")
         self.assertEqual(reports["github_bundle_path"], "reports_bundle.tgz.b64")
+        self.assertEqual(reports["github_pages_include_assets"], "none")
         self.assertNotIn("git_remote", reports)
         self.assertNotIn("git_branch", reports)
 
