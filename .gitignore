@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.py[cod]
+.pytest_cache/
+logs/*.log
+logs/*.json
+logs/*.txt
+.github/workflows/pages.yml

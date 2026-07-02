@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>每日论文推荐飞书配置手册</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #1f2937;
+      --muted: #667085;
+      --line: #d9dee8;
+      --brand: #1565c0;
+      --brand-soft: #e8f1ff;
+      --warn: #8a4b00;
+      --warn-soft: #fff4df;
+      --ok: #0f6b4f;
+      --ok-soft: #e7f7f1;
+      --code: #111827;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+    }
+
+    header {
+      background: linear-gradient(135deg, #ffffff 0%, #eaf3ff 100%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 44px 0 30px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0 0 24px;
+    }
+
+    nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--brand);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    main {
+      padding: 28px 0 56px;
+    }
+
+    section {
+      margin: 0 0 24px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 24px;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 22px 0 10px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    ul,
+    ol {
+      margin-top: 8px;
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 7px 0;
+    }
+
+    a {
+      color: var(--brand);
+    }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: #eef1f6;
+      color: #1f2937;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.94em;
+    }
+
+    pre {
+      overflow-x: auto;
+      margin: 12px 0;
+      padding: 14px 16px;
+      border-radius: 8px;
+      background: var(--code);
+      color: #f8fafc;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 4px;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f2f5fa;
+      font-weight: 700;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin: 12px 0;
+    }
+
+    .card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+    }
+
+    .card strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .note,
+    .warning,
+    .success {
+      margin: 14px 0;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid;
+    }
+
+    .note {
+      border-color: #b7cff8;
+      background: var(--brand-soft);
+    }
+
+    .warning {
+      border-color: #e4b66b;
+      background: var(--warn-soft);
+      color: var(--warn);
+    }
+
+    .success {
+      border-color: #a2ddc7;
+      background: var(--ok-soft);
+      color: var(--ok);
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 8px;
+      align-items: start;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .checklist input {
+      width: 18px;
+      height: 18px;
+      margin-top: 4px;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer {
+      padding: 24px 0 40px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 720px) {
+      section {
+        padding: 18px;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <h1>每日论文推荐飞书配置手册</h1>
+      <p class="subtitle">按本手册完成飞书多维表格、自建应用、群机器人、本地环境和定时任务配置后，本地 Codex 会每天生成感知算法方向论文推荐，写入飞书多维表格并推送到飞书群。</p>
+    </div>
+    <nav class="wrap" aria-label="页面导航">
+      <a href="#overview">总览</a>
+      <a href="#bitable">多维表格</a>
+      <a href="#app">飞书应用</a>
+      <a href="#bot">群机器人</a>
+      <a href="#env">本地环境</a>
+      <a href="#verify">验证流程</a>
+      <a href="#cron">定时任务</a>
+      <a href="#troubleshooting">排错</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section id="overview">
+      <h2>1. 配置总览</h2>
+      <div class="grid">
+        <div class="card">
+          <strong>本地脚本</strong>
+          <span>抓取 arXiv，规则打分，调用本地 <code>codex exec --search</code> 生成摘要。</span>
+        </div>
+        <div class="card">
+          <strong>飞书多维表格</strong>
+          <span>每篇论文一条记录，用于去重、追溯、检索和后续人工标注。</span>
+        </div>
+        <div class="card">
+          <strong>飞书自建应用</strong>
+          <span>通过 <code>APP_ID</code> 和 <code>APP_SECRET</code> 获取 token，写入多维表格。</span>
+        </div>
+        <div class="card">
+          <strong>飞书群机器人</strong>
+          <span>把每日 3-5 篇推荐推送到群，消息中附论文链接和表格链接。</span>
+        </div>
+      </div>
+      <p>配置完成后的主命令是：</p>
+      <pre><code>cd /mnt/d/faceid/code/paper-share
+python3 tools/paper_recommender/run_daily.py</code></pre>
+      <div class="note">建议先按本文的验证顺序从 <code>--sample</code> 开始，不要一上来就跑真实推送。</div>
+    </section>
+
+    <section id="bitable">
+      <h2>2. 创建飞书多维表格</h2>
+      <ol>
+        <li>在飞书中新建一个多维表格，建议命名为 <code>每日论文推荐追溯库</code>。</li>
+        <li>新建一个数据表，建议命名为 <code>论文推荐</code>。</li>
+        <li>按下表创建字段。字段名必须和下表一致，除 <code>推荐分</code> 外建议都先用文本字段。</li>
+      </ol>
+
+      <div class="success">也可以直接导入模板文件创建表格：<code>docs/feishu_bitable_template.xlsx</code>。如果飞书导入 Excel 异常，使用兜底 CSV：<code>docs/feishu_bitable_template.csv</code>。</div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>字段名</th>
+            <th>推荐字段类型</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>推荐日期</td><td>文本</td><td>脚本运行日期，例如 <code>2026-05-29</code>。</td></tr>
+          <tr><td>首次发现时间</td><td>文本</td><td>第一次写入该论文的 UTC 时间。</td></tr>
+          <tr><td>最近更新时间</td><td>文本</td><td>重复运行时更新。</td></tr>
+          <tr><td>arXiv ID</td><td>文本</td><td>主要去重键，例如 <code>2605.00001</code>。</td></tr>
+          <tr><td>DOI</td><td>文本</td><td>Semantic Scholar 补充到时写入。</td></tr>
+          <tr><td>标题</td><td>文本</td><td>论文标题，也是兜底去重键。</td></tr>
+          <tr><td>作者</td><td>文本</td><td>作者列表，过长会截断。</td></tr>
+          <tr><td>机构</td><td>文本</td><td>当前代码写入 venue 或补充来源信息。</td></tr>
+          <tr><td>论文链接</td><td>文本</td><td>arXiv 页面链接。</td></tr>
+          <tr><td>代码链接</td><td>文本</td><td>Codex 能确认官方代码时写入。</td></tr>
+          <tr><td>类别</td><td>文本</td><td>arXiv 类别，如 <code>cs.CV</code>。</td></tr>
+          <tr><td>关键词</td><td>文本</td><td>命中的打分关键词。</td></tr>
+          <tr><td>推荐分</td><td>数字</td><td>规则打分结果。</td></tr>
+          <tr><td>推荐等级</td><td>文本</td><td><code>强推荐</code>、<code>可观察</code>、<code>暂不推荐</code>。</td></tr>
+          <tr><td>一句话结论</td><td>文本</td><td>Codex 生成的短结论。</td></tr>
+          <tr><td>核心贡献</td><td>文本</td><td>论文核心贡献。</td></tr>
+          <tr><td>技术要点</td><td>文本</td><td>多条技术点会以换行写入。</td></tr>
+          <tr><td>实验亮点</td><td>文本</td><td>主要实验结果或需重点核验的指标。</td></tr>
+          <tr><td>落地价值</td><td>文本</td><td>对感知业务的参考价值。</td></tr>
+          <tr><td>风险限制</td><td>文本</td><td>复现、部署、数据或实验风险。</td></tr>
+          <tr><td>建议动作</td><td>文本</td><td><code>小试</code>、<code>观察</code>、<code>关闭</code>。</td></tr>
+          <tr><td>是否已推送</td><td>文本</td><td>群消息发送成功后写入 <code>是</code>。</td></tr>
+        </tbody>
+      </table>
+
+      <div class="warning">不要把 <code>推荐日期</code>、<code>首次发现时间</code>、<code>最近更新时间</code> 先建成日期字段。当前脚本写入的是字符串，日期字段可能要求时间戳，容易导致 API 写入失败。</div>
+
+      <h3>获取多维表格参数</h3>
+      <p>打开多维表格后，从 URL 中识别：</p>
+      <pre><code>https://xxx.feishu.cn/base/appXXXXXXXX?table=tblXXXXXXXX&amp;view=vewXXXXXXXX</code></pre>
+      <table>
+        <thead>
+          <tr><th>环境变量</th><th>值</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>FEISHU_BITABLE_APP_TOKEN</code></td><td><code>appXXXXXXXX</code></td></tr>
+          <tr><td><code>FEISHU_BITABLE_WIKI_TOKEN</code></td><td>如果链接是 <code>feishu.cn/wiki/...</code>，填写 wiki 路径后的 token，脚本会自动转换。</td></tr>
+          <tr><td><code>FEISHU_BITABLE_TABLE_ID</code></td><td><code>tblXXXXXXXX</code></td></tr>
+          <tr><td><code>FEISHU_BITABLE_URL</code></td><td>完整表格链接，用于群消息跳转。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="app">
+      <h2>3. 创建飞书自建应用</h2>
+      <ol>
+        <li>进入 <a href="https://open.feishu.cn/" target="_blank" rel="noreferrer">飞书开放平台</a>。</li>
+        <li>创建企业自建应用，应用名称可填 <code>每日论文推荐助手</code>。</li>
+        <li>进入应用后台，复制 <code>App ID</code> 和 <code>App Secret</code>。</li>
+        <li>进入权限管理，搜索并开通多维表格相关权限。</li>
+        <li>保存权限后发布应用版本；如果企业要求管理员审批，需要等审批完成。</li>
+      </ol>
+
+      <h3>权限建议</h3>
+      <p>飞书权限名称可能随控制台版本调整。原则是：应用需要能查看多维表格、查询记录、新增记录、更新记录。可以在权限管理中搜索这些关键词：</p>
+      <ul>
+        <li><code>多维表格</code></li>
+        <li><code>bitable</code></li>
+        <li><code>base</code></li>
+        <li><code>record</code></li>
+        <li><code>记录</code></li>
+      </ul>
+      <p>如果多维表格链接是 <code>feishu.cn/wiki/...</code>，还需要开通任一 wiki 节点读取权限，例如：</p>
+      <ul>
+        <li><code>wiki:node:read</code></li>
+        <li><code>wiki:wiki:readonly</code></li>
+        <li><code>wiki:wiki</code></li>
+      </ul>
+      <div class="note">如果后续运行时报 <code>Forbidden</code>、<code>permission denied</code> 或飞书错误码类似 <code>91403</code>，通常是权限或“添加文档应用”未完成。</div>
+
+      <h3>把应用加入多维表格</h3>
+      <ol>
+        <li>回到刚创建的多维表格。</li>
+        <li>点击右上角更多菜单。</li>
+        <li>找到 <code>添加文档应用</code> 或类似入口。</li>
+        <li>选择 <code>每日论文推荐助手</code>。</li>
+        <li>授予可编辑权限。</li>
+      </ol>
+      <div class="warning">这是最容易漏的一步。只在开放平台开 API 权限不够，目标多维表格也必须显式添加该应用。</div>
+    </section>
+
+    <section id="bot">
+      <h2>4. 配置飞书群机器人</h2>
+      <ol>
+        <li>打开目标飞书群。</li>
+        <li>进入群设置，找到群机器人。</li>
+        <li>添加机器人，选择自定义机器人。</li>
+        <li>机器人名称建议填 <code>每日论文推荐</code>。</li>
+        <li>复制 webhook 地址，填入 <code>FEISHU_WEBHOOK_URL</code>。</li>
+        <li>建议开启签名校验，复制签名密钥，填入 <code>FEISHU_SIGN_SECRET</code>。</li>
+      </ol>
+
+      <h3>安全设置建议</h3>
+      <ul>
+        <li>推荐开启签名校验。</li>
+        <li>如果启用关键词校验，关键词填 <code>每日论文推荐</code>，脚本推送标题会包含这个词。</li>
+        <li>除非运行机器有固定出口 IP，否则不要先开启 IP 白名单。</li>
+      </ul>
+    </section>
+
+    <section id="env">
+      <h2>5. 配置本地环境</h2>
+      <h3>安装依赖</h3>
+      <pre><code>cd /mnt/d/faceid/code/paper-share
+python3 -m pip install -r requirements.txt</code></pre>
+
+      <h3>确认本地 Codex 可用</h3>
+      <pre><code>command -v codex
+codex --help</code></pre>
+      <p>如果 <code>codex</code> 未登录或无法调用模型，先执行：</p>
+      <pre><code>codex login
+codex doctor</code></pre>
+
+      <h3>填写 .env</h3>
+      <pre><code>cd /mnt/d/faceid/code/paper-share
+cp .env.example .env</code></pre>
+      <p>将 <code>.env</code> 填成下面格式：</p>
+      <pre><code>FEISHU_APP_ID=cli_xxxxxxxxxxxxx
+FEISHU_APP_SECRET=xxxxxxxxxxxxx
+FEISHU_BITABLE_APP_TOKEN=
+FEISHU_BITABLE_WIKI_TOKEN=wiki_link_token
+FEISHU_BITABLE_TABLE_ID=tblxxxxxxxxxxxxx
+FEISHU_BITABLE_URL=https://xxx.feishu.cn/base/appxxxxxxxxxxxxx?table=tblxxxxxxxxxxxxx
+FEISHU_WEBHOOK_URL=https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxxxxxxx
+FEISHU_SIGN_SECRET=xxxxxxxxxxxxx
+SEMANTIC_SCHOLAR_API_KEY=</code></pre>
+      <div class="note"><code>SEMANTIC_SCHOLAR_API_KEY</code> 可先留空。留空时仍可跑 arXiv 抓取，只是补充 citation、venue、TLDR 等信息可能不稳定。</div>
+
+      <h3>按需调整研究方向</h3>
+      <p>编辑：</p>
+      <pre><code>tools/paper_recommender/config.yaml</code></pre>
+      <p>常调字段：</p>
+      <ul>
+        <li><code>ranking.keyword_tiers.A</code>：A 档强相关关键词，优先推荐。</li>
+        <li><code>ranking.keyword_tiers.B</code>：B 档高相关关键词，联合命中时优先。</li>
+        <li><code>ranking.keyword_tiers.C</code>：C 档专项关注关键词，用于扩大召回。</li>
+        <li><code>ranking.tier_weights</code>：标题、摘要、元信息的分层权重。</li>
+        <li><code>ranking.negative_keyword_weights</code>：不相关方向降权词和权重。</li>
+        <li><code>ranking.final_limit</code>：每日推荐篇数。</li>
+        <li><code>arxiv.days_back</code>：候选时间窗口。</li>
+      </ul>
+    </section>
+
+    <section id="verify">
+      <h2>6. 分阶段验证</h2>
+      <p>按顺序执行，前一步成功后再进入下一步。</p>
+
+      <h3>步骤 1：离线样例，不调用 Codex，不写飞书</h3>
+      <pre><code>python3 tools/paper_recommender/run_daily.py --dry-run --no-codex --sample</code></pre>
+      <p>期望结果：终端输出 JSON，包含一篇样例论文推荐。</p>
+
+      <h3>步骤 2：离线样例，调用本地 Codex，不写飞书</h3>
+      <pre><code>python3 tools/paper_recommender/run_daily.py --dry-run --sample</code></pre>
+      <p>期望结果：输出中文摘要，日志中出现 <code>Codex summaries generated</code>。</p>
+
+      <h3>步骤 3：离线样例，写多维表格，不推群</h3>
+      <p>写入前可以先做只读权限检查：</p>
+      <pre><code>python3 tools/paper_recommender/run_daily.py --check-feishu</code></pre>
+      <pre><code>python3 tools/paper_recommender/run_daily.py --sample --no-send</code></pre>
+      <p>期望结果：飞书多维表格新增或更新一条样例论文记录。</p>
+
+      <h3>步骤 4：离线样例，写表格并推群</h3>
+      <pre><code>python3 tools/paper_recommender/run_daily.py --sample</code></pre>
+      <p>期望结果：多维表格记录的 <code>是否已推送</code> 更新为 <code>是</code>，飞书群收到卡片。</p>
+
+      <h3>步骤 5：真实论文 dry-run</h3>
+      <pre><code>python3 tools/paper_recommender/run_daily.py --dry-run --no-codex</code></pre>
+      <p>期望结果：能从 arXiv 获取真实候选。如果出现 <code>HTTP 429</code>，说明 arXiv 临时限流，稍后重试即可。</p>
+
+      <h3>步骤 6：真实论文写表格但不推群</h3>
+      <pre><code>python3 tools/paper_recommender/run_daily.py --no-send</code></pre>
+
+      <h3>步骤 7：真实论文完整推送</h3>
+      <pre><code>python3 tools/paper_recommender/run_daily.py</code></pre>
+    </section>
+
+    <section id="cron">
+      <h2>7. 配置每日定时任务</h2>
+      <p>确认手动完整推送成功后再加 cron。</p>
+      <pre><code>crontab -e</code></pre>
+      <p>添加北京时间每天 09:30 执行：</p>
+      <pre><code>30 9 * * * cd /mnt/d/faceid/code/paper-share &amp;&amp; python3 tools/paper_recommender/run_daily.py &gt;&gt; logs/paper_recommender.log 2&gt;&amp;1</code></pre>
+      <p>查看日志：</p>
+      <pre><code>tail -n 120 /mnt/d/faceid/code/paper-share/logs/paper_recommender.log</code></pre>
+      <div class="warning">cron 环境变量通常比交互 shell 少。如果 cron 找不到 <code>python3</code> 或 <code>codex</code>，把命令改成绝对路径，例如 <code>/home/wjw/miniconda3/bin/python3</code> 和配置中的 <code>codex.command</code> 绝对路径。</div>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>8. 常见问题排查</h2>
+      <table>
+        <thead>
+          <tr><th>现象</th><th>优先检查</th><th>处理方式</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>飞书多维表格写入失败，提示无权限</td>
+            <td>应用权限、版本发布、添加文档应用</td>
+            <td>确认开放平台权限已审批，并在目标多维表格中添加应用且授予编辑权限。</td>
+          </tr>
+          <tr>
+            <td>字段不存在或字段类型错误</td>
+            <td>字段名和字段类型</td>
+            <td>按本文字段表逐项核对。字段名不要多空格，不要把文本字段建成日期或复选框。</td>
+          </tr>
+          <tr>
+            <td>飞书群收不到消息</td>
+            <td>webhook、签名密钥、关键词校验</td>
+            <td>确认 <code>FEISHU_WEBHOOK_URL</code> 正确。若启用签名，确认 <code>FEISHU_SIGN_SECRET</code> 正确。若启用关键词，确认关键词为 <code>每日论文推荐</code>。</td>
+          </tr>
+          <tr>
+            <td>Codex 摘要失败但流程继续</td>
+            <td>Codex 登录、网络、模型配置</td>
+            <td>执行 <code>codex doctor</code>。脚本会自动降级为规则摘要，这是预期容错。</td>
+          </tr>
+          <tr>
+            <td>arXiv 报 <code>HTTP 429</code></td>
+            <td>arXiv 限流</td>
+            <td>稍后重试。脚本已配置重试退避，也可降低 <code>arxiv.max_results</code>。</td>
+          </tr>
+          <tr>
+            <td>cron 手动能跑，定时不能跑</td>
+            <td>工作目录、绝对路径、环境变量</td>
+            <td>在 cron 中使用完整 <code>cd</code>，并把 <code>python3</code>、<code>codex</code> 换成绝对路径。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="checklist">
+      <h2>9. 最终检查清单</h2>
+      <ul class="checklist">
+        <li><input type="checkbox"> <span>飞书多维表格字段已按本文创建，字段名完全一致。</span></li>
+        <li><input type="checkbox"> <span>飞书自建应用已创建，并拿到 <code>APP_ID</code> 和 <code>APP_SECRET</code>。</span></li>
+        <li><input type="checkbox"> <span>多维表格查询、新增、更新相关权限已开通并发布。</span></li>
+        <li><input type="checkbox"> <span>目标多维表格已添加该文档应用，并授予编辑权限。</span></li>
+        <li><input type="checkbox"> <span>飞书群自定义机器人已创建，webhook 和签名密钥已复制。</span></li>
+        <li><input type="checkbox"> <span><code>.env</code> 已填写所有飞书参数。</span></li>
+        <li><input type="checkbox"> <span><code>--dry-run --no-codex --sample</code> 已通过。</span></li>
+        <li><input type="checkbox"> <span><code>--dry-run --sample</code> 已通过，Codex 能生成中文摘要。</span></li>
+        <li><input type="checkbox"> <span><code>--sample --no-send</code> 已成功写入多维表格。</span></li>
+        <li><input type="checkbox"> <span><code>--sample</code> 已成功推送飞书群。</span></li>
+        <li><input type="checkbox"> <span>去掉 <code>--sample</code> 后，真实论文流程已验证。</span></li>
+        <li><input type="checkbox"> <span>cron 已配置，日志路径可正常写入。</span></li>
+      </ul>
+    </section>
+
+    <section id="references">
+      <h2>10. 官方文档入口</h2>
+      <ul>
+        <li><a href="https://open.feishu.cn/document/server-docs/docs/bitable-v1/bitable-overview" target="_blank" rel="noreferrer">飞书多维表格 API 概述</a></li>
+        <li><a href="https://open.feishu.cn/document/server-docs/docs/bitable-v1/app-table-record/create" target="_blank" rel="noreferrer">飞书多维表格新增记录</a></li>
+        <li><a href="https://open.feishu.cn/document/docs/bitable-v1/app-table-record/search" target="_blank" rel="noreferrer">飞书多维表格查询记录</a></li>
+        <li><a href="https://open.feishu.cn/document/faq/bot" target="_blank" rel="noreferrer">飞书机器人 FAQ</a></li>
+        <li><a href="https://open.feishu.cn/document/faq/trouble-shooting/how-to-choose-which-type-of-token-to-use" target="_blank" rel="noreferrer">飞书 token 选择说明</a></li>
+        <li><a href="https://info.arxiv.org/help/api/index.html" target="_blank" rel="noreferrer">arXiv API 文档</a></li>
+        <li><a href="https://www.semanticscholar.org/product/api" target="_blank" rel="noreferrer">Semantic Scholar API</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p>本页面为本仓库本地配置手册。实际权限名称以飞书开放平台当前页面为准。</p>
+  </footer>
+</body>
+</html>

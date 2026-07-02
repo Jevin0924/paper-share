@@ -1,0 +1,841 @@
+timezone: Asia/Shanghai
+
+sources:
+  huggingface_papers:
+    enabled: true
+    urls:
+      - https://huggingface.co/papers
+      - https://huggingface.co/papers/trending
+    max_results: 40
+    timeout_seconds: 20
+  cvf_openaccess:
+    enabled: true
+    max_results: 80
+    fetch_details: true
+    detail_limit: 8
+    timeout_seconds: 30
+    venues:
+      - name: CVPR 2026
+        venue: CVPR
+        year: 2026
+        published: "2026-05-23T00:00:00+00:00"
+        url: https://openaccess.thecvf.com/CVPR2026?day=all
+
+copywriting:
+  notable_authors:
+    - Kaiming He
+    - Saining Xie
+    - Ross Girshick
+    - Jitendra Malik
+    - Fei-Fei Li
+    - Trevor Darrell
+    - Andrew Zisserman
+    - Cordelia Schmid
+    - Michael J. Black
+    - Dahua Lin
+    - Xiaogang Wang
+    - Philip Torr
+
+arxiv:
+  source: api
+  api_url: https://export.arxiv.org/api/query
+  rss_url: https://rss.arxiv.org/rss
+  rss_fallback: true
+  categories:
+    - cs.CV
+    - cs.MM
+    - cs.LG
+    - cs.AI
+    - cs.RO
+  days_back: 7
+  max_results: 100
+  timeout_seconds: 60
+  retries: 3
+  retry_delay_seconds: 20
+
+semantic_scholar:
+  enabled: true
+  timeout_seconds: 20
+
+prestige_venues:
+  enabled: true
+  quality_bonus: 5.0
+  candidate_bucket_limit: 8
+
+ranking:
+  final_limit: 5
+  min_score: 8.0
+  max_score: 30.0
+  primary_task_threshold: 5.0
+  primary_task_cap: 15.0
+  primary_task_weights:
+    title: 6
+    abstract: 3
+    metadata: 2
+  method_cap: 6.0
+  method_tier_weights:
+    title:
+      A: 2.0
+      B: 1.5
+      C: 1.0
+    abstract:
+      A: 1.5
+      B: 1.0
+      C: 0.5
+    metadata:
+      A: 1.0
+      B: 0.5
+      C: 0.25
+  engineering_cap: 5.0
+  code_weight: 2.0
+  hotness_cap: 6.0
+  quality_cap: 6.0
+  judge_min_hotness_score: 3.0
+  judge_min_quality_score: 3.0
+  citation_cap: 2.0
+  freshness_days: 7
+  freshness_weight: 2.0
+  category_bonus:
+    cs.CV: 1.5
+    cs.MM: 1.0
+    cs.AI: 0.5
+    cs.LG: 0.5
+    cs.RO: 0.5
+  primary_tasks:
+    检测:
+      - object detection
+      - generic object detection
+      - open-vocabulary detection
+      - open vocabulary object detection
+      - open-set detection
+      - open-world detection
+      - zero-shot detection
+      - few-shot detection
+      - class-agnostic detection
+      - category-agnostic detection
+      - grounding detection
+      - visual grounding
+      - phrase grounding
+      - grounding
+      - localization
+      - visual localization
+      - object localization
+      - bounding box
+      - bounding boxes
+      - box decoding
+      - Parallel Box Decoding
+      - referring object detection
+      - referring expression comprehension
+      - language-guided detection
+      - text-conditioned detection
+      - promptable detection
+      - detector
+      - detection
+      - YOLO
+      - DETR
+      - DINO
+      - Grounding DINO
+      - RT-DETR
+      - DEIM
+      - small object detection
+      - tiny object detection
+    跟踪/ReID:
+      - multi-object tracking
+      - multiple object tracking
+      - single object tracking
+      - visual object tracking
+      - tracking-by-detection
+      - video object tracking
+      - tracking
+      - ReID
+      - re-identification
+      - person re-identification
+      - object re-identification
+      - tracklet association
+      - trajectory association
+      - data association
+      - identity association
+      - ByteTrack
+      - BoT-SORT
+      - OC-SORT
+      - DeepSORT
+    关键点/姿态:
+      - keypoint detection
+      - keypoint estimation
+      - pose estimation
+      - human pose estimation
+      - pose
+      - facial landmark
+      - landmark detection
+      - face landmark
+      - dense landmark
+      - body landmark
+      - human-centric vision
+      - dense prediction
+      - body-part segmentation
+      - human parsing
+      - normal estimation
+      - pointmap
+      - hand pose
+      - skeleton
+      - 2D pose
+      - 3D pose
+      - head pose estimation
+      - gaze estimation
+    自动标注/数据:
+      - automatic annotation
+      - auto annotation
+      - auto-labeling
+      - automatic labeling
+      - pseudo-labeling
+      - pseudo label
+      - weak annotation
+      - weak supervision
+      - semi-supervised learning
+      - self-training
+      - teacher-student learning
+      - human-in-the-loop annotation
+      - data cleaning
+      - label cleaning
+      - label correction
+      - label verification
+      - label noise
+      - noisy labels
+      - annotation noise
+      - annotation quality
+      - data engine
+      - data-centric AI
+      - dataset curation
+      - data curation
+      - data selection
+      - active learning
+      - hard example mining
+      - failure case mining
+    分类/属性:
+      - image classification
+      - visual classification
+      - fine-grained classification
+      - multi-label classification
+      - hierarchical classification
+      - long-tail classification
+      - open-set classification
+      - scene recognition
+      - scene classification
+      - scene understanding
+      - place recognition
+      - context recognition
+      - environment recognition
+      - face attribute classification
+      - facial attribute recognition
+      - face attribute recognition
+      - facial analysis
+      - age estimation
+      - gender classification
+      - expression recognition
+      - facial expression recognition
+      - face quality assessment
+      - face occlusion detection
+      - face mask detection
+      - face anti-spoofing
+      - attribute prediction
+      - attribute recognition
+    小模型/部署:
+      - model compression
+      - network compression
+      - model acceleration
+      - efficient neural network
+      - efficient vision model
+      - lightweight model
+      - compact model
+      - tiny model
+      - mobile vision
+      - edge AI
+      - edge deployment
+      - on-device deployment
+      - real-time inference
+      - network pruning
+      - model pruning
+      - channel pruning
+      - filter pruning
+      - structured pruning
+      - sparse pruning
+      - quantization
+      - model quantization
+      - post-training quantization
+      - PTQ
+      - quantization-aware training
+      - QAT
+      - low-bit quantization
+      - INT8 quantization
+      - INT4 quantization
+      - knowledge distillation
+      - feature distillation
+      - neural architecture search
+      - NAS
+      - inference optimization
+      - MobileNet
+      - MobileNetV2
+      - MobileNetV3
+      - ShuffleNet
+      - GhostNet
+      - EfficientNet
+      - EfficientViT
+      - MobileViT
+      - TinyViT
+      - RepVGG
+      - RepViT
+      - FastViT
+      - EdgeNeXt
+      - lightweight CNN
+      - lightweight ViT
+      - mobile devices
+      - resource-constrained
+      - latency
+    视频理解:
+      - video understanding
+      - video perception
+      - video representation learning
+      - video foundation model
+      - video-language model
+      - video large language model
+      - video MLLM
+      - long video understanding
+      - temporal understanding
+      - spatio-temporal modeling
+      - motion understanding
+      - event understanding
+      - action recognition
+      - activity recognition
+      - video object detection
+      - video object segmentation
+      - video instance segmentation
+      - video panoptic segmentation
+      - video tracking
+      - video grounding
+      - temporal object localization
+      - spatio-temporal grounding
+      - temporal consistency
+      - streaming video understanding
+      - online video understanding
+  engineering_keywords:
+    real-time: 2
+    realtime: 2
+    efficient: 2
+    lightweight: 2
+    mobile: 1.5
+    edge: 1.5
+    on-device: 2
+    deployment: 1.5
+    latency: 1.5
+    fps: 1
+    compression: 1.5
+    pruning: 2
+    quantization: 2
+    distillation: 1.5
+    low-bit: 1.5
+    int8: 1.5
+    int4: 1.5
+  code_keywords:
+    - open-source
+    - open source
+    - github
+  bonus_keywords:
+    foundation model: 2
+    generalist model: 2
+    large-scale dataset: 1
+    benchmark: 1
+    CVPR: 2
+    ICCV: 2
+    ECCV: 2
+    NeurIPS: 2
+    ICLR: 2
+    AAAI: 2
+    WACV: 2
+  negative_keyword_weights:
+    skill generation: 8
+    automated ai skill: 8
+    llm agent only: 6
+    person-grounded agent: 6
+    medical image: 3
+    medical image only: 3
+    microscopy: 6
+    microscopy videos: 6
+    biological systems: 5
+    biomedical: 5
+    remote sensing: 2
+    remote sensing only: 2
+    satellite: 2
+    3D point cloud: 2
+    point cloud only: 2
+    autonomous driving only: 1
+    pure NLP: 5
+    language model only: 4
+    pure LLM reasoning: 4
+    text-to-image: 2
+    3D generation: 6
+    3D asset generation: 6
+    diffusion generation: 2
+    molecule: 5
+    molecular: 5
+    protein: 5
+    bioinformatics: 5
+    genomics: 5
+    recommendation system: 4
+    audio only: 4
+    speech only: 4
+  hard_negative_keywords:
+    - skill generation
+    - automated ai skill
+    - person-grounded agent
+  keyword_tiers:
+    A:
+      - object detection
+      - open-vocabulary detection
+      - open vocabulary object detection
+      - open-set detection
+      - open-world detection
+      - grounding detection
+      - visual grounding
+      - Grounding DINO
+      - DINO-X
+      - YOLO
+      - YOLOX
+      - YOLOv8
+      - YOLOv9
+      - YOLOv10
+      - DETR
+      - DINO
+      - RT-DETR
+      - DEIM
+      - multi-object tracking
+      - multiple object tracking
+      - single object tracking
+      - visual object tracking
+      - ReID
+      - tracking-by-detection
+      - ByteTrack
+      - BoT-SORT
+      - SAM
+      - SAM 2
+      - video object segmentation
+      - vision-language model
+      - large vision-language model
+      - multimodal large language model
+      - VLM
+      - MLLM
+      - Qwen-VL
+      - Qwen2-VL
+      - Qwen2.5-VL
+      - InternVL
+      - LLaVA
+      - auto-labeling
+      - automatic annotation
+      - automatic labeling
+      - pseudo-labeling
+      - pseudo label
+      - data cleaning
+      - dataset curation
+      - data engine
+      - perception foundation model
+      - vision foundation model
+      - visual foundation model
+      - scene recognition
+      - face attribute recognition
+      - facial attribute recognition
+      - multi-label classification
+      - model compression
+      - network compression
+      - channel pruning
+      - quantization
+      - knowledge distillation
+      - video understanding
+      - video perception
+    B:
+      - generic object detection
+      - zero-shot detection
+      - few-shot detection
+      - class-agnostic detection
+      - category-agnostic detection
+      - referring object detection
+      - referring expression comprehension
+      - language-guided detection
+      - text-conditioned detection
+      - promptable detection
+      - phrase grounding
+      - GLIP
+      - OWL-ViT
+      - Co-DETR
+      - DAB-DETR
+      - DN-DETR
+      - Deformable DETR
+      - Sparse R-CNN
+      - Faster R-CNN
+      - Mask R-CNN
+      - real-time detection
+      - efficient detection
+      - dense detection
+      - tiny object detection
+      - small object detection
+      - long-tail detection
+      - domain-adaptive detection
+      - domain generalization detection
+      - detection foundation model
+      - MOT
+      - online tracking
+      - joint detection and tracking
+      - tracklet association
+      - trajectory association
+      - data association
+      - identity association
+      - identity switch
+      - ID switch
+      - occlusion handling
+      - long-term association
+      - multi-camera tracking
+      - SOT
+      - long-term visual tracking
+      - target tracking
+      - template matching
+      - template update
+      - template memory
+      - target re-detection
+      - tracking failure detection
+      - distractor-aware tracking
+      - robust visual tracking
+      - person re-identification
+      - object re-identification
+      - appearance embedding
+      - identity embedding
+      - metric learning
+      - cross-camera tracking
+      - appearance-based association
+      - trajectory embedding
+      - video object tracking
+      - VOT
+      - VOS
+      - referring video object segmentation
+      - language-guided tracking
+      - open-vocabulary tracking
+      - open-world tracking
+      - promptable tracking
+      - OC-SORT
+      - DeepSORT
+      - StrongSORT
+      - FairMOT
+      - CenterTrack
+      - TransTrack
+      - TrackFormer
+      - MOTR
+      - QDTrack
+      - SAMURAI
+      - vision-language foundation model
+      - multimodal foundation model
+      - visual-language alignment
+      - vision-language alignment
+      - multimodal instruction tuning
+      - visual instruction tuning
+      - visual reasoning
+      - visual perception
+      - image understanding
+      - video understanding
+      - region-level understanding
+      - region captioning
+      - dense captioning
+      - object-level understanding
+      - fine-grained visual understanding
+      - spatial reasoning
+      - counting ability
+      - visual localization
+      - VLM for detection
+      - VLM for segmentation
+      - VLM for tracking
+      - VLM for classification
+      - VLM for annotation
+      - VLM for data cleaning
+      - VLM for visual inspection
+      - VLM as judge
+      - vision-language perception
+      - multimodal perception
+      - region-level perception
+      - object-centric perception
+      - Florence
+      - Florence-2
+      - BLIP
+      - BLIP-2
+      - CogVLM
+      - MiniGPT
+      - Kosmos
+      - auto annotation
+      - weak annotation
+      - weak supervision
+      - semi-supervised learning
+      - self-training
+      - teacher-student learning
+      - human-in-the-loop annotation
+      - label cleaning
+      - label correction
+      - label verification
+      - label noise
+      - noisy labels
+      - annotation noise
+      - annotation quality
+      - data quality
+      - dataset quality
+      - outlier detection
+      - mislabel detection
+      - duplicate detection
+      - near-duplicate detection
+      - data-centric AI
+      - data curation
+      - data selection
+      - data filtering
+      - data pruning
+      - data mixture
+      - data scaling
+      - active learning
+      - hard example mining
+      - hard negative mining
+      - failure case mining
+      - closed-loop learning
+      - continual data engine
+      - world model for perception
+      - vision-centric foundation model
+      - unified perception model
+      - generalist vision model
+      - vision generalist model
+      - large-scale visual pretraining
+      - large-scale vision model
+      - foundation model for perception
+      - image classification
+      - visual classification
+      - fine-grained classification
+      - long-tail classification
+      - open-set classification
+      - zero-shot classification
+      - few-shot classification
+      - incremental classification
+      - continual learning
+      - scene classification
+      - scene understanding
+      - place recognition
+      - context recognition
+      - environment recognition
+      - facial analysis
+      - age estimation
+      - gender classification
+      - expression recognition
+      - facial expression recognition
+      - head pose estimation
+      - face quality assessment
+      - face occlusion detection
+      - face mask detection
+      - face anti-spoofing
+      - multi-task learning
+      - multi-head classification
+      - shared backbone
+      - attribute prediction
+      - attribute recognition
+      - fine-grained attribute
+      - visual attribute learning
+      - model acceleration
+      - efficient neural network
+      - efficient vision model
+      - lightweight model
+      - compact model
+      - tiny model
+      - mobile vision
+      - edge AI
+      - edge deployment
+      - on-device deployment
+      - real-time inference
+      - network pruning
+      - model pruning
+      - structured pruning
+      - unstructured pruning
+      - sparse pruning
+      - dynamic pruning
+      - adaptive pruning
+      - post-training quantization
+      - PTQ
+      - quantization-aware training
+      - QAT
+      - low-bit quantization
+      - INT8 quantization
+      - INT4 quantization
+      - mixed-precision quantization
+      - weight-only quantization
+      - activation quantization
+      - feature distillation
+      - logit distillation
+      - response distillation
+      - self-distillation
+      - neural architecture search
+      - NAS
+      - operator fusion
+      - inference optimization
+      - MobileNet
+      - MobileNetV2
+      - MobileNetV3
+      - ShuffleNet
+      - GhostNet
+      - EfficientNet
+      - EfficientViT
+      - MobileViT
+      - TinyViT
+      - RepVGG
+      - RepViT
+      - FastViT
+      - EdgeNeXt
+      - video representation learning
+      - video foundation model
+      - video-language model
+      - video large language model
+      - video MLLM
+      - long video understanding
+      - temporal understanding
+      - spatio-temporal modeling
+      - motion understanding
+      - event understanding
+      - action recognition
+      - activity recognition
+      - video object detection
+      - video instance segmentation
+      - video panoptic segmentation
+      - video tracking
+      - video grounding
+      - video saliency detection
+      - temporal object localization
+      - spatio-temporal grounding
+      - temporal consistency
+      - temporal modeling
+      - motion modeling
+      - optical flow
+      - frame association
+      - temporal alignment
+      - temporal aggregation
+      - memory mechanism
+      - long-term memory
+      - streaming video understanding
+      - online video understanding
+    C:
+      - domain adaptation
+      - domain generalization
+      - test-time adaptation
+      - open-set recognition
+      - out-of-distribution detection
+      - OOD detection
+      - class-incremental learning
+      - hierarchical classification
+      - task-specific head
+      - closed-loop learning
+      - visual inspection
+      - real-time inference
+      - filter pruning
+      - lottery ticket hypothesis
+      - mobile
+      - edge
+      - efficient
+      - lightweight
+
+codex:
+  enabled: true
+  judge_enabled: true
+  judge_candidate_limit: 15
+  judge_min_rule_score: 8.0
+  judge_min_hotness_score: 3.0
+  judge_min_quality_score: 3.0
+  judge_bucket_limit: 5
+  judge_min_codex_score: 10.0
+  command: codex
+  timeout_seconds: 300
+
+history:
+  enabled: true
+  mode: pushed_forever
+
+reports:
+  enabled: true
+  codex_enabled: true
+  generator: paper_craft
+  paper_craft_style: academic
+  paper_craft_skill_path: "/home/wjw/.codex/skills/paper-analyzer"
+  paper_analyzer_style: academic
+  paper_analyzer_skill_path: "/home/wjw/.codex/skills/paper-analyzer"
+  publisher: file
+  archive_markdown: true
+  quality_gate: true
+  quality_require_pdf_evidence: true
+  visual_mode: table_and_mermaid
+  optional_method_figure: false
+  format: html
+  output_dir: reports
+  state_path: reports/data/state.json
+  base_url: ""
+  doc_base_url: ""
+  feishu_doc_folder_token: ""
+  feishu_wiki_parent_token: "O2fgwUF3iiHEIRkhEMAcjlnWnGe"
+  feishu_native_blocks: true
+  feishu_doc_max_images: 4
+  read_pdf: true
+  pdf_text_chars: 80000
+  pdf_max_pages: 0
+  pdf_timeout_seconds: 90
+  extract_figures: true
+  max_figures: 4
+  figure_min_width: 220
+  figure_min_height: 160
+  publish_target: git
+  publish_before_send: true
+  publish_on_no_send: true
+  git_push_before_send: true
+  git_push_on_no_send: true
+  git_remote: origin
+  git_branch: paper-reports
+  git_commit_message: "chore: update paper reports {date}"
+  timeout_seconds: 420
+  force_regenerate: false
+
+feishu:
+  bitable_url: ""
+  field_names:
+    recommended_date: 推荐日期
+    first_seen_at: 首次发现时间
+    updated_at: 最近更新时间
+    arxiv_id: arXiv ID
+    doi: DOI
+    title: 标题
+    display_title: 展示标题
+    authors: 作者
+    venue: 机构
+    paper_url: 论文链接
+    code_url: 代码链接
+    project_url: 项目链接
+    categories: 类别
+    keywords: 关键词
+    score: 推荐分
+    hotness: 热点信号
+    quality: 质量信号
+    recommendation_level: 推荐等级
+    hook: 推荐钩子
+    one_sentence: 一句话结论
+    contribution: 核心贡献
+    technical_points: 技术要点
+    results: 实验亮点
+    why_now: 为什么现在看
+    quality_reason: 质量判断
+    hotness_reason: 热点判断
+    evidence_highlights: 可验证依据
+    business_value: 落地价值
+    risks: 风险限制
+    action: 建议动作
+    recommendation_reason: 推荐原因
+    primary_task: 主任务方向
+    business_relevance: 业务相关度
+    deployability: 工程落地性
+    matched_keywords: 命中关键词
+    codex_decision: Codex推荐判断
+    report_url: 阅读报告链接
+    report_generated_at: 报告生成时间
+    report_status: 报告状态
+    report_basis: 是否读取全文
+    pushed: 是否已推送

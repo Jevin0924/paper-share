@@ -98,3 +98,26 @@ perception-paper-share/
 - 若论文未开源，仅复现核心模块（ablation-style）。  
 - 严格遵守数据隐私与安全规范，禁止上传内部或敏感数据。  
 - 分享时长建议 **15~20分钟**，重点突出可落地价值。  
+
+---
+
+## 8. 自动每日论文推荐
+
+本仓库新增 `tools/paper_recommender/`，用于本地定时运行每日论文推荐：
+
+- 从 arXiv 抓取近 7 天 `cs.CV / cs.LG / cs.AI` 论文；
+- 按检测/开放词汇检测、跟踪/ReID、VLM/多模态感知、自动标注/数据引擎、分类/人脸属性、小模型部署、视频理解等方向分层打分；
+- 调用本地 Codex 判断是否值得推荐，并调用本地 `paper-craft-skills` 的 `paper-analyzer` 子技能生成中文 HTML 精读报告；
+- 将每篇论文报告发布为 GitLab Pages HTML，图片资源保存到 `reports/assets/`；
+- 写入飞书多维表格作为追溯库；
+- 将 3-5 篇推荐论文推送到飞书群。
+
+快速 dry-run：
+
+```bash
+python3 tools/paper_recommender/run_daily.py --dry-run --no-codex
+```
+
+完整配置与飞书字段说明见 [`tools/paper_recommender/README.md`](./tools/paper_recommender/README.md)。
+
+面向实际配置的逐步操作手册见 [`docs/feishu_paper_recommender_setup.html`](./docs/feishu_paper_recommender_setup.html)，可直接用浏览器打开后按清单配置。
