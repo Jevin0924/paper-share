@@ -438,7 +438,7 @@ def publish_existing_reports(config: dict[str, Any], recommended_on: str, repo_r
 def _report_publish_target(reports_config: dict[str, Any]) -> str:
     target = str(reports_config.get("publish_target") or "").strip().lower()
     if not target:
-        return "git"
+        return "github_pages"
     if target in {"git", "gitlab", "gitlab_pages", "gitlab-pages"}:
         return "git"
     return target
@@ -495,7 +495,7 @@ def apply_report_publish_templates(config: dict[str, Any], recommended_on: str) 
         "date": recommended_on,
         "date_compact": recommended_on.replace("-", ""),
     }
-    for key in ("base_url", "git_branch", "git_commit_message"):
+    for key in ("base_url", "git_branch", "git_commit_message", "github_branch", "github_commit_message"):
         value = reports_config.get(key)
         if isinstance(value, str):
             reports_config[key] = value.format(**values)

@@ -1,0 +1,243 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  PAGES_BASE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Restore previous Pages site
+        shell: bash
+        run: |
+          rm -rf public
+          mkdir -p public
+          python3 <<'PY'
+          from __future__ import annotations
+
+          import json
+          import os
+          import urllib.error
+          import urllib.request
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import unquote, urljoin
+
+          base_url = os.environ["PAGES_BASE_URL"].rstrip("/") + "/"
+          public = Path("public")
+          public.mkdir(parents=True, exist_ok=True)
+
+          class LinkParser(HTMLParser):
+              def __init__(self) -> None:
+                  super().__init__()
+                  self.links: list[str] = []
+
+              def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+                  for key, value in attrs:
+                      if key in {"href", "src"} and value:
+                          self.links.append(value)
+
+          def to_rel(link: str, page_url: str) -> str:
+              absolute = urljoin(page_url, link).split("#", 1)[0].split("?", 1)[0]
+              if not absolute.startswith(base_url):
+                  return ""
+              rel = unquote(absolute[len(base_url):])
+              if not rel:
+                  rel = "index.html"
+              elif rel.endswith("/"):
+                  rel += "index.html"
+              parts = Path(rel).parts
+              if rel.startswith("/") or ".." in parts:
+                  return ""
+              return rel
+
+          def download(rel: str) -> tuple[bytes, str]:
+              url = urljoin(base_url, rel)
+              try:
+                  request = urllib.request.Request(url, headers={"User-Agent": "paper-share-pages-restore/1.0"})
+                  with urllib.request.urlopen(request, timeout=20) as response:
+                      if response.status != 200:
+                          return b"", ""
+                      content = response.read()
+                      target = public / rel
+                      target.parent.mkdir(parents=True, exist_ok=True)
+                      target.write_bytes(content)
+                      return content, response.headers.get("content-type", "")
+              except (urllib.error.URLError, TimeoutError):
+                  return b"", ""
+
+          manifest_bytes, _ = download("data/site-files.json")
+          if manifest_bytes:
+              try:
+                  files = json.loads(manifest_bytes.decode("utf-8"))
+              except json.JSONDecodeError:
+                  files = []
+              restored = 0
+              for rel in files:
+                  if isinstance(rel, str) and to_rel(rel, base_url):
+                      content, _ = download(rel)
+                      restored += 1 if content else 0
+              print(f"restored {restored} files from Pages manifest")
+              raise SystemExit
+
+          queue = ["index.html"]
+          seen: set[str] = set()
+          restored = 0
+          while queue and len(seen) < 500:
+              rel = queue.pop(0)
+              if rel in seen:
+                  continue
+              seen.add(rel)
+              content, content_type = download(rel)
+              if not content:
+                  continue
+              restored += 1
+              if "text/html" not in content_type and not rel.endswith(".html"):
+                  continue
+              parser = LinkParser()
+              parser.feed(content.decode("utf-8", errors="ignore"))
+              page_url = urljoin(base_url, rel)
+              for link in parser.links:
+                  child = to_rel(link, page_url)
+                  if child and child not in seen and child not in queue:
+                      queue.append(child)
+          print(f"restored {restored} files by crawling previous Pages site")
+          PY
+
+      - name: Restore generated report bundle
+        shell: bash
+        run: |
+          if [ -f reports_bundle.tgz.b64 ]; then
+            base64 -d reports_bundle.tgz.b64 | tar -xzf -
+            cp -a reports/. public/
+          fi
+          touch public/.nojekyll
+
+      - name: Generate missing current report assets
+        shell: bash
+        run: |
+          if [ ! -f public/data/reports.json ]; then
+            exit 0
+          fi
+          python3 -m pip install --quiet pymupdf
+          python3 <<'PY'
+          from __future__ import annotations
+
+          import json
+          import re
+          import urllib.request
+          from pathlib import Path
+
+          import fitz
+
+          public = Path("public")
+          reports_json = public / "data" / "reports.json"
+          records = json.loads(reports_json.read_text(encoding="utf-8")).get("reports") or []
+          current_ids = [str(item.get("arxiv_id") or "").strip() for item in records if item.get("arxiv_id")]
+          generated = 0
+          for arxiv_id in current_ids:
+              html_path = public / "reports" / arxiv_id / "index.html"
+              if not html_path.exists():
+                  continue
+              html = html_path.read_text(encoding="utf-8", errors="ignore")
+              referenced = sorted(set(re.findall(r"\.\./\.\./assets/" + re.escape(arxiv_id) + r"/([^\"']+)", html)))
+              if not referenced:
+                  continue
+              assets_dir = public / "assets" / arxiv_id
+              if all((assets_dir / name).exists() for name in referenced):
+                  continue
+              assets_dir.mkdir(parents=True, exist_ok=True)
+              try:
+                  request = urllib.request.Request(
+                      f"https://arxiv.org/pdf/{arxiv_id}",
+                      headers={"User-Agent": "paper-share-pages-assets/1.0"},
+                  )
+                  with urllib.request.urlopen(request, timeout=90) as response:
+                      pdf_bytes = response.read()
+                  doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+                  seen: set[int] = set()
+                  count = 0
+                  target_count = max(4, len(referenced))
+                  for page_index, page in enumerate(doc, start=1):
+                      for image in page.get_images(full=True):
+                          xref = int(image[0])
+                          if xref in seen:
+                              continue
+                          seen.add(xref)
+                          pix = fitz.Pixmap(doc, xref)
+                          try:
+                              if pix.width < 220 or pix.height < 160:
+                                  continue
+                              if pix.n - pix.alpha > 3:
+                                  pix = fitz.Pixmap(fitz.csRGB, pix)
+                              count += 1
+                              filename = f"figure-{count:02d}-p{page_index}.png"
+                              pix.save(str(assets_dir / filename))
+                              generated += 1
+                              if count >= target_count:
+                                  raise StopIteration
+                          finally:
+                              pix = None
+              except StopIteration:
+                  pass
+              except Exception as exc:
+                  print(f"warning: failed to generate assets for {arxiv_id}: {exc}")
+          print(f"generated {generated} current report assets")
+          PY
+
+      - name: Write Pages manifest
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import json
+
+          public = Path("public")
+          files = sorted(
+              path.relative_to(public).as_posix()
+              for path in public.rglob("*")
+              if path.is_file() and path.relative_to(public).as_posix() != "data/site-files.json"
+          )
+          files.append("data/site-files.json")
+          target = public / "data" / "site-files.json"
+          target.parent.mkdir(parents=True, exist_ok=True)
+          target.write_text(json.dumps(files, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print(f"manifest contains {len(files)} files")
+          PY
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

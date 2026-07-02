@@ -64,7 +64,7 @@ def build_paper_craft_html_prompt(
 6. 图片只能使用 figures 中提供的 `html_path` 作为 `<img src>`，不要输出不存在的图片路径。
 7. 如果有 Mermaid 图，请在 HTML 中包含 Mermaid CDN 初始化；如果有公式，请包含 KaTeX 或 MathJax 渲染支持。
 8. 如果无法确认公开代码实现，代码分析部分必须写“本文未提供可确认的公开代码”，不要伪造代码段。
-9. 页面应可直接作为 GitLab Pages 静态页面打开。
+9. 页面应可直接作为 GitHub Pages 静态页面打开。
 10. 文末必须有“证据索引”，列出关键 PAGE 证据。
 
 论文元信息：

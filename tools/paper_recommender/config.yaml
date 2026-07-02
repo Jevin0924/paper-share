@@ -770,7 +770,7 @@ reports:
   format: html
   output_dir: reports
   state_path: reports/data/state.json
-  base_url: ""
+  base_url: "https://jevin0924.github.io/paper-share"
   doc_base_url: ""
   feishu_doc_folder_token: ""
   feishu_wiki_parent_token: "O2fgwUF3iiHEIRkhEMAcjlnWnGe"
@@ -784,14 +784,18 @@ reports:
   max_figures: 4
   figure_min_width: 220
   figure_min_height: 160
-  publish_target: git
+  publish_target: github_pages
   publish_before_send: true
   publish_on_no_send: true
-  git_push_before_send: true
-  git_push_on_no_send: true
-  git_remote: origin
-  git_branch: paper-reports
-  git_commit_message: "chore: update paper reports {date}"
+  github_repository: Jevin0924/paper-share
+  github_branch: main
+  github_bundle_path: reports_bundle.tgz.b64
+  github_commit_message: "chore: publish paper reports {date}"
+  github_workflow_name: Deploy GitHub Pages
+  github_pages_include_assets: current
+  github_pages_wait_for_actions: true
+  github_pages_verify_urls: true
+  github_bundle_max_mb: 95
   timeout_seconds: 420
   force_regenerate: false
 

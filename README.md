@@ -108,7 +108,7 @@ perception-paper-share/
 - 从 arXiv 抓取近 7 天 `cs.CV / cs.LG / cs.AI` 论文；
 - 按检测/开放词汇检测、跟踪/ReID、VLM/多模态感知、自动标注/数据引擎、分类/人脸属性、小模型部署、视频理解等方向分层打分；
 - 调用本地 Codex 判断是否值得推荐，并调用本地 `paper-craft-skills` 的 `paper-analyzer` 子技能生成中文 HTML 精读报告；
-- 将每篇论文报告发布为 GitLab Pages HTML，图片资源保存到 `reports/assets/`；
+- 将每篇论文报告打包发布到 GitHub Pages，图片资源保存到 `reports/assets/`；
 - 写入飞书多维表格作为追溯库；
 - 将 3-5 篇推荐论文推送到飞书群。
 

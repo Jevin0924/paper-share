@@ -5,4 +5,3 @@ __pycache__/
 logs/*.log
 logs/*.json
 logs/*.txt
-.github/workflows/pages.yml

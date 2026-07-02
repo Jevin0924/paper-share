@@ -29,7 +29,8 @@ cp .env.example .env
 - `FEISHU_WEBHOOK_URL`
 - `FEISHU_SIGN_SECRET`，如自定义机器人启用签名
 - `SEMANTIC_SCHOLAR_API_KEY`，可选
-- `PAPER_REPORT_BASE_URL`，GitLab Pages 根地址，例如 `https://<namespace>.gitlab.io/<project>`。飞书群卡片和多维表格中的“阅读报告”链接会基于它拼出 HTML 页面地址。
+- `PAPER_REPORT_BASE_URL`，GitHub Pages 根地址，例如 `https://<owner>.github.io/<repo>`。飞书群卡片和多维表格中的“阅读报告”链接会基于它拼出 HTML 页面地址。
+- `GITHUB_PAGES_REPOSITORY` / `GITHUB_PAGES_TOKEN`，用于把报告 bundle 更新到 GitHub Pages 仓库。也可在 `config.yaml` 中配置 `reports.github_repository`。
 
 3. 创建飞书多维表格字段。
 
@@ -95,7 +96,7 @@ python3 tools/paper_recommender/run_daily.py --publish-existing-reports
 python3 tools/paper_recommender/run_daily.py
 ```
 
-正式推送飞书群之前，脚本会先生成论文报告。默认配置下会调用本地 `paper-craft-skills` 的 `paper-analyzer` 子技能生成 HTML 报告，并把 `reports/` 下的 HTML 报告、索引和图片资源提交并推送到 GitLab 远端 `origin` 的固定报告分支 `paper-reports`。GitLab Pages 会通过 `.gitlab-ci.yml` 从该分支发布 plain HTML 静态站点；GitLab 推送失败时会中断流程，不发送飞书群消息，避免群卡片里的“阅读报告”链接指向不存在的文件。
+正式推送飞书群之前，脚本会先生成论文报告。默认配置下会调用本地 `paper-craft-skills` 的 `paper-analyzer` 子技能生成 HTML 报告，并把 `reports/` 打包成 `reports_bundle.tgz.b64` 更新到 GitHub 仓库 `main` 分支。GitHub Pages workflow 会解包 bundle 并发布 plain HTML 静态站点；GitHub Pages 发布或 URL 校验失败时会中断流程，不发送飞书群消息，避免群卡片里的“阅读报告”链接指向不存在的文件。默认流程不再提交或推送 GitLab `paper-reports` 分支。
 
 生成报告会输出到：
 
@@ -108,7 +109,7 @@ reports/reports/<arxiv_id>/index.html
 reports/assets/<arxiv_id>/figure-*.png
 ```
 
-飞书群卡片里的“阅读报告”按钮指向 GitLab Pages HTML 页面，例如：
+飞书群卡片里的“阅读报告”按钮指向 GitHub Pages HTML 页面，例如：
 
 ```text
 ${PAPER_REPORT_BASE_URL}/reports/<arxiv_id>/index.html
@@ -161,15 +162,15 @@ python3 tools/paper_recommender/run_daily.py --force-reports
 - `reports.quality_gate`：是否启用报告质量闸门，默认开启。
 - `reports.format`：报告格式，默认 `html`。
 - `reports.output_dir`：报告输出目录，默认 `reports`。
-- `reports.base_url`：飞书按钮使用的 GitLab Pages 报告根地址；推荐用 `PAPER_REPORT_BASE_URL` 环境变量配置。
+- `reports.base_url`：飞书按钮使用的 GitHub Pages 报告根地址；推荐用 `PAPER_REPORT_BASE_URL` 环境变量配置。
 - `reports.read_pdf`：是否尝试下载 PDF 并抽取全文正文。
 - `reports.pdf_text_chars`：传给 Codex 生成阅读报告的全文上限，默认 `80000`；超长论文会标记为“PDF全文截断与摘要”。
 - `reports.extract_figures`：是否从 PDF 中抽取图片候选。
 - `reports.max_figures`：每篇报告最多嵌入的图片数量。
-- `reports.publish_target`：报告发布目标，默认 `git`，即提交并推送 `reports/` 到 GitLab Pages 分支。
+- `reports.publish_target`：报告发布目标，默认 `github_pages`，即更新 GitHub Pages 仓库中的报告 bundle。
 - `reports.publish_before_send`：发飞书群之前是否发布报告，默认开启。
 - `reports.publish_on_no_send`：使用 `--no-send` 跳过飞书群消息时是否仍发布报告，默认开启。
-- `reports.git_remote` / `reports.git_branch`：报告推送目标，默认 `origin/paper-reports`，所有历史报告都保存在这一个分支里。
+- `reports.github_repository` / `reports.github_branch` / `reports.github_bundle_path`：GitHub Pages 发布目标，默认 `Jevin0924/paper-share`、`main`、`reports_bundle.tgz.b64`。
 
 ## 流程容错
 

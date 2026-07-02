@@ -999,7 +999,7 @@ class PaperRecommenderTests(unittest.TestCase):
             self.assertEqual(stored["doc_id"], "doc-old")
             self.assertEqual(stored["doc_url"], "https://tenant.feishu.cn/docx/doc-old")
 
-    def test_default_config_publishes_reports_to_gitlab_pages(self) -> None:
+    def test_default_config_publishes_reports_to_github_pages_without_gitlab_push(self) -> None:
         config = load_config(ROOT / "tools" / "paper_recommender" / "config.yaml")
         reports = config["reports"]
         self.assertEqual(reports["generator"], "paper_craft")
@@ -1007,25 +1007,23 @@ class PaperRecommenderTests(unittest.TestCase):
         self.assertEqual(reports["format"], "html")
         self.assertEqual(reports["paper_craft_style"], "academic")
         self.assertEqual(reports["paper_craft_skill_path"], "/home/wjw/.codex/skills/paper-analyzer")
-        self.assertEqual(reports["base_url"], "")
-        self.assertEqual(reports["publish_target"], "git")
+        self.assertEqual(reports["base_url"], "https://jevin0924.github.io/paper-share")
+        self.assertEqual(reports["publish_target"], "github_pages")
         self.assertIs(reports["publish_before_send"], True)
         self.assertIs(reports["publish_on_no_send"], True)
-        self.assertIs(reports["git_push_before_send"], True)
-        self.assertIs(reports["git_push_on_no_send"], True)
-        self.assertEqual(reports["git_remote"], "origin")
-        self.assertEqual(reports["git_branch"], "paper-reports")
-        self.assertNotIn("github_repository", reports)
-        self.assertNotIn("github_branch", reports)
+        self.assertEqual(reports["github_repository"], "Jevin0924/paper-share")
+        self.assertEqual(reports["github_branch"], "main")
+        self.assertEqual(reports["github_bundle_path"], "reports_bundle.tgz.b64")
+        self.assertNotIn("git_remote", reports)
+        self.assertNotIn("git_branch", reports)
 
-    def test_gitlab_ci_publishes_reports_branch_as_pages_artifact(self) -> None:
-        ci = (ROOT / ".gitlab-ci.yml").read_text(encoding="utf-8")
-        self.assertIn('$CI_COMMIT_BRANCH == "paper-reports"', ci)
-        self.assertIn("cp -a reports/. public/", ci)
-        self.assertIn("- public", ci)
-        self.assertNotIn("github", ci.lower())
+    def test_github_pages_workflow_restores_report_bundle(self) -> None:
+        workflow = (ROOT / ".github" / "workflows" / "pages.yml").read_text(encoding="utf-8")
+        self.assertIn("Deploy GitHub Pages", workflow)
+        self.assertIn("reports_bundle.tgz.b64", workflow)
+        self.assertIn("actions/deploy-pages", workflow)
 
-    def test_publish_reports_uses_git_push_by_default(self) -> None:
+    def test_publish_reports_uses_github_pages_by_default(self) -> None:
         rec = PaperRecommendation(
             paper=make_paper("2605.00001", "Efficient Detector"),
             summary=PaperSummary(one_sentence="一句话结论", recommendation_reason="检测", risks="需要复现。"),
@@ -1042,17 +1040,16 @@ class PaperRecommenderTests(unittest.TestCase):
                     {
                         "reports": {
                             "enabled": True,
-                            "publish_target": "git",
-                            "git_remote": "origin",
-                            "git_branch": "paper-reports",
+                            "github_repository": "Jevin0924/paper-share",
+                            "github_branch": "main",
                         }
                     },
                     [rec],
                     recommended_on="2026-05-29",
                     repo_root=repo_root,
                 )
-        push_git.assert_called_once()
-        publish_pages.assert_not_called()
+        publish_pages.assert_called_once()
+        push_git.assert_not_called()
 
 
 def make_paper(arxiv_id: str, title: str, abstract: str = "abstract") -> PaperCandidate:
