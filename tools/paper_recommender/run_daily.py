@@ -84,16 +84,22 @@ def main(argv: list[str] | None = None) -> int:
     if args.sample:
         LOGGER.info("Using built-in sample papers; skipping external hotness and Semantic Scholar enrichment")
     else:
-        hf_papers = fetch_huggingface_papers(config)
-        if hf_papers:
-            papers.extend(hf_papers)
-            hf_count = len(hf_papers)
-            LOGGER.info("Fetched %d Hugging Face paper signals", hf_count)
-        cvf_papers = fetch_cvf_openaccess_papers(config)
-        if cvf_papers:
-            papers.extend(cvf_papers)
-            cvf_count = len(cvf_papers)
-            LOGGER.info("Fetched %d CVF Open Access papers", cvf_count)
+        try:
+            hf_papers = fetch_huggingface_papers(config)
+            if hf_papers:
+                papers.extend(hf_papers)
+                hf_count = len(hf_papers)
+                LOGGER.info("Fetched %d Hugging Face paper signals", hf_count)
+        except Exception as exc:  # noqa: BLE001 - one flaky source should not stop the daily push.
+            LOGGER.warning("Hugging Face paper fetch failed; continuing without this source: %s", exc)
+        try:
+            cvf_papers = fetch_cvf_openaccess_papers(config)
+            if cvf_papers:
+                papers.extend(cvf_papers)
+                cvf_count = len(cvf_papers)
+                LOGGER.info("Fetched %d CVF Open Access papers", cvf_count)
+        except Exception as exc:  # noqa: BLE001 - one flaky source should not stop the daily push.
+            LOGGER.warning("CVF Open Access fetch failed; continuing without this source: %s", exc)
     deduped = deduplicate_papers(papers)
     deduped, history_filtered = filter_previously_pushed_papers(deduped, config, history_state)
     if history_filtered:

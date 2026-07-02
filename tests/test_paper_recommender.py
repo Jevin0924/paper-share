@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import io
 import sys
 import tempfile
 import unittest
@@ -30,6 +31,7 @@ from tools.paper_recommender.report_quality import scrub_report_data, validate_r
 from tools.paper_recommender.run_daily import (
     filter_previously_pushed_papers,
     historical_pushed_arxiv_ids,
+    main,
     mark_recommendations_pushed_in_history,
     publish_reports,
 )
@@ -1023,6 +1025,70 @@ class PaperRecommenderTests(unittest.TestCase):
         self.assertIn("Deploy GitHub Pages", workflow)
         self.assertIn("reports_bundle.tgz.b64", workflow)
         self.assertIn("actions/deploy-pages", workflow)
+
+    def test_daily_run_continues_when_optional_sources_fail(self) -> None:
+        paper = make_paper(
+            "2606.00001",
+            "Efficient Object Detection for Edge Devices",
+            abstract="A lightweight object detection method for edge deployment.",
+        )
+        paper.score = 20.0
+        recommendation = PaperRecommendation(
+            paper=paper,
+            summary=PaperSummary(one_sentence="一句话结论", recommendation_reason="命中检测。", risks="需要复现。"),
+            recommended_on="2026-07-02",
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            config_path = Path(tmp) / "config.yaml"
+            config_path.write_text(
+                "\n".join(
+                    [
+                        "timezone: Asia/Shanghai",
+                        "history:",
+                        "  enabled: false",
+                        "codex:",
+                        "  enabled: false",
+                        "reports:",
+                        "  enabled: false",
+                        "ranking:",
+                        "  final_limit: 5",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            with mock.patch("tools.paper_recommender.run_daily.fetch_arxiv", return_value=[paper]), \
+                mock.patch(
+                    "tools.paper_recommender.run_daily.fetch_huggingface_papers",
+                    side_effect=RuntimeError("hf timeout"),
+                ), \
+                mock.patch(
+                    "tools.paper_recommender.run_daily.fetch_cvf_openaccess_papers",
+                    side_effect=RuntimeError("cvf timeout"),
+                ), \
+                mock.patch(
+                    "tools.paper_recommender.run_daily.enrich_with_semantic_scholar",
+                    side_effect=lambda papers, config: papers,
+                ), \
+                mock.patch("tools.paper_recommender.run_daily.rank_papers", return_value=[paper]), \
+                mock.patch("tools.paper_recommender.run_daily.pick_final_recommendations", return_value=[recommendation]), \
+                mock.patch("sys.stdout", new_callable=io.StringIO) as stdout:
+                exit_code = main(
+                    [
+                        "--config",
+                        str(config_path),
+                        "--env",
+                        str(Path(tmp) / ".env"),
+                        "--date",
+                        "2026-07-02",
+                        "--dry-run",
+                    ]
+                )
+        self.assertEqual(exit_code, 0)
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(payload["stats"]["fetched"], 1)
+        self.assertEqual(payload["stats"]["huggingface"], 0)
+        self.assertEqual(payload["stats"]["cvf_openaccess"], 0)
+        self.assertEqual(payload["stats"]["selected"], 1)
 
     def test_publish_reports_uses_github_pages_by_default(self) -> None:
         rec = PaperRecommendation(
